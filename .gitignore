@@ -154,6 +154,7 @@ cython_debug/
 
 # Manual/README
 twd-uog-lib-2021-01-07.pdf
+spec.pdf
 
 # PyCharm
 #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
