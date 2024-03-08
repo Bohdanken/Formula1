@@ -2,10 +2,9 @@ from django.db import models
 from django.template.defaultfilters import slugify
 from datetime import datetime
 
-# FIELD LIMIT/CONSTANTS
+# GENERAL FIELD LIMIT
 NAME_MAX_LENGTH = 64
 DESC_MAX_LENGTH = 512
-
 
 class SlugMixin(models.Model):
     slug = models.SlugField()
@@ -27,17 +26,19 @@ class StrMixin(models.Model):
 
 
 class Category(SlugMixin, StrMixin, models.Model):
+    class Parent(str):    
+        CHOICES = [
+            (GENERAL := "GE", "General"),
+            (OPERATION := "OP", "Operations"),
+            (EVEHICLE := "EV", "Electric Vehicle"),
+        ]
+
     name = models.CharField(max_length=NAME_MAX_LENGTH, unique=True)
     description = models.CharField(max_length=DESC_MAX_LENGTH)
     forum_has = models.IntegerField(default=0)
     date_added = models.DateTimeField(null=True)
-    parent = models.CharField(max_length=NAME_MAX_LENGTH)
+    parent = models.CharField(max_length=NAME_MAX_LENGTH, choices=Parent.CHOICES, default = Parent.GENERAL)
 
-    parent_choices = (
-        "WELCOME",
-        "OPERATIONS",
-        "ELECTRIC VEHICLE",
-    )
 
     class Meta:
         verbose_name_plural = 'Categories'
