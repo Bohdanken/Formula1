@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    {% block extra_js %}
+    {% endblock %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Your Site{% endblock %}</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+<header>
+
+    <div class="logo-container">
+        <img src="/static/images/logo.png" class="logo-img1" alt="Shit">
+        <img src='/static/images/Car.png' class="logo-img1 logo-img2" alt="Double shit">
+    </div>
+    <div class="navigation-bar">
+        <div class="breadcrumb">
+            <a  href="{% url 'about' %}">Home</a> » <span>Forums</span>
+        </div>
+        <div class="header-links">
+            <a href="#" class="header-link">?</a>
+            <a href="#" class="header-link">👤</a>
+            <a href="#" class="header-link">➕</a>
+        </div>
+    </div>
+        {% block header %}
+
+        {% endblock %}
+    </header>
+
+    <div id="main-content">
+        {% block content %}
+        <!-- The unique content of each page will go here -->
+        {% endblock %}
+    </div>
+
+    <footer>
+    <p>
+    Statistics //  Who is online <br>
+    Total posts {{ total_posts }} • Total topics {{ total_topics }} • Total members {{ total_members }} • Our newest member {{ newest_member }}
+    </p>
+        {% block footer %}
+        <!-- Your universal footer content goes here -->
+        {% endblock %}
+    </footer>
+</body>
+</html>
