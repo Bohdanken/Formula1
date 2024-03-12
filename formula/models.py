@@ -27,19 +27,20 @@ class StrMixin(models.Model):
 
 
 class Category(SlugMixin, StrMixin, models.Model):
-    class Parent(str):    
-        __CHOICES__ = [
-            (GENERAL := "GE", "General"),
-            (OPERATION := "OP", "Operations"),
-            (EVEHICLE := "EV", "Electric Vehicle"),
-        ]
-        CHOICESET = (choice[1] for choice in __CHOICES__)
-
+    GENERAL = "GE"
+    OPERATION = "OP"
+    EVEHICLE = "EV"
+    CHOICES = [
+        (GENERAL, "General"),
+        (OPERATION, "Operations"),
+        (EVEHICLE, "Electric Vehicle"),
+    ]
+     
     name = models.CharField(max_length=NAME_MAX_LENGTH, unique=True)
     description = models.CharField(max_length=DESC_MAX_LENGTH)
     forum_has = models.IntegerField(default=0)
     date_added = models.DateTimeField(null=True)
-    parent = models.CharField(max_length=NAME_MAX_LENGTH, choices=Parent.__CHOICES__, default=Parent.GENERAL)
+    parent = models.CharField(max_length=NAME_MAX_LENGTH, choices=CHOICES, default=GENERAL)
 
     class Meta:
         verbose_name_plural = 'Categories'
