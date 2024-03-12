@@ -58,7 +58,7 @@ class UserProfile(StrMixin, models.Model):
     first_name = models.CharField(max_length=NAME_MAX_LENGTH)
     last_name = models.CharField(max_length=NAME_MAX_LENGTH)
     picture = models.ImageField(upload_to='profile_images', blank=True)
-    bio = models.CharField(max_length=DESC_MAX_LENGTH)
+    bio = models.CharField(max_length=DESC_MAX_LENGTH, blank=True)
     admin = models.BooleanField(default=False)
 
 
@@ -70,7 +70,7 @@ class Post(StrMixin, models.Model):
     description = models.CharField(max_length=DESC_MAX_LENGTH)
     content = models.CharField(max_length=CONTENT_MAX_LENGTH)
 # comment: use FileField() here?
-    file = models.CharField(max_length=FILES_MAX_LENGTH)
+    file = models.CharField(max_length=FILES_MAX_LENGTH, blank=True)
 # comment end
     viewership = models.IntegerField(default=0)
     date_added = models.DateTimeField()
