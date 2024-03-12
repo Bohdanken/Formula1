@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
 from datetime import datetime
 
@@ -27,62 +28,57 @@ class StrMixin(models.Model):
 
 class Category(SlugMixin, StrMixin, models.Model):
     class Parent(str):    
-        CHOICES = [
+        __CHOICES__ = [
             (GENERAL := "GE", "General"),
             (OPERATION := "OP", "Operations"),
             (EVEHICLE := "EV", "Electric Vehicle"),
         ]
+        CHOICESET = (choice[1] for choice in __CHOICES__)
 
     name = models.CharField(max_length=NAME_MAX_LENGTH, unique=True)
     description = models.CharField(max_length=DESC_MAX_LENGTH)
     forum_has = models.IntegerField(default=0)
     date_added = models.DateTimeField(null=True)
-    parent = models.CharField(max_length=NAME_MAX_LENGTH, choices=Parent.CHOICES, default = Parent.GENERAL)
-
+    parent = models.CharField(max_length=NAME_MAX_LENGTH, choices=Parent.__CHOICES__, default=Parent.GENERAL)
 
     class Meta:
         verbose_name_plural = 'Categories'
 
     
-
 class Topic(SlugMixin, StrMixin, models.Model):
     name = models.CharField(max_length=NAME_MAX_LENGTH, unique=True)
     description = models.CharField(max_length=DESC_MAX_LENGTH)
-    category_has = models.IntegerField(default=0)
     date_added = models.DateTimeField()
     category = models.ForeignKey(Category, related_name='topics', on_delete=models.CASCADE)
 
-    
+
+class UserProfile(StrMixin, models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    student_id = models.IntegerField(unique=True, null=False, default=0)
+    first_name = models.CharField(max_length=NAME_MAX_LENGTH)
+    last_name = models.CharField(max_length=NAME_MAX_LENGTH)
+    picture = models.ImageField(upload_to='profile_images', blank=True)
+    bio = models.CharField(max_length=DESC_MAX_LENGTH)
+    admin = models.BooleanField(default=False)
+
 
 class Post(StrMixin, models.Model):
     CONTENT_MAX_LENGTH = 8192
     FILES_MAX_LENGTH = 512
-
-    name = models.CharField(max_length=NAME_MAX_LENGTH)
+    
+    title = models.CharField(max_length=NAME_MAX_LENGTH)
     description = models.CharField(max_length=DESC_MAX_LENGTH)
     content = models.CharField(max_length=CONTENT_MAX_LENGTH)
 # comment: use FileField() here?
     file = models.CharField(max_length=FILES_MAX_LENGTH)
 # comment end
     viewership = models.IntegerField(default=0)
-    topic_has = models.IntegerField(default=0)
     date_added = models.DateTimeField()
     topic = models.ForeignKey(Topic, related_name='posts', on_delete=models.CASCADE)
+    author = models.ForeignKey(UserProfile, related_name='author', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
-
-
-class User(StrMixin, models.Model):
-    student_id = models.IntegerField(unique=True, null=False, default=0)
-    first_name = models.CharField(max_length=NAME_MAX_LENGTH)
-    last_name = models.CharField(max_length=NAME_MAX_LENGTH)
-# comment: upload_to is null
-    """picture = models.ImageField()"""
-    picture = models.CharField(max_length=NAME_MAX_LENGTH)
-# comment end
-    bio = models.CharField(max_length=DESC_MAX_LENGTH)
-    admin = models.BooleanField(default=False)
 
 
 class Team(StrMixin, models.Model):
@@ -91,7 +87,7 @@ class Team(StrMixin, models.Model):
 
 
 class TeamLead(StrMixin, models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     team = models.OneToOneField(Team, on_delete=models.CASCADE)
     leader = models.BooleanField(default=False)
     topic_access = models.ManyToManyField(Topic, related_name="access")
@@ -101,7 +97,7 @@ class TeamLead(StrMixin, models.Model):
 
 
 class TeamMember(StrMixin, models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
 
     class Meta:
