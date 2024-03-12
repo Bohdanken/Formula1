@@ -1,0 +1,246 @@
+:root {
+	--black: #181818;
+	--medium-blue: #213851;
+	--light-blue: #23466c;
+	--white-text-color: #fcfcfd;
+	--blue-text-color: #346da8;
+	
+	--header-height: 15vw;
+	--footer-height: 5ex;
+	--vertical-content-margin: 2.5mm;
+	--horzontal-content-margin: 1.5mm;
+	--main-content-padding: 0.2mm;
+}
+
+body {
+	background-color: var(--black);
+	height: 100vh;
+	width: auto;
+	margin: 0;
+}
+
+footer {
+	height: var(--footer-height);
+	text-align: center;
+	line-height: var(--footer-height);
+}
+
+
+div {
+	width: auto;
+}
+
+body > div, footer {
+	background-color: var(--medium-blue);
+	color: var(--blue-text-color);
+	margin-left: var(--horzontal-content-margin);
+	margin-right: var(--horzontal-content-margin);
+	margin-top: var(--vertical-content-margin);
+	margin-bottom: var(--vertical-content-margin);
+	border-radius: var(--main-content-padding);
+}
+
+body > div > .category {
+	margin-top: 3mm;
+}
+
+#main-content {
+	min-height: calc(
+		70%
+		- var(--header-height)
+		- var(--footer-height)
+		- 3*var(--vertical-content-margin)
+		- 2*var(--main-content-padding)
+	);
+	padding: var(--main-content-padding);
+}
+
+div.category > div {
+	background-color: var(--light-blue);
+	color: var(--white-text-colour);
+	height: 1cm;
+}
+
+div.category > div + div {
+	border-top: .75mm var(--medium-blue) solid;
+}
+
+div.category :first-child {
+	background-color: var(--black);
+	border-top-left-radius: 3mm;
+	border-top-right-radius: 3mm;
+}
+
+div.category :last-child {
+	border-bottom-left-radius: 3mm;
+	border-bottom-right-radius: 3mm;
+}
+
+
+header {
+    display: flex;
+	flex-direction: column;
+	align-items: start;
+    padding: 10px;
+    height: var(--header-height);
+    background-color: #3287c3;
+    background-image: url('/static/images/pattern.webp');
+}
+.logo-container {
+	height: 80%;
+	width: 100%;
+ 	display: flex; /* This makes .logo-container a flex container */
+    justify-content: space-between;
+    text-align: center; /* Centers the logo horizontally */
+}
+.logo-img1 {
+    height: 100%; /* Adjust the percentage as needed, but make sure it's less than 100% */
+	display: inline-block;
+    width: auto; /* Will maintain the aspect ratio */
+    margin-right: 20px; /* Provide some space after the logo */
+	margin-left: 20px; /* Provide some space before the logo */
+}
+
+.logo-img2 {
+	height: 85%;
+	align-self: end;
+	animation: moveForwardBackward infinite 10s;
+}
+
+@keyframes moveForwardBackward {
+  0%, 75% {
+    transform: translateX(0); /* Stay at the original position for the start and during the 2-second pause */
+  }
+  62.5% {
+    transform: translateX(-90%); /* Move forward by n pixels */
+  }
+  68.75% {
+    transform: translateX(0); /* Move back to the original position */
+  }
+}
+
+.navigation-bar {
+    display: flex;
+	height: 15%;
+	align-self: stretch;
+    justify-content: space-between; /* This will place breadcrumb and header-links on opposite sides */
+    align-items: center; /* Aligns items vertically in the center */
+    background-color: var(--medium-blue); /* The background color for the bar */
+    padding: 5px; /* Adjust padding as needed */
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* Optional: adds shadow for depth */
+}
+
+.breadcrumb {
+	color: #f1f1f1;
+	font-size: 160%;
+	margin-left: 40px;
+	margin-bottom: 0;
+	margin-top: 0;
+}
+
+.breadcrumb a{
+	color: #f1f1f1;
+}
+
+
+.header-links {
+    display: flex;
+	margin-left: auto;
+    align-items: center;
+    gap: 30px; /* Provides space between the icons */
+}
+
+footer p{
+	color: #f1f1f1;
+	font-size: 19px;
+    margin: 0;
+}
+
+.header-link {
+	display: inline-block;
+	color: var(--white-text-color);
+	text-decoration: none;
+	font-size: 150%;
+}
+
+.login-container {
+    background-color: var(--medium-blue);
+    color: var(--white-text-color);
+    padding: 20px;
+    border-radius: var(--main-content-padding);
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.5); /* Adds more depth */
+    max-width: 400px; /* Adjust based on preference */
+    margin: var(--vertical-content-margin) auto; /* Center the container */
+}
+
+.login-header h1 {
+    margin-bottom: 20px;
+}
+
+.create-account-link {
+    color: var(--blue-text-color);
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.login-form .form-group {
+    margin-bottom: 15px;
+}
+
+.login-form label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.login-form input[type="text"],
+.login-form input[type="password"],
+.login-form input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px; /* For spacing between form elements */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.login-form input[type="submit"] {
+    background-color: var(--light-blue);
+    color: var(--white-text-color);
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+@media (max-width: 768px) {
+    .login-container {
+        width: 90%; /* Makes the container take more width on smaller screens */
+    }
+}
+
+
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        align-items: flex-start; /* Aligns items to the left on smaller screens */
+    }
+
+    .container {
+        justify-content: space-between;
+        width: auto;
+    }
+
+    .logo-img1 {
+        height: auto;
+        width: 35%; /* Full width on smaller screens */
+    }
+}
+
+.wrapper {
+	background-color: rgba(0, 0, 0, 0);
+	color: inherit;
+}
+
