@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from formula.models import Category, Topic
+from formula.models import Category, Topic, Post, UserProfile
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -54,7 +54,7 @@ def about(request):
 
 
 
-def show_topics(request, category_slug):
+def list_topics(request, category_slug):
     context_dict = {}
 
     try:
@@ -70,4 +70,56 @@ def show_topics(request, category_slug):
     return render(request, app_name+'/category.html', context=context_dict)
 
 
-def show_posts(request,)
+def list_posts(request, topic_slug):
+    context_dict = {}
+
+    try:
+        topic = Topic.objects.get(topic=topic_slug)
+        category = topic.category
+        context_dict['category'] = category
+        context_dict['topic'] = topic
+        posts = Post.objects.filter(topic=topic)
+        context_dict['posts'] = posts
+
+    except Topic.DoesNotExist:
+        context_dict['category'] = None
+        context_dict['topic'] = None
+        context_dict['posts'] = None
+
+    return render(request, app_name+'/posts.html', context=context_dict)
+
+
+def display_post(request, post_id):
+    context_dict = {}
+    try:
+        post = Post.objects.get(id=post_id)
+        context_dict['post'] = post
+        context_dict['topic'] = post.topic
+        context_dict['category'] = post.topic.category
+    
+    except Post.DoesNotExist:
+        context_dict['post'] = None
+        context_dict['topic'] = None
+        context_dict['category'] = None
+
+    return render(request, app_name+'/post.html', context=context_dict)
+
+
+def query_result(request, title_query):
+    context_dict = {}
+
+    posts = Post.objects.filter(title__contains=title_query)
+    context_dict['posts'] = posts
+    return render(request, app_name+'/post.html', context=context_dict)
+
+
+def show_profile(request, username):
+    context_dict = {}
+
+    try:
+        user = UserProfile.objects.get(username=username)
+        context_dict['user'] = user
+    except UserProfile.DoesNotExist:
+        context_dict['user'] = None
+
+    return render(request, app_name+'/profile.html', context=context_dict)

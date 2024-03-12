@@ -1,16 +1,13 @@
 from django.urls import path
 from formula import views
 
-app_name = 'formula forum'
+app_name = 'formula'
 
 urlpatterns = [
     path('', views.index, name='index'),
     path('about/', views.about, name='about'),
-    path('category/<slug:category_name_slug>/', views.show_category, name='show_category'),
-    path('add_category/', views.add_category, name='add_category'),
-    path('category/<slug:category_name_slug>/add_page/', views.add_page, name='add_page'),
-    path('register/', views.register, name='register'),
-    path('login/', views.user_login, name='login'),
-    path('restricted/', views.restricted, name='restricted'),
-    path('logout/', views.user_logout, name='logout'),
+    path('<slug:category_slug>/', views.list_topics, name='topics'),
+    path('<slug:category_slug>/<slug:topic_slug>/', views.list_posts, name='posts'),
+    path('<slug:category_slug>/<slug:topic_slug>/<post_id>/', views.display_post, name='post'),
+    path('profile/', views.show_profile, name='profile'),
 ]
