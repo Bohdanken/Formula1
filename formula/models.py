@@ -65,7 +65,7 @@ class UserProfile(StrMixin, models.Model):
 class Post(StrMixin, models.Model):
     CONTENT_MAX_LENGTH = 8192
     FILES_MAX_LENGTH = 512
-
+    
     title = models.CharField(max_length=NAME_MAX_LENGTH)
     description = models.CharField(max_length=DESC_MAX_LENGTH)
     content = models.CharField(max_length=CONTENT_MAX_LENGTH)
