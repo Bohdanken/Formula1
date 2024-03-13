@@ -71,7 +71,7 @@ class Post(StrMixin, models.Model):
     description = models.CharField(max_length=DESC_MAX_LENGTH)
     content = models.CharField(max_length=CONTENT_MAX_LENGTH)
 # comment: use FileField() here?
-    file = models.CharField(max_length=FILES_MAX_LENGTH, blank=True)
+    file = models.FileField(upload_to='post_files/', blank=True)
 # comment end
     viewership = models.IntegerField(default=0)
     date_added = models.DateTimeField()

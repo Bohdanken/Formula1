@@ -37,7 +37,7 @@ def index(request):
         'category_by_year': category_by_year_dict,
     }
 
-    return render(request, 'formula/index.html', context=context_dict)
+    return render(request, 'formula/about.html', context=context_dict)
 
 
 def about(request):
