@@ -31,13 +31,22 @@ def index(request):
     
     categories = Category.objects.all()
 
+##    context_dict = {
+##        'categories': categories,
+##        'year_list': year_set,
+##        'category_by_year': category_by_year_dict,
+##    }
+
+    ## dummy data
     context_dict = {
-        'categories': categories,
-        'year_list': year_set,
-        'category_by_year': category_by_year_dict,
+        'category_by_year': {
+            2024 : [{'name' : "Category 1"}, {'name' : "Category 2"}, {'name' : "Category 3"}],
+            2023 : [{'name' : "Category 4"}, {'name' : "Category 5"}],
+            2022 : [{'name' : "Cat' 6"}, {'name' : "Cat' 7"}, {'name' : "Cat' 8"}, {'name' : "Cat' 9"}]
+        }
     }
 
-    return render(request, 'formula/login.html', context=context_dict)
+    return render(request, 'formula/index.html', context=context_dict)
 
 
 def about(request):

@@ -1,0 +1,28 @@
+{% extends 'formula/base.html' %}
+
+{% load static %}
+
+{% block extra_js %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}?version=0">
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+	{% for year, categories in category_by_year.items %}
+		<div class="wrapper category">
+			{% if categories %}
+				<div>{{ year }}</div>
+				{% for category in categories %}
+					<div>
+						<span>{{ category.name }}</span>
+					</div>
+				{% endfor %}
+			{% endif %}
+		</div>
+	{% endfor %}
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
