@@ -7,7 +7,7 @@ from datetime import datetime
 NAME_MAX_LENGTH = 64
 DESC_MAX_LENGTH = 512
 
-class SlugMixin(models.Model):
+class NameSlugMixin(models.Model):
     slug = models.SlugField()
 
     def save(self, *args, **kwargs):
@@ -18,15 +18,8 @@ class SlugMixin(models.Model):
         abstract = True
 
 
-class StrMixin(models.Model):
-    def __str__(self):
-        return self.name
-    
-    class Meta:
-        abstract = True
 
-
-class Category(SlugMixin, StrMixin, models.Model):
+class Category(NameSlugMixin, models.Model):
     GENERAL = "GE"
     OPERATION = "OP"
     EVEHICLE = "EV"
@@ -38,32 +31,38 @@ class Category(SlugMixin, StrMixin, models.Model):
      
     name = models.CharField(max_length=NAME_MAX_LENGTH, unique=True)
     description = models.CharField(max_length=DESC_MAX_LENGTH)
-    forum_has = models.IntegerField(default=0)
     date_added = models.DateTimeField(null=True)
     parent = models.CharField(max_length=NAME_MAX_LENGTH, choices=CHOICES, default=GENERAL)
 
     class Meta:
         verbose_name_plural = 'Categories'
+    
+    def __str__(self):
+        return self.name
 
     
-class Topic(SlugMixin, StrMixin, models.Model):
+class Topic(NameSlugMixin, models.Model):
     name = models.CharField(max_length=NAME_MAX_LENGTH, unique=True)
     description = models.CharField(max_length=DESC_MAX_LENGTH)
     date_added = models.DateTimeField(null=True)
     category = models.ForeignKey(Category, related_name='topics', on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.name
 
-class UserProfile(StrMixin, models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, editable=False)
     student_id = models.IntegerField(unique=True, null=False, default=0)
-    first_name = models.CharField(max_length=NAME_MAX_LENGTH)
-    last_name = models.CharField(max_length=NAME_MAX_LENGTH)
     picture = models.ImageField(upload_to='profile_images', blank=True)
     bio = models.CharField(max_length=DESC_MAX_LENGTH, blank=True)
-    admin = models.BooleanField(default=False)
+    is_admin = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.user.get_username()
 
 
-class Post(StrMixin, models.Model):
+class Post(models.Model):
     CONTENT_MAX_LENGTH = 8192
     FILES_MAX_LENGTH = 512
     
@@ -76,30 +75,41 @@ class Post(StrMixin, models.Model):
     viewership = models.IntegerField(default=0)
     date_added = models.DateTimeField()
     topic = models.ForeignKey(Topic, related_name='posts', on_delete=models.CASCADE)
-    author = models.ForeignKey(UserProfile, related_name='author', on_delete=models.CASCADE)
+    author = models.ForeignKey(User, related_name='author', on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.name
+        return self.author.get_username()
 
 
-class Team(StrMixin, models.Model):
+class Team(models.Model):
     name = models.CharField(max_length=NAME_MAX_LENGTH)
     description = models.CharField(max_length=DESC_MAX_LENGTH)
 
+    def __str__(self):
+        return self.name
+    
+    def get_team_name(self):
+        return self.name
 
-class TeamLead(StrMixin, models.Model):
-    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+
+class TeamLead(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     team = models.OneToOneField(Team, on_delete=models.CASCADE)
-    leader = models.BooleanField(default=False)
     topic_access = models.ManyToManyField(Topic, related_name="access")
 
     class Meta:
         db_table = "Team Lead"
 
+    def __str__(self):
+        return f'{self.user.get_username()} : {self.team.get_team_name()}'
 
-class TeamMember(StrMixin, models.Model):
-    user = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
+
+class TeamMember(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
 
     class Meta:
         db_table = "Team Member"
+
+    def __str__(self):
+        return f'{self.user.get_username()} : {self.team.get_team_name()}'
