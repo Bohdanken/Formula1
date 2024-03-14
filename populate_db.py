@@ -80,6 +80,7 @@ def create_objects():
     
     return categories_dict
 
+
 def populate():
     cats = create_objects()
 
@@ -92,7 +93,7 @@ def populate():
     # Print out the categories we have added.
     for category in Category.objects.all():
         for topic in Topic.objects.filter(category=category):
-            print(f'- {category}: {topic}')
+            print(f'Add Succesful - {category}: {topic}')
 
 
 # Start execution here!
