@@ -74,6 +74,27 @@ def list_topics(request, category_slug):
         context_dict['topics'] = None
         context_dict['category'] = None
 
+    ## Dummy data
+    if category_slug == "TEST":
+        context_dict['category'] = {
+            'name' : "TEST",
+            'description' : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+        }
+        context_dict['topics'] = {
+            type("", (object,), {'name' : 'Topic 1'})() : [
+                {'title' : "post 1"},
+                {'title' : "post 2"},
+                {'title' : "post 3"}
+            ],
+            type("", (object,), {'name' : 'Topic 2'})() : [
+                {'title' : "post 4"},
+            ],
+            type("", (object,), {'name' : 'Topic 3'})() : [
+                {'title' : "post 5"},
+                {'title' : "post 6"}
+            ]
+        }
+
     return render(request, APP_NAME+'/category.html', context=context_dict)
 
 

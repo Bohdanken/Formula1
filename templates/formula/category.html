@@ -1,27 +1,58 @@
-{% extends 'rango/base.html' %}
-{% load static %}
-{% block title_block %}
-{% if category %}
-{{ category.name }}
-{% else %}
-Unknown Category
-{% endif %}
-{% endblock %}
-{% block body_block %}
-{% if category %}
-<h1>{{ category.name }}</h1>
-{% if pages %}
-<ul>
-    {% for page in pages %}
-    <li><a href="{{ page.url }}">{{ page.title }}</a></li>
-    {% endfor %}
-</ul>
-{% else %}
-<strong>No pages currently in category.</strong>
-{% endif %}
+{% extends 'formula/base.html' %}
 
-<a href ="{% url 'rango:add_page' category.slug %}">Add Page</a><br />
-{% else %}
-The specified category does not exist.
-{% endif %}
+{% load staticfiles %}
+
+{% block title %}{% if category %}{{ category.name }}{% else %}404{% endif %}{% endblock %}
+
+{% block extra_js%}
+	{% if category %}
+		<link rel="stylesheet" type="text/css" href="{% static 'css/category.css' %}?version=0" />
+		<link rel="stylesheet" type="text/css" href="{% static 'css/List.css' %}?version=0" />
+	{% else %}
+		<link rel="stylesheet" type="text/css" href="{% static 'css/error.css' %}?version=0" />
+	{% endif %}
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+	{% if category %}
+		<h1>{{ category.name }}</h1>
+		<p>{{ category.description }}</p>
+		{% for topic, posts in topics.items %}
+			<div class="category">
+				<div>{{ topic.name }}</div>
+				{% for post in posts %}
+					<div>
+						<span>{{ post.title }}</span>
+						<div class="space"></div>
+						<div class="post-details" style="width: 3cm;">
+							{{ post.date_added }}
+						</div>
+						<hr>
+						<div class="author-details" style="width: 4cm;">
+							<img alt="pfp" />
+							<span>Author name</span>
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+		{% endfor %}
+	{% else %}
+		<h1>404</h1>
+		<i>That's an error!</i>
+		<p>
+			The page you requested does not exist.
+		</p>
+		<p>
+			It's possible that it may have have moved
+			or has been removed from the site entirely.<br>
+			If you were brought to this page from within the site,
+			please <a href="mailto:2727599m+FomulaForumSite404@student.gla.ac.uk">let us know</a>.
+		</p>
+	{% endif %}
+{% endblock %}
+
+{% block footer %}
 {% endblock %}

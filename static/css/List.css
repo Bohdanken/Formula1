@@ -7,7 +7,7 @@
 }
 
 div.category > div {
-	display: inherit;
+	display: flex;
 	background-color: var(--category-color);
 	color: var(--white-text-color);
 	height: 1cm;
