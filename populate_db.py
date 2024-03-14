@@ -35,18 +35,18 @@ def add_post(title, description, content, file, viewership, date_added, topic, a
     pass
 
 def add_user(username, email, password, student_id, first_name, last_name, bio, admin):
-    u = User.objects.get_or_create(username=username)[0]
-    u.email = email
-    u.set_password(password)
-    u.save()
-    v = UserProfile.objects.get_or_create(user=u)[0]
-    v.student_id = student_id
-    v.first_name = first_name
-    v.last_name = last_name
-    v.bio = bio
-    v.admin = admin
-    v.save()
-    return v
+    user = User.objects.get_or_create(username=username)[0]
+    user.email = email
+    user.set_password(password)
+    user.save()
+    user.first_name = first_name
+    user.last_name = last_name
+    profile = UserProfile.objects.get_or_create(user=user)[0]
+    profile.student_id = student_id
+    profile.bio = bio
+    profile.is_admin = admin
+    profile.save()
+    return profile
 
 
 def create_objects():
@@ -209,7 +209,6 @@ def create_dummy_categories():
 
     return categories_dict
 
-
 def create_dummy_topics(categories_dict:dict):
     for category in categories_dict:
         topic_list = []
@@ -222,6 +221,7 @@ def create_dummy_topics(categories_dict:dict):
                     'category':category,
                 }
         return topic
+
 
 def test_add_user():
     add_user(username='bobbykeren', 
@@ -254,5 +254,5 @@ def populate():
 # Start execution here!
 if __name__ == '__main__':
     print('Starting Formula1 population script...')
-    #populate()
+    populate()
     test_add_user()
