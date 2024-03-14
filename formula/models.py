@@ -49,7 +49,7 @@ class Category(SlugMixin, StrMixin, models.Model):
 class Topic(SlugMixin, StrMixin, models.Model):
     name = models.CharField(max_length=NAME_MAX_LENGTH, unique=True)
     description = models.CharField(max_length=DESC_MAX_LENGTH)
-    date_added = models.DateTimeField()
+    date_added = models.DateTimeField(null=True)
     category = models.ForeignKey(Category, related_name='topics', on_delete=models.CASCADE)
 
 
