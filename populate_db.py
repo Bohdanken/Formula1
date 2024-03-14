@@ -8,7 +8,10 @@ django.setup()
 from django.utils import timezone
 from formula.models import *
 
+# GENERIC FIELDS
 GENERIC_DESC = "This object is created as part of populate_db.py testing. This description is generic and is the same for all object. Object should be deleted before deployment."
+GENERIC_PASSWORD = "abcdefg"
+
 
 def add_category(name, description, date_added, parent):
     c = Category.objects.get_or_create(name=name)[0]
@@ -29,6 +32,20 @@ def add_topic(name, description, date_added, category):
 def add_post(title, description, content, file, viewership, date_added, topic, author):
     p = Post.objects.get_or_create(id=id)[0]
     pass
+
+def add_user(username, email, password, student_id, first_name, last_name, bio, admin):
+    u = User.objects.get_or_create(username=username)
+    u.email = email
+    u.set_password(password)
+    u.save()
+    v = UserProfile.objects.get_or_create(user_username=username)
+    v.student_id = student_id
+    v.first_name = first_name
+    v.last_name = last_name
+    v.bio = bio
+    v.admin = admin
+    v.save()
+    return v
 
 
 def create_objects():
