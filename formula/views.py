@@ -98,11 +98,11 @@ def list_topics(request, category_slug):
     return render(request, APP_NAME+'/category.html', context=context_dict)
 
 
-def list_posts(request, topic_slug):
+def list_posts(request, category_slug, topic_slug):
     context_dict = {}
 
     try:
-        topic = Topic.objects.get(topic=topic_slug)
+        topic = Topic.objects.get(slug=topic_slug)
         category = topic.category
         context_dict['category'] = category
         context_dict['topic'] = topic
@@ -114,7 +114,20 @@ def list_posts(request, topic_slug):
         context_dict['topic'] = None
         context_dict['posts'] = None
 
-    return render(request, APP_NAME+'/posts.html', context=context_dict)
+    ## Dummy data
+    if topic_slug == "TEST":
+        context_dict['topic'] = {
+            'name' : "TEST",
+            'description' : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+        }
+        context_dict['posts'] = [
+            {'name' : "post 1"},
+            {'name' : "post 2"},
+            {'name' : "post 3"},
+            {'name' : "post 4"}
+        ]
+
+    return render(request, APP_NAME+'/topic.html', context=context_dict)
 
 
 def display_post(request, post_id):

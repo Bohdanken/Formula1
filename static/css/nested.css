@@ -29,6 +29,6 @@ p {
 
 hr {
 	margin: 0;
-	border-color: var(--medium-blue);
+	border-color: rgba(0, 0, 0, 0.25);
 	border-style: solid;
 }
