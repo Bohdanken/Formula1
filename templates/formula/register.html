@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-{% extends 'rango/base.html' %}
+{% extends 'formula/base.html' %}
 <html lang="en">
 {% block title %}UGR Board{% endblock %}
 
 {% block content %}
 <div class="login-container">
     <div class="login-header">
-        <h1><a href="{% url 'rango:about' %}" class="create-account-link">Login</a></h1>or Create an account
+        <h1><a href="{% url 'formula:about' %}" class="create-account-link">Login</a></h1>or Create an account
     </div>
-    <form method="post" action="{% url 'rango:login' %}" class="login-form">
+    <form method="post" action="{% url 'formula:login' %}" class="login-form">
         {% csrf_token %}
         <div class="form-group">
             <label for="id_username">Username:</label>
