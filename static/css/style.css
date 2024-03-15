@@ -1,9 +1,7 @@
 :root {
 	--black: #181818;
 	--medium-blue: #213851;
-	--light-blue: #23466c;
 	--white-text-color: #fcfcfd;
-	--blue-text-color: #346da8;
 	
 	--header-height: 15vw;
 	--footer-height: 5ex;
@@ -53,27 +51,6 @@ body > div > .category {
 		- 2*var(--main-content-padding)
 	);
 	padding: var(--main-content-padding);
-}
-
-div.category > div {
-	background-color: var(--light-blue);
-	color: var(--white-text-colour);
-	height: 1cm;
-}
-
-div.category > div + div {
-	border-top: .75mm var(--medium-blue) solid;
-}
-
-div.category :first-child {
-	background-color: var(--black);
-	border-top-left-radius: 3mm;
-	border-top-right-radius: 3mm;
-}
-
-div.category :last-child {
-	border-bottom-left-radius: 3mm;
-	border-bottom-right-radius: 3mm;
 }
 
 
