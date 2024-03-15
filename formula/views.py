@@ -26,10 +26,10 @@ def index(request):
     
     """
 
-    year_set = set(Category.objects.annotate(year=ExtractYear('date_added')).values_list('year', flat=True))
-    category_by_year_dict = {year: Category.objects.filter(date_added__year=year) for year in year_set}
-    
-    categories = Category.objects.all()
+    years = list(Category.objects.annotate(year=ExtractYear('date_added')).values_list('year', flat=True))
+    years.sort(reverse = True)
+    # current_year_categroies = set(Category.objects.filter(year = years[0]))
+    # Uncomment out line when year_set is not empty
 
 ##    context_dict = {
 ##        'categories': categories,
@@ -39,11 +39,8 @@ def index(request):
 
     ## dummy data
     context_dict = {
-        'category_by_year': {
-            2024 : [{'name' : "Category 1"}, {'name' : "Category 2"}, {'name' : "Category 3"}],
-            2023 : [{'name' : "Category 4"}, {'name' : "Category 5"}],
-            2022 : [{'name' : "Cat' 6"}, {'name' : "Cat' 7"}, {'name' : "Cat' 8"}, {'name' : "Cat' 9"}]
-        }
+        'years': [i for i in  range(2024, 2010, -1)],
+        'current_year_categories': {type("", (object, ), {"name":"Category"})() for i in range(3)}
     }
 
     return render(request, 'formula/index.html', context=context_dict)
@@ -78,20 +75,21 @@ def list_topics(request, category_slug):
     if category_slug == "TEST":
         context_dict['category'] = {
             'name' : "TEST",
+            'slug' : "TEST",
             'description' : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
         }
         context_dict['topics'] = {
-            type("", (object,), {'name' : 'Topic 1'})() : [
-                {'title' : "post 1"},
-                {'title' : "post 2"},
-                {'title' : "post 3"}
+            type("", (object,), {'name' : 'Topic 1', 'slug' : 'TEST'})() : [
+                {'title' : "post 1", 'slug' : "TEST"},
+                {'title' : "post 2", 'slug' : "TEST"},
+                {'title' : "post 3", 'slug' : "TEST"}
             ],
-            type("", (object,), {'name' : 'Topic 2'})() : [
-                {'title' : "post 4"},
+            type("", (object,), {'name' : 'Topic 2', 'slug' : 'TEST'})() : [
+                {'title' : "post 4", 'slug' : "TEST"},
             ],
-            type("", (object,), {'name' : 'Topic 3'})() : [
-                {'title' : "post 5"},
-                {'title' : "post 6"}
+            type("", (object,), {'name' : 'Topic 3', 'slug' : 'TEST'})() : [
+                {'title' : "post 5", 'slug' : "TEST"},
+                {'title' : "post 6", 'slug' : "TEST"}
             ]
         }
 

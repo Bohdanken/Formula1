@@ -3,25 +3,31 @@
 {% load static %}
 
 {% block extra_js %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/List.css' %}?version=0">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}?version=0">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/List.css' %}?version=0">
+	<script type="text/javascript" src="{% static 'js/index.js' %}?version=0"></script>
 {% endblock %}
 
 {% block header %}
 {% endblock %}
 
 {% block content %}
-	{% for year, categories in category_by_year.items %}
-		<div class="wrapper category">
-			{% if categories %}
-				<div>{{ year }}</div>
-				{% for category in categories %}
-					<div>
-						<span>{{ category.name }}</span>
-					</div>
+	<div id="tabs-display">
+		<div id="tabs-bar">
+			<ul>
+				{% for year in years %}
+					<li class="tab{% if forloop.counter0 == 0 %} active{% endif %}" onclick="set_active_tab({{ forloop.counter0 }})">
+						{{ year }}
+					</li>
 				{% endfor %}
-			{% endif %}
+			</ul>
 		</div>
-	{% endfor %}
+		<div id="tabs-display-content" class="category">
+			{% for category in current_year_categories %}
+				<a>{{ category.name }}</a>
+			{% endfor %}
+		</div>
+	</div>
 {% endblock %}
 
 {% block footer %}
