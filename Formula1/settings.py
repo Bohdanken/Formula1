@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'formula'
+    'formula',
+    'registration',
 ]
 
 PASSWORD_HASHERS = (
@@ -85,6 +86,22 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+# Registration configuration
+# https://django-registration-redux.readthedocs.io/en/latest/
+
+# If True, users can register
+REGISTRATION_OPEN = True
+
+# If True, the user will be automatically logged in after registering
+REGISTRATION_AUTO_LOGIN = True
+
+# The URL that Django redirects users to after logging in
+LOGIN_REDIRECT_URL = 'formula:index'
+
+# The page users are directed to if they are not logged in
+LOGIN_URL = 'auth_login'
+
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators

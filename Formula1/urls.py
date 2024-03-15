@@ -20,5 +20,6 @@ from formula import views
 urlpatterns = [
     path('', views.index, name='index'),
     path('formula/', include('formula.urls')),
+    path('account/', include('registration.backends.simple.urls')),
     path('admin/', admin.site.urls),
 ]
