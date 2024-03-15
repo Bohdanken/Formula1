@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
-from datetime import datetime
+from django.utils import timezone
 
 # GENERAL FIELD LIMIT
 NAME_MAX_LENGTH = 64

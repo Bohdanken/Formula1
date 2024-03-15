@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
-from formula.models import NAME_MAX_LENGTH, DESC_MAX_LENGTH, Post, Topic, UserProfile
+from django.utils import timezone
+from formula.models import *
 
 class TopicForm(forms.ModelForm):
     name = forms.CharField(max_length=NAME_MAX_LENGTH,

@@ -45,6 +45,8 @@ class TopicDummy():
         (PROJECT_MANAGEMENT := 'Project Management', CategoryDummy.BUSINESS),
 ]
 
+class PostDummy():
+    pass
 
 class UserDummy():
     USERS = [

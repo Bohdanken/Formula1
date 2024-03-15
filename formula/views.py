@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from formula.models import Category, Topic, Post, UserProfile
-from formula.forms import TopicForm, PostForm, UserForm, UserProfileForm
+from formula.models import *
+from formula.forms import *
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from datetime import datetime
+from django.utils import timezone
 from django.db.models.functions import ExtractYear
 
 APP_NAME = 'formula'
@@ -133,7 +133,7 @@ def create_post(request, topic_slug):
                 post = form.save(commit=False)
                 post.topic = topic
                 post.author = UserProfile.objects.get(user=request.user)
-                post.date_added = datetime.now()
+                post.date_added = timezone.now()
                 if 'file' in request.FILES:
                     post.file = request.FILES['file']
                 post.save()
@@ -169,7 +169,7 @@ def create_topic(request, category_slug):
             if category:
                 topic = form.save(commit=False)
                 topic.category = category
-                topic.date_added = datetime.now()
+                topic.date_added = timezone.now()
                 topic.save()
 
                 return redirect(reverse(APP_NAME+':show_topics', 
@@ -186,7 +186,7 @@ def show_profile(request, username):
     context_dict = {}
 
     try:
-        user = UserProfile.objects.get(username=username)
+        user = User.objects.get(username=username)
         context_dict['user'] = user
     except UserProfile.DoesNotExist:
         context_dict['user'] = None
