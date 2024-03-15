@@ -26,22 +26,18 @@ def index(request):
     
     """
 
-    parent_list = Category.Parent.CHOICESET
+    year_set = set(Category.objects.annotate(year=ExtractYear('date_added')).values_list('year', flat=True))
+    category_by_year_dict = {year: Category.objects.filter(date_added__year=year) for year in year_set}
     
-    # get a set of year
-    year_set = set(Category.objects.all().annotate(year=ExtractYear('date_added')).values_list('year', flat=True))
-    
-    category_by_year_dict = {year:Category.objects.filter(date_added_exact=year) for year in year_set}
+    categories = Category.objects.all()
 
-    context_dict = {}
-    context_dict['parents'] = parent_list
-    context_dict['year_list'] = year_set
-    context_dict['category_by_year'] = category_by_year_dict
+    context_dict = {
+        'categories': categories,
+        'year_list': year_set,
+        'category_by_year': category_by_year_dict,
+    }
 
-    response = render(request, APP_NAME+'/index.html', context=context_dict)
-
-    # Return response back to the user, updating any cookie changes.
-    return response
+    return render(request, 'formula/login.html', context=context_dict)
 
 
 def about(request):
