@@ -1,6 +1,6 @@
 :root {
 	--radius: 3.5mm;
-	--tab-hover-color: #272727;
+	--tab-hover-color: #292929;
 }
 
 #main-content * {
@@ -50,10 +50,8 @@
 	border-top-right-radius: var(--radius);
 	position: relative;
 	text-align: center;
+	line-height: 5ex;
 	vertical-align: middle;
-	line-height: 100%;
-	color: var(--text-color);
-	font: var(--font);
 }
 
 .tab + .tab {
@@ -102,10 +100,11 @@
 }
 
 .category {
-	margin:0 !Important;
+	margin: 0 !Important;
 }
 
 .category >:first-child {
 	background-color: var(--category-color) !Important;
-	border-radius: 0 !Important;
+	border-top-left-radius: 0 !Important;
+	border-top-right-radius: 0 !Important;
 }

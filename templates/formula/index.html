@@ -24,7 +24,9 @@
 		</div>
 		<div id="tabs-display-content" class="category">
 			{% for category in current_year_categories %}
-				<a>{{ category.name }}</a>
+				<a href="TEST">{{ category.name }}</a>
+			{% empty %}
+				<div>There were no categories for this year</div>
 			{% endfor %}
 		</div>
 	</div>

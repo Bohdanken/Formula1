@@ -11,40 +11,27 @@ from django.db.models.functions import ExtractYear
 APP_NAME = 'formula'
 
 def index(request):
-    """
-    EXPECTED DATA STRUCTURE
-    -------------------------
-    cat_list = {
-        2022: [cat1, cat2, cat3],
-        2023: [cat4, cat5, cat6],
-        2024: [cat7, cat8, cat9],
-    }
-
-    ACCESS LIKE THIS
-    -------------------
-    cat_list[2022] -> [cat1, cat2, cat3]
-    
-    """
-
     years = list(Category.objects.annotate(year=ExtractYear('date_added')).values_list('year', flat=True))
     years.sort(reverse = True)
-    # current_year_categroies = set(Category.objects.filter(year = years[0]))
-    # Uncomment out line when year_set is not empty
 
-##    context_dict = {
-##        'categories': categories,
-##        'year_list': year_set,
-##        'category_by_year': category_by_year_dict,
-##    }
+    if not request.GET.get("year", default = False):
+        year = years[0] if years else datetime.now().year
+    else:
+        year = int(request.GET.get("year"))
+        if year not in years:
+            years.append(year)
+            years.sort()
 
-    ## dummy data
+    print(year)
+
+    categories = set(Category.objects.annotate(year=ExtractYear('date_added')).filter(year=year))
+
     context_dict = {
-        'years': [i for i in  range(2024, 2010, -1)],
-        'current_year_categories': {type("", (object, ), {"name":"Category"})() for i in range(3)}
+        'years' : years,
+        'current_year_categories' : categories
     }
 
     return render(request, 'formula/index.html', context=context_dict)
-
 
 def about(request):
     text_description = "A forum dedicated to allowing users to communicate and learn about the development, upkeep and use of race cars"
