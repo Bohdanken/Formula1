@@ -115,7 +115,7 @@ def list_posts(request, category_slug, topic_slug):
     return render(request, APP_NAME+'/topic.html', context=context_dict)
 
 
-def display_post(request, post_id):
+def display_post(request, category_slug, topic_slug, post_id):
     context_dict = {}
     try:
         post = Post.objects.get(id=post_id)
@@ -127,6 +127,27 @@ def display_post(request, post_id):
         context_dict['post'] = None
         context_dict['topic'] = None
         context_dict['category'] = None
+
+    # Dummy data
+    if post_id == '0':
+        context_dict['post'] = {
+            'content' : """Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce efficitur vitae nulla sed tincidunt. Quisque justo dui, congue ac dictum id, auctor eget est. Phasellus congue nunc sit amet semper lobortis. Integer dictum ex sed bibendum bibendum. Sed at ullamcorper dui. Etiam id metus et arcu tincidunt mattis ut non ante. Quisque eleifend libero lectus, vitae rutrum turpis bibendum eu. Nulla eros ex, congue sed sem et, dictum mattis nulla. Mauris quis orci sapien. Vestibulum eget varius diam, at scelerisque lorem.
+
+Morbi suscipit, enim sit amet pretium laoreet, risus turpis auctor lectus, et ullamcorper felis massa sed est. Nunc mattis dictum nulla sed volutpat. Vivamus ultricies blandit diam id consectetur. Morbi et orci vel erat suscipit suscipit. Vestibulum pharetra laoreet lectus, lacinia dictum elit suscipit quis. Suspendisse justo enim, pharetra sit amet leo posuere, pulvinar imperdiet lacus. Integer ut sem id turpis interdum volutpat at eu nisi. Donec non nunc venenatis odio semper rhoncus eget a nulla. Mauris aliquam semper iaculis. Donec laoreet mi a ipsum suscipit aliquet. Duis bibendum justo felis, sed maximus enim egestas quis. Vestibulum purus diam, porta id aliquam eu, porttitor vel nibh.
+
+Vivamus ullamcorper, quam eget sodales accumsan, elit justo porta tortor, id placerat diam est nec lacus. Donec tincidunt, sapien non lacinia auctor, risus risus laoreet mauris, rutrum vulputate ipsum dolor non massa. Integer convallis augue vel eros ultrices viverra in in nibh. Nulla at nunc et dolor dictum maximus. Mauris quis fermentum nisi, et sagittis enim. Vestibulum luctus aliquet gravida. Sed convallis orci eu maximus euismod.
+
+Quisque convallis finibus eros. Pellentesque ut auctor magna, in lobortis odio. Nulla at dui tristique, sollicitudin felis et, feugiat tortor. Nam blandit nibh sed quam porta, et suscipit purus porta. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas ultrices venenatis auctor. Aliquam hendrerit lobortis lectus. Suspendisse urna tortor, tempus at hendrerit in, auctor sit amet odio. Pellentesque iaculis erat fringilla ipsum faucibus, nec iaculis felis imperdiet. Aenean diam risus, condimentum a fringilla sit amet, maximus eleifend nunc.
+
+Cras faucibus, nunc scelerisque mattis aliquam, mi augue consequat enim, id commodo neque nisi in elit. Morbi posuere mauris eget erat dignissim, mollis dictum est congue. Curabitur vestibulum semper pellentesque. Aenean eget ipsum vitae quam consequat pellentesque eu et diam. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas ut viverra orci, vitae sollicitudin justo. Nulla commodo iaculis magna, eu ornare leo aliquet consequat. Aliquam sed porttitor arcu, quis dapibus arcu.""",
+            'title' : "Lorem ipsum",
+            'author' : "Someone",
+            'file' : {
+                'name' : "Filename.file",
+                'url' : "/static/images/logo.png"
+            },
+            'file_is_image' : True
+        }
 
     return render(request, APP_NAME+'/post.html', context=context_dict)
 
