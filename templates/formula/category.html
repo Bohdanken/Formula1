@@ -22,9 +22,11 @@
 		<p>{{ category.description }}</p>
 		{% for topic, posts in topics.items %}
 			<div class="category">
-				<div>{{ topic.name }}</div>
+				<a href="{% url 'formula:posts' category.slug topic.slug %}">
+					{{ topic.name }}
+				</a>
 				{% for post in posts %}
-					<div>
+					<a  href="{% url 'formula:post' category.slug topic.slug post.slug %}">
 						<span>{{ post.title }}</span>
 						<div class="space"></div>
 						<div class="post-details" style="width: 3cm;">
@@ -35,7 +37,7 @@
 							<img alt="pfp" />
 							<span>Author name</span>
 						</div>
-					</div>
+					</a>
 				{% endfor %}
 			</div>
 		{% endfor %}

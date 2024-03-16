@@ -6,19 +6,19 @@
 	margin: 3mm;
 }
 
-div.category > div {
+div.category > * {
 	display: flex;
 	background-color: var(--category-color);
 	color: var(--white-text-color);
 	height: 1cm;
-	width: 100%;
+	width: calc(100% - 2mm);
 	line-height: 1cm;
 	vertical-align: middle;
 	padding-left: 2mm;
 	text-decoration: none;
 }
 
-div.category > div + div {
+div.category > * + * {
 	margin-top: 0.5mm;
 }
 
@@ -33,6 +33,6 @@ div.category >:last-child {
 	border-bottom-right-radius: 3mm;
 }
 
-div.category > div + div:hover {
+div.category > a:hover {
 	filter: brightness(110%);
 }
