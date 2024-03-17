@@ -15,6 +15,12 @@
 {% block content %}
 	<h1>{{ title }}</h1>
 		<p>{{ description }}</p>
+		<hr>
+		<div class="above-list">
+			<a {% if topic %}href="{% url 'formula:topics' category.slug%}">View category page{% else %} href="{% url 'formula:index'%}">View all categories{% endif %}</a>
+			<h3>{% if topic %}Posts under this topic{% else %}Topics under this category{% endif %}</h3>
+			<a {% if topic %}href="">Create post{% else %}href="">Create topic{% endif %}</a>
+		</div>
 		{% for topic, posts in topics.items %}
 			<div class="category">
 				<div>
