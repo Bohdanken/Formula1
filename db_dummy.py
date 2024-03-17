@@ -1,5 +1,6 @@
 from formula.models import Category
 
+
 class CategoryDummy():
     ROOT_PARENT = Category
 
@@ -49,6 +50,7 @@ class CategoryDummy():
             'parent': ROOT_PARENT.OPERATION
         },
     ]
+
 
 class TopicDummy():
     CAT_CALL_KEY = 'name'
@@ -168,6 +170,7 @@ class TopicDummy():
         },
     ]
 
+
 class UserDummy():
     USERS = [
         JEFFREYMULLOC := {
@@ -207,10 +210,11 @@ class UserDummy():
             'last_name': 'Scott',
         }
     ]
-    
+
+
 class UserProfileDummy():
     USR_CALL_KEY = 'username'
-    
+
     USER_PROFILES = [
         P_BOBBYKEREN := {
             'username': UserDummy.BOBBYKEREN[USR_CALL_KEY],
@@ -238,13 +242,14 @@ class UserProfileDummy():
         },
     ]
 
+
 class TeamDummy():
     TEAMS = [
         VENCERA := {
-            'name':'Vencera Racing',
+            'name': 'Vencera Racing',
         },
         ALUSIS := {
-            'name':'Alusis Motor Team'
+            'name': 'Alusis Motor Team'
         },
         SPEEDFORCE := {
             'name': 'Speedforce Racing',
@@ -272,6 +277,7 @@ class TeamDummy():
         },
     ]
 
+
 class PostDummy():
     GENERIC_CONTENT = 'This is a generic content. Please delete before deployment.'
     TOP_CALL_KEY = 'name'
@@ -279,14 +285,14 @@ class PostDummy():
 
     POSTS = [
         HELP_ERROR := {
-            'title':'Help! Error in Git Push',
+            'title': 'Help! Error in Git Push',
             'topic': TopicDummy.DATA_ANALYSIS[TOP_CALL_KEY],
             'author': UserDummy.JEFFREYMULLOC[USR_CALL_KEY],
         },
         CONTEST_WIN := {
-            'title':'Vencera Wins F1inSchool',
-            'topic':TopicDummy.EDUCATIONAL_PROGRAMS[TOP_CALL_KEY],
-            'author':UserDummy.ALICEWOND[USR_CALL_KEY],
+            'title': 'Vencera Wins F1inSchool',
+            'topic': TopicDummy.EDUCATIONAL_PROGRAMS[TOP_CALL_KEY],
+            'author': UserDummy.ALICEWOND[USR_CALL_KEY],
         },
         TEAM_RECRUITMENT := {
             'title': 'Join Our Racing Team!',
@@ -339,6 +345,7 @@ class PostDummy():
             'author': UserDummy.MICHAELSCOTT[USR_CALL_KEY],
         }
     ]
+
 
 class TeamMemberDummy():
     TEM_CALL_KEY = 'name'
