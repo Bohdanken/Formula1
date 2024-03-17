@@ -34,7 +34,7 @@ def add_topic(name, description, date_added, category):
     t = Topic.objects.get_or_create(category=cat, name=name)[0]
     t.description = description
     t.date_added = date_added
-    t.category = cat
+    t.category = category_name
     t.save()
     return t
 
@@ -42,6 +42,7 @@ def add_topic(name, description, date_added, category):
 def add_post(title, description, content, file, viewership, date_added, topic, author):
     p = Post.objects.get_or_create(id=id)[0]
     pass
+
 
 
 def add_user(username, email, password, student_id, first_name, last_name, bio, is_admin):

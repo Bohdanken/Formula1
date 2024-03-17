@@ -1,6 +1,7 @@
 from formula.models import *
 
 
+
 class CategoryDummy():
     CATEGORIES = [
         (ENGINEERING := 'Engineering Project', Category.EVEHICLE),
