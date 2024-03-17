@@ -1,11 +1,11 @@
-h1, p {
+h1, p, h3 {
 	color: var(--white-text-color);
 }
 
 h1 {
-	margin-bottom: 1ex;
-	width: 100%;
 	text-align: center;
+	width: 100%;
+	margin-bottom: 1ex;
 }
 
 p {
@@ -35,4 +35,22 @@ hr {
 
 .view-topic-page {
 	background-color: #25425F !Important;
+}
+
+.above-list {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: space-around;
+}
+
+.above-list > a {
+	margin-top: auto;
+	margin-bottom: auto;
+	height: 1em;
+	text-align: center;
+	vertical-align: middle;
+	color: yellow;
+	flex-grow: 1;
+	flex-basis: 0;
 }
