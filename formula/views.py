@@ -13,7 +13,7 @@ from django.db.models.functions import ExtractYear
 APP_NAME = 'formula'
 
 def index(request):
-    years = list(Category.objects.annotate(year=ExtractYear('date_added')).values_list('year', flat=True))
+    years = list(set(Category.objects.annotate(year=ExtractYear('date_added')).values_list('year', flat=True)))
     years.sort(reverse = True)
 
     if not request.GET.get("year", default = False):
@@ -23,8 +23,6 @@ def index(request):
         if year not in years:
             years.append(year)
             years.sort()
-
-    print(year)
 
     categories = set(Category.objects.annotate(year=ExtractYear('date_added')).filter(year=year))
 
