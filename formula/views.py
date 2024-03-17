@@ -52,8 +52,7 @@ def list_topics(request, category_slug):
         category = Category.objects.get(slug=category_slug)
         topics = Topic.objects.filter(category=category)
         context_dict['category'] = category
-        context_dict['topics'] = {topic : list(sorted(Post.objects.filter(topic=topic), key = lambda post : post.viewership))[:3] for topic in topics}
-
+        context_dict['topics'] = { topic : [{'post' : post, 'pfp' : UserProfile.objects.get(user = post.author).picture} for post in list(sorted(Post.objects.filter(topic=topic), key = lambda post : post.viewership))[:3]] for topic in topics }
         return render(request, APP_NAME+'/category.html', context=context_dict)
 
     except Category.DoesNotExist:
@@ -69,7 +68,9 @@ def list_posts(request, category_slug, topic_slug):
         context_dict['category'] = category
         context_dict['topic'] = topic
         posts = Post.objects.filter(topic=topic)
-        context_dict['topics'] = { topic : posts }
+        context_dict['topics'] = {
+            topic : [{'post' : post, 'pfp' : UserProfile.objects.get(user = post.author).picture} for post in posts]
+        }
 
         return render(request, APP_NAME+'/topic.html', context=context_dict)
 

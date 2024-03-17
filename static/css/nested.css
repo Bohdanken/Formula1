@@ -54,3 +54,15 @@ hr {
 	flex-grow: 1;
 	flex-basis: 0;
 }
+
+img.pfp {
+	border-radius: 50%;
+	width: 2em;
+	height: 2em;
+}
+
+.author-details > div {
+	display: inline-block;
+	height: 100%;
+	vertical-align: top;
+}
