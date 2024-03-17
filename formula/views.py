@@ -53,36 +53,36 @@ def list_topics(request, category_slug):
     try:
         category = Category.objects.get(slug=category_slug)
         topics = Topic.objects.filter(category=category)
-        context_dict['topics'] = topics
         context_dict['category'] = category
+        context_dict['topics'] = {topic : list(sorted(Post.objects.get(topic=topic), key = lambda post : post.viewership))[:3] for topic in topics}
+
+        return render(request, APP_NAME+'/category.html', context=context_dict)
 
     except Category.DoesNotExist:
-        context_dict['topics'] = None
-        context_dict['category'] = None
+        
+        ## Test data
+        if category_slug == "TEST":
+            context_dict['category'] = {
+                'name' : "TEST",
+                'slug' : "TEST",
+                'description' : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+            }
+            context_dict['topics'] = {
+                type("", (object,), {'name' : 'Topic 1', 'slug' : 'TEST'})() : [
+                    {'title' : "post 1", 'slug' : "0"},
+                    {'title' : "post 2", 'slug' : "0"},
+                    {'title' : "post 3", 'slug' : "0"}
+                ],
+                type("", (object,), {'name' : 'Topic 2', 'slug' : 'TEST'})() : [
+                    {'title' : "post 4", 'slug' : "0"},
+                ],
+                type("", (object,), {'name' : 'Topic 3', 'slug' : 'TEST'})() : [
+                    {'title' : "post 5", 'slug' : "0"},
+                    {'title' : "post 6", 'slug' : "0"}
+                ]
+            }
 
-    ## Dummy data
-    if category_slug == "TEST":
-        context_dict['category'] = {
-            'name' : "TEST",
-            'slug' : "TEST",
-            'description' : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-        }
-        context_dict['topics'] = {
-            type("", (object,), {'name' : 'Topic 1', 'slug' : 'TEST'})() : [
-                {'title' : "post 1", 'slug' : "TEST"},
-                {'title' : "post 2", 'slug' : "TEST"},
-                {'title' : "post 3", 'slug' : "TEST"}
-            ],
-            type("", (object,), {'name' : 'Topic 2', 'slug' : 'TEST'})() : [
-                {'title' : "post 4", 'slug' : "TEST"},
-            ],
-            type("", (object,), {'name' : 'Topic 3', 'slug' : 'TEST'})() : [
-                {'title' : "post 5", 'slug' : "TEST"},
-                {'title' : "post 6", 'slug' : "TEST"}
-            ]
-        }
-
-    return render(request, APP_NAME+'/category.html', context=context_dict)
+        return render(request, APP_NAME+'/category.html', context=context_dict, status=404)
 
 
 def list_posts(request, category_slug, topic_slug):
@@ -94,27 +94,29 @@ def list_posts(request, category_slug, topic_slug):
         context_dict['category'] = category
         context_dict['topic'] = topic
         posts = Post.objects.filter(topic=topic)
-        context_dict['posts'] = posts
+        context_dict['topics'] = { topic : posts }
+
+        return render(request, APP_NAME+'/topic.html', context=context_dict)
 
     except Topic.DoesNotExist:
-        context_dict['category'] = None
-        context_dict['topic'] = None
-        context_dict['posts'] = None
+        
+        ## Test data
+        if topic_slug == "TEST":
+            context_dict['category'] = {'slug' : "TEST"}
+            context_dict['topic'] = type("", (object,), {
+                'name' : "TEST",
+                'slug' : "TEST",
+                'description' : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+            })()
+            context_dict['topics'] ={
+                context_dict['topic'] : [
+                    {'title' : "post 1", 'slug' : "0"},
+                    {'title' : "post 2", 'slug' : "0"},
+                    {'title' : "post 3", 'slug' : "0"}
+                ]
+            }
 
-    ## Dummy data
-    if topic_slug == "TEST":
-        context_dict['topic'] = {
-            'name' : "TEST",
-            'description' : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-        }
-        context_dict['posts'] = [
-            {'name' : "post 1"},
-            {'name' : "post 2"},
-            {'name' : "post 3"},
-            {'name' : "post 4"}
-        ]
-
-    return render(request, APP_NAME+'/topic.html', context=context_dict)
+        return render(request, APP_NAME+'/topic.html', context=context_dict, status=404)
 
 
 def display_post(request, category_slug, topic_slug, post_id):
@@ -124,34 +126,30 @@ def display_post(request, category_slug, topic_slug, post_id):
         context_dict['post'] = post
         context_dict['topic'] = post.topic
         context_dict['category'] = post.topic.category
+        context_dict['file_is_image'] = post.file.name.split('.')[-1].lower() in {'apng', 'cur', 'gif', 'ico', 'jfif', 'jpeg', 'jpg', 'pjp', 'pjpeg', 'png', 'svg'}
+        
+        return render(request, APP_NAME+'/post.html', context=context_dict)
     
     except Post.DoesNotExist:
-        context_dict['post'] = None
-        context_dict['topic'] = None
-        context_dict['category'] = None
 
-    # Dummy data
-    if post_id == '0':
-        context_dict['post'] = {
-            'content' : """Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce efficitur vitae nulla sed tincidunt. Quisque justo dui, congue ac dictum id, auctor eget est. Phasellus congue nunc sit amet semper lobortis. Integer dictum ex sed bibendum bibendum. Sed at ullamcorper dui. Etiam id metus et arcu tincidunt mattis ut non ante. Quisque eleifend libero lectus, vitae rutrum turpis bibendum eu. Nulla eros ex, congue sed sem et, dictum mattis nulla. Mauris quis orci sapien. Vestibulum eget varius diam, at scelerisque lorem.
-
+        # Dummy data
+        if post_id == '0':
+            context_dict['post'] = {
+                'content' : """Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce efficitur vitae nulla sed tincidunt. Quisque justo dui, congue ac dictum id, auctor eget est. Phasellus congue nunc sit amet semper lobortis. Integer dictum ex sed bibendum bibendum. Sed at ullamcorper dui. Etiam id metus et arcu tincidunt mattis ut non ante. Quisque eleifend libero lectus, vitae rutrum turpis bibendum eu. Nulla eros ex, congue sed sem et, dictum mattis nulla. Mauris quis orci sapien. Vestibulum eget varius diam, at scelerisque lorem.
 Morbi suscipit, enim sit amet pretium laoreet, risus turpis auctor lectus, et ullamcorper felis massa sed est. Nunc mattis dictum nulla sed volutpat. Vivamus ultricies blandit diam id consectetur. Morbi et orci vel erat suscipit suscipit. Vestibulum pharetra laoreet lectus, lacinia dictum elit suscipit quis. Suspendisse justo enim, pharetra sit amet leo posuere, pulvinar imperdiet lacus. Integer ut sem id turpis interdum volutpat at eu nisi. Donec non nunc venenatis odio semper rhoncus eget a nulla. Mauris aliquam semper iaculis. Donec laoreet mi a ipsum suscipit aliquet. Duis bibendum justo felis, sed maximus enim egestas quis. Vestibulum purus diam, porta id aliquam eu, porttitor vel nibh.
-
 Vivamus ullamcorper, quam eget sodales accumsan, elit justo porta tortor, id placerat diam est nec lacus. Donec tincidunt, sapien non lacinia auctor, risus risus laoreet mauris, rutrum vulputate ipsum dolor non massa. Integer convallis augue vel eros ultrices viverra in in nibh. Nulla at nunc et dolor dictum maximus. Mauris quis fermentum nisi, et sagittis enim. Vestibulum luctus aliquet gravida. Sed convallis orci eu maximus euismod.
-
 Quisque convallis finibus eros. Pellentesque ut auctor magna, in lobortis odio. Nulla at dui tristique, sollicitudin felis et, feugiat tortor. Nam blandit nibh sed quam porta, et suscipit purus porta. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas ultrices venenatis auctor. Aliquam hendrerit lobortis lectus. Suspendisse urna tortor, tempus at hendrerit in, auctor sit amet odio. Pellentesque iaculis erat fringilla ipsum faucibus, nec iaculis felis imperdiet. Aenean diam risus, condimentum a fringilla sit amet, maximus eleifend nunc.
-
 Cras faucibus, nunc scelerisque mattis aliquam, mi augue consequat enim, id commodo neque nisi in elit. Morbi posuere mauris eget erat dignissim, mollis dictum est congue. Curabitur vestibulum semper pellentesque. Aenean eget ipsum vitae quam consequat pellentesque eu et diam. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas ut viverra orci, vitae sollicitudin justo. Nulla commodo iaculis magna, eu ornare leo aliquet consequat. Aliquam sed porttitor arcu, quis dapibus arcu.""",
-            'title' : "Lorem ipsum",
-            'author' : "Someone",
-            'file' : {
-                'name' : "Filename.file",
-                'url' : "/static/images/logo.png"
-            },
-            'file_is_image' : True
-        }
+                'title' : "Lorem ipsum",
+                'author' : "Someone",
+                'file' : {
+                    'name' : "Filename.file",
+                    'url' : "/static/images/logo.png"
+                },
+            }
+            context_dict['file_is_image'] = True
 
-    return render(request, APP_NAME+'/post.html', context=context_dict)
+        return render(request, APP_NAME+'/post.html', context=context_dict, status=404)
 
 
 def query_result(request, title_query):

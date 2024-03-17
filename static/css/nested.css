@@ -32,3 +32,7 @@ hr {
 	border-color: rgba(0, 0, 0, 0.25);
 	border-style: solid;
 }
+
+.view-topic-page {
+	background-color: #25425F !Important;
+}
