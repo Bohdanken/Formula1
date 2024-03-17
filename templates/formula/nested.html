@@ -31,17 +31,17 @@
 						View topic page
 					</a>
 				{% endif %}
-				{% for post in posts %}
-					<a  href="{% url 'formula:post' category.slug topic.slug post.slug %}">
-						<span>{{ post.title }}</span>
+				{% for post_data in posts %}
+					<a  href="{% url 'formula:post' category.slug topic.slug post_data.post.id %}">
+						<span>{{ post_data.post.title }}</span>
 						<div class="space"></div>
 						<div class="post-details" style="width: 3cm;">
-							{{ post.date_added }}
+							{{ post_data.post.date_added }}
 						</div>
 						<hr>
 						<div class="author-details" style="width: 4cm;">
-							<img alt="pfp" />
-							<span>Author name</span>
+							<img src="{{ post_data.pfp.url }}" alt="pfp" class="pfp"/>
+							<div>{{ post_data.post.author.username }}</div>
 						</div>
 					</a>
 				{% empty %}
