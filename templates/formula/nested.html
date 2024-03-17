@@ -38,7 +38,17 @@
 							<span>Author name</span>
 						</div>
 					</a>
+				{% empty %}
+					<div>
+						There are no posts under this topic :(
+					</div>
 				{% endfor %}
+			</div>
+		{% empty %}
+			<div class="category">
+				<div>
+					There are no topics under this category :(
+				</div>
 			</div>
 		{% endfor %}
 {% endblock %}
