@@ -2,10 +2,10 @@
 
 {% load staticfiles %}
 
-{% block title %}{% if category %}{{ category.name }}{% else %}404{% endif %}{% endblock %}
+{% block title %}{% if topic %}{{ topic.name }}{% else %}404{% endif %}{% endblock %}
 
 {% block extra_js%}
-	{% if category %}
+	{% if topic %}
 		<link rel="stylesheet" type="text/css" href="{% static 'css/nested.css' %}?version=0" />
 		<link rel="stylesheet" type="text/css" href="{% static 'css/List.css' %}?version=0" />
 	{% else %}
@@ -17,30 +17,25 @@
 {% endblock %}
 
 {% block content %}
-	{% if category %}
-		<h1>{{ category.name }}</h1>
-		<p>{{ category.description }}</p>
-		{% for topic, posts in topics.items %}
-			<div class="category">
-				<a href="{% url 'formula:posts' category.slug topic.slug %}">
-					{{ topic.name }}
-				</a>
-				{% for post in posts %}
-					<a  href="{% url 'formula:post' category.slug topic.slug post.slug %}">
-						<span>{{ post.title }}</span>
-						<div class="space"></div>
-						<div class="post-details" style="width: 3cm;">
-							{{ post.date_added }}
-						</div>
-						<hr>
-						<div class="author-details" style="width: 4cm;">
-							<img alt="pfp" />
-							<span>Author name</span>
-						</div>
-					</a>
-				{% endfor %}
-			</div>
-		{% endfor %}
+	{% if topic %}
+		<h1>{{ topic.name }}</h1>
+		<p>{{ topic.description }}</p>
+		<div class="category">
+			<div>{{ topic.name }}</div>
+			{% for post in posts %}
+				<div>
+					<div class="space"></div>
+					<div class="post-details" style="width: 3cm;">
+						{{ post.date_added }}
+					</div>
+					<hr>
+					<div class="author-details" style="width: 4cm;">
+						<img alt="pfp" />
+						<span>Author name</span>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
 	{% else %}
 		<h1>404</h1>
 		<i>That's an error!</i>

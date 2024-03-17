@@ -1,0 +1,17 @@
+h1, i, p, a {
+	color: var(--white-text-color);
+}
+
+h1 {
+	margin-bottom: 0.5ex;
+}
+
+h1, i {
+	display: block;
+	width: 100%;
+	text-align: center;
+}
+
+p {
+	margin-bottom: 1ex;
+}

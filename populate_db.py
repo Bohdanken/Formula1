@@ -31,7 +31,7 @@ def add_topic(name, description, date_added, category_name):
     t = Topic.objects.get_or_create(category=category, name=name)[0]
     t.description = description
     t.date_added = date_added
-    t.category = category
+    t.category = cat
     t.save()
     return t
 
@@ -89,6 +89,33 @@ def add_user_profile(username, student_id, bio, is_admin):
         print(f'USER {username} is not found in the database.')
         return None  
 
+def add_user_only(username, email, password, first_name, last_name):
+    user = User.objects.get_or_create(username=username)[0]
+    user.email = email
+    user.set_password(password)
+    user.first_name = first_name
+    user.last_name = last_name
+    user.save()
+    return user
+
+def add_user_profile(username, student_id, bio, is_admin):
+    try:
+        user = User.objects.get(username=username)
+        user_p = UserProfile.objects.get_or_create(user=user)
+        if user_p[1] is False:
+            print(f'User {username} already added')
+            return user_p[0]
+        else:
+            user_p = user_p[0]
+        user_p.student_id = student_id
+        user_p.bio = bio
+        user_p.is_admin = is_admin
+        user_p.save()
+        return user_p
+    
+    except User.DoesNotExist:
+        print(f'USER {username} is not found in the database.')
+        return None
 
 def create_dummy_categories() -> dict:
     categories_dict = {}
