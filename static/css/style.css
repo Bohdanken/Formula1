@@ -2,7 +2,7 @@
 	--black: #181818;
 	--medium-blue: #213851;
 	--white-text-color: #fcfcfd;
-	
+	--blue-text-color: #3889f3;
 	--header-height: 15vw;
 	--footer-height: 5ex;
 	--vertical-content-margin: 2.5mm;
@@ -152,6 +152,7 @@ footer p{
 
 .login-header h1 {
     margin-bottom: 20px;
+
 }
 
 .create-account-link {
@@ -171,19 +172,51 @@ footer p{
 
 .login-form input[type="text"],
 .login-form input[type="password"],
+.login-form input[type="email"],
+.login-form input[type="number"],
 .login-form input[type="submit"] {
-    width: 100%;
-    padding: 10px;
+    font-size: small ;
+    width: 90%;
+    padding: 5px;
     margin-bottom: 10px; /* For spacing between form elements */
     border: 1px solid #ccc;
     border-radius: 4px;
 }
 
+.login-form label {
+    display: block;
+    margin-bottom: 3px;
+    font-size: 19px; /* This line makes the text larger */
+    line-height: 1.3; /* Optional: Adjust line height for better spacing */
+}
+
 .login-form input[type="submit"] {
-    background-color: var(--light-blue);
+    background-color: var(--blue-text-color);
     color: var(--white-text-color);
     cursor: pointer;
     font-size: 16px;
+}
+
+.errorlist {
+    color: #ff0000; /* Bright red color for errors */
+    background-color: #fff0f0; /* Light red background */
+    border: 1px solid #ff0000;
+    border-radius: 3px;
+    padding: 3px;
+    margin-bottom: 10px; /* Ensures spacing between the error list and the next field */
+}
+.login-form .form-group {
+    padding: 15px;
+    background-color: var(--medium-blue); /* Ensures consistency with the theme */
+    border-radius: 5px; /* Softens the edges */
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3); /* Adds an inset shadow for depth */
+    margin-bottom: 20px; /* Increases spacing between form groups */
+}
+
+
+.login-form input[type="submit"]:hover {
+    background-color: var(--blue-text-color);
+    filter: brightness(80%);
 }
 
 .remember-me {
@@ -220,4 +253,7 @@ footer p{
 	background-color: rgba(0, 0, 0, 0);
 	color: inherit;
 }
+
+
+
 

@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Your Site{% endblock %}</title>
-    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/style.css?v=1.0">
 </head>
 <body>
 <header>
@@ -24,6 +24,7 @@
             <a href="{%url 'formula:about' %}" class="header-link">?</a>
             <a href="{%url 'formula:profile' %}" class="header-link">👤</a>
             <a href="{%url 'formula:about' %}" class="header-link">➕</a>
+            <a href="{% url 'logout' %}" class="header-link">🚪</a>
         </div>
     </div>
         {% block header %}
