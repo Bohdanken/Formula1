@@ -19,7 +19,9 @@
 		<div class="above-list">
 			<a {% if topic %}href="{% url 'formula:topics' category.slug%}">View category page{% else %} href="{% url 'formula:index'%}">View all categories{% endif %}</a>
 			<h3>{% if topic %}Posts under this topic{% else %}Topics under this category{% endif %}</h3>
-			<a {% if topic %}href="">Create post{% else %}href="">Create topic{% endif %}</a>
+			<a {% if topic %}href="{% url 'formula:create_post'%}">Create post
+               {% else %}
+                   href="{% url 'formula:create_post'%}">Create topic{% endif %}</a>
 		</div>
 		{% for topic, posts in topics.items %}
 			<div class="category">
