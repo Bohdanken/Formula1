@@ -54,6 +54,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'formula.breadcrumbMiddleware.BreadcrumbMiddleware',
 ]
 
 ROOT_URLCONF = 'Formula1.urls'

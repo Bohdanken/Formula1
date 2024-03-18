@@ -8,6 +8,8 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.db.models.functions import ExtractYear
+from django.urls import reverse, NoReverseMatch
+from django.utils.deprecation import MiddlewareMixin
 
 APP_NAME = 'formula'
 REGISTER_NAME = 'registration'
@@ -212,6 +214,11 @@ def register(request):
     return render(request, REGISTER_NAME + '/register.html', context={'user_form': user_form,
                                                                       'registered': registered})
 
+
+def testLogoutView(request):
+    return render(request, REGISTER_NAME + '/logout.html', context={})
+
+
 class CustomLogoutView(LogoutView):
     template_name = 'registration/logout.html'
 
@@ -220,5 +227,5 @@ class CustomLogoutView(LogoutView):
             # User is not authenticated, redirect to login page or any other page
             return redirect('login')  # Assuming you have a URL named 'login'
         # User is authenticated, proceed with the normal LogoutView flow
-        return super().dispatch(request, *args, **kwargs
+        return super().dispatch(request, *args, **kwargs)
 
