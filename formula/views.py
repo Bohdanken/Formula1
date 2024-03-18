@@ -11,6 +11,7 @@ from django.utils import timezone
 from django.db.models.functions import ExtractYear
 
 APP_NAME = 'formula'
+REGISTER_NAME = 'registration'
 
 def index(request):
     years = list(set(Category.objects.annotate(year=ExtractYear('date_added')).values_list('year', flat=True)))
@@ -170,7 +171,7 @@ def create_topic(request, category_slug):
     context_dict = {'form':form, 'topic':category}
     return render(request, APP_NAME+'/add_post.html', context=context_dict)
 
-
+@login_required
 def show_profile(request, username):
     context_dict = {}
 
@@ -211,7 +212,7 @@ def register(request):
         profile_form = UserProfileForm()
 
     # Render the template depending on the context.
-    return render(request, APP_NAME+'/register.html', context={'user_form': user_form,
+    return render(request, REGISTER_NAME+'/register.html', context={'user_form': user_form,
                                                            'profile_form': profile_form,
                                                            'registered': registered })
 
@@ -236,4 +237,4 @@ def user_login(request):
             return HttpResponse("Invalid login details supplied")
         
     else:
-        return render(request, APP_NAME+'/login.html')
+        return render(request, REGISTER_NAME+'/login.html')

@@ -1,17 +1,25 @@
+<!DOCTYPE html>
 {% extends 'formula/base.html' %}
-{% block title_block %}
-Login
+<html lang="en">
+{% block title %}UGR Board{% endblock %}
+
+{% block content %}
+<div class="login-container">
+    <div class="login-header">
+        <h1>Login or <a href="{% url 'formula:register' %}" class="create-account-link">Create an account</a></h1>
+    </div>
+    <form method="post" action="{% url 'formula:login' %}" class="login-form">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form.as_p }}
+        </div>
+
+        <input type="submit" value="Login" class="login-button">
+    </form>
+</div>
+
 {% endblock %}
-{% block body_block %}
-<h1>Login</h1>
-<form method="post" action=".">
-{% csrf_token %}
-{{ form.as_p }}
-<input type="submit" value="Log In" />
-<input type="hidden" name="next" value="{{ next }}" />
-</form>
-<p>
-Not registered?
-<a href="{% url 'formula:register' %}">Register here!</a>
-</p>
+
+{% block footer %}
+
 {% endblock %}

@@ -98,10 +98,10 @@ REGISTRATION_OPEN = True
 REGISTRATION_AUTO_LOGIN = True
 
 # The URL that Django redirects users to after logging in
-LOGIN_REDIRECT_URL = 'formula:index'
+LOGIN_REDIRECT_URL = ''
 
 # The page users are directed to if they are not logged in
-LOGIN_URL = 'auth_login'
+LOGIN_URL = 'formula:login'
 
 
 # Password validation
