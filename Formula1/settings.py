@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django',
     'formula',
-    'registration'
 ]
 
 PASSWORD_HASHERS = (
@@ -58,7 +57,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'Formula1.urls'
-
+AUTH_USER_MODEL = 'formula.CustomUser'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -98,7 +97,7 @@ REGISTRATION_OPEN = True
 REGISTRATION_AUTO_LOGIN = True
 
 # The URL that Django redirects users to after logging in
-LOGIN_REDIRECT_URL = ''
+LOGIN_REDIRECT_URL = 'index'
 
 # The page users are directed to if they are not logged in
 LOGIN_URL = 'formula:login'
