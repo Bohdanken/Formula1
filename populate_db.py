@@ -202,7 +202,7 @@ def create_dummy_team():
     teams_dict = {}
 
     def generate_tm(team:dict):
-        teams_dict['description'] = GENERIC_DESC
+        team['description'] = GENERIC_DESC
         teams_dict[team['name']] = team
     
     for team in TeamDummy.TEAMS:
@@ -308,19 +308,7 @@ def save_teams(teams_dict:dict):
                               description=tms_data['description'])
         print(f'TEAM add succesful - {added_team.name}')
         
-# def populate():
-#     cats = create_objects()
 
-#     for cat, cat_data in cats.items():
-#         category = add_category(cat, cat_data['description'], cat_data['date_added'], cat_data['parent'])
-#     for topic in cat_data['topics']:
-#             add_topic(topic['name'], topic['description'], topic['date_added'], category)
-
-
-#     # Print out the categories we have added.
-#     for category in Category.Parent.objects.all():
-#         for topic in Topic.objects.filter(category=category):
-#             print(f'CATEGORY:TOPIC add succesful - {category}: {topic}')
 
 def dummy_populate():
     categories_dict = create_dummy_categories()
