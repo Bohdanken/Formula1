@@ -81,7 +81,7 @@ class Post(models.Model):
         return self.author.get_username()
 
 
-class Team(models.Model):
+class Team(NameSlugMixin, models.Model):
     name = models.CharField(max_length=NAME_MAX_LENGTH)
     description = models.CharField(max_length=DESC_MAX_LENGTH)
 

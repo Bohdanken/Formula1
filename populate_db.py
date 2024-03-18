@@ -34,7 +34,7 @@ def add_topic(name, description, date_added, category):
     t = Topic.objects.get_or_create(category=cat, name=name)[0]
     t.description = description
     t.date_added = date_added
-    t.category = category_name
+    t.category = cat
     t.save()
     return t
 

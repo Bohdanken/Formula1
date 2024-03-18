@@ -1,0 +1,55 @@
+{% extends 'formula/base.html' %}
+
+{% load static %}
+
+{% block title %}{{ team.name }}{% endblock %}
+
+{% block extra_js %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/team.css' %}?version=0" />
+	<script src="{% static 'js/team.js' %}?version=0"></script>
+	
+	<link rel="stylesheet" type="text/css" href="{% static 'css/List.css' %}?version=0" />
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+	<h1>{{ team.name }}</h1>
+	{% for paragraph in team.description.splitlines %}
+	<p>
+		{{ paragraph }}
+	</p>
+	{% empty %}
+	<p>
+		<i>Team has set no description</i>
+	</p>
+	{% endfor %}
+	<hr>
+	<h3>Meet the team!</h3>
+	<div id="tabs-display">
+		<div id="tabs-bar">
+			<ul>
+				<li class="tab active" onclick="set_active_tab(0);">
+					{{ team_lead.user.username }}
+				</li>
+				{% for team_member in team_members %}
+					<li class="tab" onclick="set_active_tab({{ forloop.counter0 }} + 1);">
+						{{ team_member.user.username }}
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
+		<div id="tabs-display-content">
+			This is temporary text, I will put user's profile here once the 
+		</div>
+	</div>
+	<hr>
+	<h3>Browse their topics</h3>
+	<div>
+		Not implemented yet
+	</div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
