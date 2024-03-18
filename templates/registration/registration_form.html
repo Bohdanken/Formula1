@@ -1,14 +1,25 @@
+<!DOCTYPE html>
 {% extends 'formula/base.html' %}
-
-{% block header %}
-    Register
-{% endblock %}
+<html lang="en">
+{% block title %}UGR Board{% endblock %}
 
 {% block content %}
-<h1>Register Here</h1>
-<form method="post" action=".">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Register" />
-</form>
+<div class="login-container">
+    <div class="login-header">
+        <h1><a href="{% url 'formula:about' %}" class="create-account-link">Login</a></h1>or Create an account
+    </div>
+    <form method="post" action="{% url 'formula:login' %}" class="login-form">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form.as_p }}
+        </div>
+
+        <input type="submit" value="Login" class="login-button">
+    </form>
+</div>
+
+{% endblock %}
+
+{% block footer %}
+
 {% endblock %}
