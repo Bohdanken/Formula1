@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
+from django.utils import timezone
 from formula.models import NAME_MAX_LENGTH, DESC_MAX_LENGTH, Post, Topic, UserProfile
 
 class TopicForm(forms.ModelForm):
@@ -22,10 +23,11 @@ class PostForm(forms.ModelForm):
     content = forms.CharField(max_length=Post.CONTENT_MAX_LENGTH,
                            help_text="Write something here.")
     viewership = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
+    date_added = forms.DateField(widget=forms.HiddenInput(), initial=timezone.now())
 
     class Meta:
         model = Post
-        exclude = ('topic','date_added',)
+        exclude = ('topic',)
 
 
 

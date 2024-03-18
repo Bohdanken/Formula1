@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
+from django.core.validators import RegexValidator
 from datetime import datetime
 
 # GENERAL FIELD LIMIT
@@ -20,19 +21,17 @@ class NameSlugMixin(models.Model):
 
 
 class Category(NameSlugMixin, models.Model):
-    GENERAL = "GE"
-    OPERATION = "OP"
-    EVEHICLE = "EV"
-    CHOICES = [
-        (GENERAL, "General"),
-        (OPERATION, "Operations"),
-        (EVEHICLE, "Electric Vehicle"),
-    ]
+    class Parent():
+        CHOICES = [
+            (GENERAL := "GE", "General"),
+            (OPERATION := "OP", "Operations"),
+            (EVEHICLE := "EV", "Electric Vehicle"),
+        ]
      
     name = models.CharField(max_length=NAME_MAX_LENGTH, unique=True)
     description = models.CharField(max_length=DESC_MAX_LENGTH)
     date_added = models.DateTimeField(null=True)
-    parent = models.CharField(max_length=NAME_MAX_LENGTH, choices=CHOICES, default=GENERAL)
+    parent = models.CharField(max_length=NAME_MAX_LENGTH, choices=Parent.CHOICES, default=Parent.GENERAL)
 
     class Meta:
         verbose_name_plural = 'Categories'
@@ -53,7 +52,7 @@ class Topic(NameSlugMixin, models.Model):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, editable=False)
-    student_id = models.IntegerField(unique=True, null=False, default=0)
+    student_id = models.CharField(max_length=7, validators=[RegexValidator(r'^[0-9]{7}$', 'Only 7-digit integers are allowed.')])
     picture = models.ImageField(upload_to='profile_images', blank=True)
     bio = models.CharField(max_length=DESC_MAX_LENGTH, blank=True)
     is_admin = models.BooleanField(default=False)
@@ -73,12 +72,12 @@ class Post(models.Model):
     file = models.FileField(upload_to='post_files/', blank=True)
 # comment end
     viewership = models.IntegerField(default=0)
-    date_added = models.DateTimeField()
+    date_added = models.DateTimeField(null=True)
     topic = models.ForeignKey(Topic, related_name='posts', on_delete=models.CASCADE)
     author = models.ForeignKey(User, related_name='author', on_delete=models.CASCADE)
-
+    
     def __str__(self):
-        return self.author.get_username()
+        return self.title
 
 
 class Team(models.Model):
@@ -101,7 +100,7 @@ class TeamLead(models.Model):
         db_table = "Team Lead"
 
     def __str__(self):
-        return f'{self.user.get_username()} : {self.team.get_team_name()}'
+        return f'{self.team.get_team_name()}'
 
 
 class TeamMember(models.Model):
@@ -112,4 +111,4 @@ class TeamMember(models.Model):
         db_table = "Team Member"
 
     def __str__(self):
-        return f'{self.user.get_username()} : {self.team.get_team_name()}'
+        return f'{self.user.get_username()}'
