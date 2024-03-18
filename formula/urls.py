@@ -7,6 +7,7 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('about/', views.about, name='about'),
     path('profile/', views.show_profile, name='profile'),
+    path('test/', views.testLogoutView),
     #path('search/', views.search_results, name='search'),
     #path('search/?query=<str:search_query>', views.search_query, name='search_query'),
 
