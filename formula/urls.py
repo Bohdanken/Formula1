@@ -11,8 +11,7 @@ urlpatterns = [
     #path('search/?query=<str:search_query>', views.search_query, name='search_query'),
 
     # User authentication URLs
-    path('login/', views.user_login, name='login'),
-    path('logout/', LogoutView.as_view(), name='logout'),
+    #path('login/', views.user_login, name='login'),
     path('register/', views.register, name='register'),
     path('create_post/', views.create_post, name='create_post'),
     path('create_topic/', views.create_topic, name='create_topic'),
