@@ -1,0 +1,29 @@
+{% extends 'formula/base.html' %}
+
+{% load static %}
+
+{% block title %}404{% endblock %}
+
+{% block extra_js %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/error.css' %}?version=0" />
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+	<h1>404</h1>
+		<i>That's an error!</i>
+		<p>
+			The page you requested does not exist.
+		</p>
+		<p>
+			It's possible that it may have have moved
+			or has been removed from the site entirely.<br>
+			If you were brought to this page from within the site,
+			please <a href="mailto:2727599m+FomulaForumSite404@student.gla.ac.uk">let us know</a>.
+		</p>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

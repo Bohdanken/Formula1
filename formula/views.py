@@ -1,22 +1,25 @@
 from datetime import datetime
 
+from django.contrib.auth.views import LogoutView
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from formula.models import *
 from formula.forms import *
 from django.urls import reverse
-from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.db.models.functions import ExtractYear
+from django.urls import reverse, NoReverseMatch
+from django.utils.deprecation import MiddlewareMixin
 
 APP_NAME = 'formula'
+REGISTER_NAME = 'registration'
+
 
 def index(request):
-    years = list(Category.objects.annotate(year=ExtractYear('date_added')).values_list('year', flat=True))
+    years = list(set(Category.objects.annotate(year=ExtractYear('date_added')).values_list('year', flat=True)))
     years.sort(reverse = True)
 
-    if not request.GET.get("year", default = False):
+    if not request.GET.get("year", default=False):
         year = years[0] if years else datetime.now().year
     else:
         year = int(request.GET.get("year"))
@@ -24,16 +27,15 @@ def index(request):
             years.append(year)
             years.sort()
 
-    print(year)
-
     categories = set(Category.objects.annotate(year=ExtractYear('date_added')).filter(year=year))
 
     context_dict = {
-        'years' : years,
-        'current_year_categories' : categories
+        'years': years,
+        'current_year_categories': categories
     }
 
     return render(request, 'formula/index.html', context=context_dict)
+
 
 def about(request):
     text_description = "A forum dedicated to allowing users to communicate and learn about the development, upkeep and use of race cars"
@@ -43,8 +45,7 @@ def about(request):
     context_dict['text'] = text_description
     context_dict['contact'] = contact_email
 
-    return render(request, APP_NAME+'/about.html', context=context_dict)
-
+    return render(request, APP_NAME + '/about.html', context=context_dict)
 
 
 def list_topics(request, category_slug):
@@ -53,36 +54,12 @@ def list_topics(request, category_slug):
     try:
         category = Category.objects.get(slug=category_slug)
         topics = Topic.objects.filter(category=category)
-        context_dict['topics'] = topics
         context_dict['category'] = category
+        context_dict['topics'] = { topic : [{'post' : post, 'pfp' : UserProfile.objects.get(user = post.author).picture} for post in list(sorted(Post.objects.filter(topic=topic), key = lambda post : post.viewership))[:3]] for topic in topics }
+        return render(request, APP_NAME+'/category.html', context=context_dict)
 
     except Category.DoesNotExist:
-        context_dict['topics'] = None
-        context_dict['category'] = None
-
-    ## Dummy data
-    if category_slug == "TEST":
-        context_dict['category'] = {
-            'name' : "TEST",
-            'slug' : "TEST",
-            'description' : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-        }
-        context_dict['topics'] = {
-            type("", (object,), {'name' : 'Topic 1', 'slug' : 'TEST'})() : [
-                {'title' : "post 1", 'slug' : "TEST"},
-                {'title' : "post 2", 'slug' : "TEST"},
-                {'title' : "post 3", 'slug' : "TEST"}
-            ],
-            type("", (object,), {'name' : 'Topic 2', 'slug' : 'TEST'})() : [
-                {'title' : "post 4", 'slug' : "TEST"},
-            ],
-            type("", (object,), {'name' : 'Topic 3', 'slug' : 'TEST'})() : [
-                {'title' : "post 5", 'slug' : "TEST"},
-                {'title' : "post 6", 'slug' : "TEST"}
-            ]
-        }
-
-    return render(request, APP_NAME+'/category.html', context=context_dict)
+        return render(request, APP_NAME+'/category.html', context={}, status=404)
 
 
 def list_posts(request, category_slug, topic_slug):
@@ -94,27 +71,14 @@ def list_posts(request, category_slug, topic_slug):
         context_dict['category'] = category
         context_dict['topic'] = topic
         posts = Post.objects.filter(topic=topic)
-        context_dict['posts'] = posts
+        context_dict['topics'] = {
+            topic : [{'post' : post, 'pfp' : UserProfile.objects.get(user = post.author).picture} for post in posts]
+        }
+
+        return render(request, APP_NAME+'/topic.html', context=context_dict)
 
     except Topic.DoesNotExist:
-        context_dict['category'] = None
-        context_dict['topic'] = None
-        context_dict['posts'] = None
-
-    ## Dummy data
-    if topic_slug == "TEST":
-        context_dict['topic'] = {
-            'name' : "TEST",
-            'description' : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-        }
-        context_dict['posts'] = [
-            {'name' : "post 1"},
-            {'name' : "post 2"},
-            {'name' : "post 3"},
-            {'name' : "post 4"}
-        ]
-
-    return render(request, APP_NAME+'/topic.html', context=context_dict)
+        return render(request, APP_NAME+'/topic.html', context={}, status=404)
 
 
 def display_post(request, category_slug, topic_slug, post_id):
@@ -124,34 +88,12 @@ def display_post(request, category_slug, topic_slug, post_id):
         context_dict['post'] = post
         context_dict['topic'] = post.topic
         context_dict['category'] = post.topic.category
+        context_dict['file_is_image'] = post.file.name.split('.')[-1].lower() in {'apng', 'cur', 'gif', 'ico', 'jfif', 'jpeg', 'jpg', 'pjp', 'pjpeg', 'png', 'svg'}
+        
+        return render(request, APP_NAME+'/post.html', context=context_dict)
     
     except Post.DoesNotExist:
-        context_dict['post'] = None
-        context_dict['topic'] = None
-        context_dict['category'] = None
-
-    # Dummy data
-    if post_id == '0':
-        context_dict['post'] = {
-            'content' : """Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce efficitur vitae nulla sed tincidunt. Quisque justo dui, congue ac dictum id, auctor eget est. Phasellus congue nunc sit amet semper lobortis. Integer dictum ex sed bibendum bibendum. Sed at ullamcorper dui. Etiam id metus et arcu tincidunt mattis ut non ante. Quisque eleifend libero lectus, vitae rutrum turpis bibendum eu. Nulla eros ex, congue sed sem et, dictum mattis nulla. Mauris quis orci sapien. Vestibulum eget varius diam, at scelerisque lorem.
-
-Morbi suscipit, enim sit amet pretium laoreet, risus turpis auctor lectus, et ullamcorper felis massa sed est. Nunc mattis dictum nulla sed volutpat. Vivamus ultricies blandit diam id consectetur. Morbi et orci vel erat suscipit suscipit. Vestibulum pharetra laoreet lectus, lacinia dictum elit suscipit quis. Suspendisse justo enim, pharetra sit amet leo posuere, pulvinar imperdiet lacus. Integer ut sem id turpis interdum volutpat at eu nisi. Donec non nunc venenatis odio semper rhoncus eget a nulla. Mauris aliquam semper iaculis. Donec laoreet mi a ipsum suscipit aliquet. Duis bibendum justo felis, sed maximus enim egestas quis. Vestibulum purus diam, porta id aliquam eu, porttitor vel nibh.
-
-Vivamus ullamcorper, quam eget sodales accumsan, elit justo porta tortor, id placerat diam est nec lacus. Donec tincidunt, sapien non lacinia auctor, risus risus laoreet mauris, rutrum vulputate ipsum dolor non massa. Integer convallis augue vel eros ultrices viverra in in nibh. Nulla at nunc et dolor dictum maximus. Mauris quis fermentum nisi, et sagittis enim. Vestibulum luctus aliquet gravida. Sed convallis orci eu maximus euismod.
-
-Quisque convallis finibus eros. Pellentesque ut auctor magna, in lobortis odio. Nulla at dui tristique, sollicitudin felis et, feugiat tortor. Nam blandit nibh sed quam porta, et suscipit purus porta. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas ultrices venenatis auctor. Aliquam hendrerit lobortis lectus. Suspendisse urna tortor, tempus at hendrerit in, auctor sit amet odio. Pellentesque iaculis erat fringilla ipsum faucibus, nec iaculis felis imperdiet. Aenean diam risus, condimentum a fringilla sit amet, maximus eleifend nunc.
-
-Cras faucibus, nunc scelerisque mattis aliquam, mi augue consequat enim, id commodo neque nisi in elit. Morbi posuere mauris eget erat dignissim, mollis dictum est congue. Curabitur vestibulum semper pellentesque. Aenean eget ipsum vitae quam consequat pellentesque eu et diam. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas ut viverra orci, vitae sollicitudin justo. Nulla commodo iaculis magna, eu ornare leo aliquet consequat. Aliquam sed porttitor arcu, quis dapibus arcu.""",
-            'title' : "Lorem ipsum",
-            'author' : "Someone",
-            'file' : {
-                'name' : "Filename.file",
-                'url' : "/static/images/logo.png"
-            },
-            'file_is_image' : True
-        }
-
-    return render(request, APP_NAME+'/post.html', context=context_dict)
+        return render(request, APP_NAME+'/post.html', context={}, status=404)
 
 
 def query_result(request, title_query):
@@ -159,12 +101,11 @@ def query_result(request, title_query):
 
     posts = Post.objects.filter(title__contains=title_query)
     context_dict['posts'] = posts
-    return render(request, APP_NAME+'/post.html', context=context_dict)
+    return render(request, APP_NAME + '/post.html', context=context_dict)
 
 
 @login_required
 def create_post(request, topic_slug):
-
     try:
         topic = Topic.objects.get(slug=topic_slug)
     except Topic.DoesNotExist:
@@ -172,7 +113,7 @@ def create_post(request, topic_slug):
 
     # You cannot ade a post to a Topic that does not exist
     if topic is None:
-        return redirect(APP_NAME+':index')
+        return redirect(APP_NAME + ':index')
 
     form = PostForm()
 
@@ -183,25 +124,24 @@ def create_post(request, topic_slug):
             if topic:
                 post = form.save(commit=False)
                 post.topic = topic
-                post.author = UserProfile.objects.get(user=request.user)
+                post.author = CustomUser.objects.get(user=request.user)
                 post.date_added = timezone.now()
                 if 'file' in request.FILES:
                     post.file = request.FILES['file']
                 post.save()
 
-                return redirect(reverse(APP_NAME+':display_post', 
-                                        kwargs={'topic_slug':topic_slug}))
-            
+                return redirect(reverse(APP_NAME + ':display_post',
+                                        kwargs={'topic_slug': topic_slug}))
+
         else:
             print(form.errors)
-    
-    context_dict = {'form':form, 'topic':topic}
-    return render(request, APP_NAME+'/add_post.html', context=context_dict)
+
+    context_dict = {'form': form, 'topic': topic}
+    return render(request, APP_NAME + '/add_post.html', context=context_dict)
 
 
 @login_required
 def create_topic(request, category_slug):
-
     try:
         category = Category.objects.get(slug=category_slug)
     except Category.DoesNotExist:
@@ -209,7 +149,7 @@ def create_topic(request, category_slug):
 
     # You cannot ade a post to a Topic that does not exist
     if category is None:
-        return redirect(APP_NAME+':index')
+        return redirect(APP_NAME + ':index')
 
     form = TopicForm()
 
@@ -223,82 +163,66 @@ def create_topic(request, category_slug):
                 topic.date_added = timezone.now()
                 topic.save()
 
-                return redirect(reverse(APP_NAME+':show_topics', 
-                                        kwargs={'category_slug':category_slug}))
-            
+                return redirect(reverse(APP_NAME + ':show_topics',
+                                        kwargs={'category_slug': category_slug}))
+
         else:
             print(form.errors)
-    
-    context_dict = {'form':form, 'topic':category}
-    return render(request, APP_NAME+'/add_post.html', context=context_dict)
+
+    context_dict = {'form': form, 'topic': category}
+    return render(request, APP_NAME + '/add_post.html', context=context_dict)
 
 
+@login_required
 def show_profile(request, username):
     context_dict = {}
 
     try:
-        user = User.objects.get(username=username)
+        user = CustomUser.objects.get(username=username)
         context_dict['user'] = user
-    except UserProfile.DoesNotExist:
+    except CustomUser.DoesNotExist:
         context_dict['user'] = None
 
-    return render(request, APP_NAME+'/profile.html', context=context_dict)
+    return render(request, APP_NAME + '/profile.html', context=context_dict)
 
 
 def register(request):
     registered = False
-    
     if request.method == 'POST':
         user_form = UserForm(request.POST)
-        profile_form = UserProfileForm(request.POST)
-        
-        if user_form.is_valid() and profile_form.is_valid():
+        if user_form.is_valid():
             user = user_form.save()
             user.set_password(user.password)
-            user.save()
-            profile = profile_form.save(commit=False)
-            profile.user = user
-
             if 'picture' in request.FILES:
-                profile.picture = request.FILES['picture']
+                user.picture = request.FILES['picture']
 
-            profile.save()
+            user.save()
             registered = True
-        
+
         else:
-            print(user_form.errors, profile_form.errors)
-    
+            print(user_form.errors, user_form.errors)
+
     else:
         user_form = UserForm()
-        profile_form = UserProfileForm()
 
     # Render the template depending on the context.
-    return render(request, APP_NAME+'/register.html', context={'user_form': user_form,
-                                                           'profile_form': profile_form,
-                                                           'registered': registered })
+    return render(request, REGISTER_NAME + '/register.html', context={'user_form': user_form,
+                                                                      'registered': registered})
 
 
-def user_login(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
+def testLogoutView(request):
+    return render(request, REGISTER_NAME + '/logout.html', context={})
 
-        user = authenticate(username=username, password=password)
 
-        if user:
+class CustomLogoutView(LogoutView):
+    template_name = 'registration/logout.html'
 
-            if user.is_active:
-                login(request, user)
-                return redirect(reverse(APP_NAME+':index'))
-            else:
-                return HttpResponse(f"Your {APP_NAME.capitalize} account is disabled.")
-        
-        else:
-            print(f"Invalid login details: {username}, {password}")
-            return HttpResponse("Invalid login details supplied")
-        
-    else:
-        return render(request, APP_NAME+'/login.html')
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            # User is not authenticated, redirect to login page or any other page
+            return redirect('login')  # Assuming you have a URL named 'login'
+        # User is authenticated, proceed with the normal LogoutView flow
+        return super().dispatch(request, *args, **kwargs)
 
 def show_team(request, team_slug):
     context_dict = {
@@ -311,9 +235,9 @@ Aenean vitae imperdiet metus, ut efficitur tortor. Sed faucibus varius lorem, al
 Pellentesque id euismod metus, eget hendrerit felis. Vestibulum et felis in metus semper feugiat ac sit amet mauris. Nulla facilisi. Quisque vitae nisi vitae turpis consequat ultrices. Integer ut felis in nisi faucibus sagittis. Nam erat mauris, posuere non lobortis non, lacinia id nunc. Maecenas tincidunt tellus ut purus blandit, et viverra sapien pretium. Sed elementum sem a ante vehicula semper. Ut a elementum massa. Nullam malesuada augue dignissim nibh facilisis, eu efficitur lacus ullamcorper. Praesent sodales diam ac tortor congue, vel tristique lectus aliquam."""
         },
         'team_lead' : {
-            'user' : (team_lead := User.objects.order_by('?')[0]),
+            'user' : (team_lead := CustomUser.objects.order_by('?')[0]),
         },
-        'team_members' : [{'user' : user} for user in User.objects.all().exclude(id=team_lead.id)],
+        'team_members' : [{'user' : user} for user in CustomUser.objects.all().exclude(email=team_lead.email)],
         'topics' : Topic.objects.order_by('?')[:5]
     }
     return render(request, APP_NAME+'/team.html', context=context_dict)

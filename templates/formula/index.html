@@ -24,7 +24,7 @@
 		</div>
 		<div id="tabs-display-content" class="category">
 			{% for category in current_year_categories %}
-				<a href="TEST">{{ category.name }}</a>
+				<a href="{% url 'formula:topics' category.slug %}">{{ category.name }}</a>
 			{% empty %}
 				<div>There were no categories for this year</div>
 			{% endfor %}

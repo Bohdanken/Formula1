@@ -1,11 +1,11 @@
-h1, p {
+h1, p, h3 {
 	color: var(--white-text-color);
 }
 
 h1 {
-	margin-bottom: 1ex;
-	width: 100%;
 	text-align: center;
+	width: 100%;
+	margin-bottom: 1ex;
 }
 
 p {
@@ -31,4 +31,38 @@ hr {
 	margin: 0;
 	border-color: rgba(0, 0, 0, 0.25);
 	border-style: solid;
+}
+
+.view-topic-page {
+	background-color: #25425F !Important;
+}
+
+.above-list {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: space-around;
+}
+
+.above-list > a {
+	margin-top: auto;
+	margin-bottom: auto;
+	height: 1em;
+	text-align: center;
+	vertical-align: middle;
+	color: yellow;
+	flex-grow: 1;
+	flex-basis: 0;
+}
+
+img.pfp {
+	border-radius: 50%;
+	width: 2em;
+	height: 2em;
+}
+
+.author-details > div {
+	display: inline-block;
+	height: 100%;
+	vertical-align: top;
 }

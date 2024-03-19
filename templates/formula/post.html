@@ -1,6 +1,6 @@
 {% extends 'formula/base.html' %}
 
-{% load staticfiles %}
+{% load static %}
 
 {% block title %}{% if post %}{{ post.title }}{% else %}{{ 404 }}{% endif %}{% endblock %}
 
@@ -24,7 +24,7 @@
 		{% endfor %}
 		{% if post.file %}
 			<hr>
-			{% if post.file_is_image %}
+			{% if file_is_image %}
 				<div class="imagename">Attached image: <a href="{{ post.file.url }}">{{ post.file.name }}</a></div>
 				<a href="{{ post.file.url }}" class="image-link">
 					<img src="{{ post.file.url }}" alt="{{ post.file.name }}" />

@@ -1,6 +1,6 @@
 from django.urls import path
 from formula import views
-
+from django.contrib.auth.views import LogoutView
 app_name = 'formula'
 
 urlpatterns = [
@@ -8,12 +8,15 @@ urlpatterns = [
     path('about/', views.about, name='about'),
     path('profile/', views.show_profile, name='profile'),
     path('team/<slug:team_slug>/', views.show_team, name='team'),
+    path('test/', views.testLogoutView),
     #path('search/', views.search_results, name='search'),
     #path('search/?query=<str:search_query>', views.search_query, name='search_query'),
 
     # User authentication URLs
-    path('login/', views.user_login, name='login'),
+    #path('login/', views.user_login, name='login'),
     path('register/', views.register, name='register'),
+    path('create_post/', views.create_post, name='create_post'),
+    path('create_topic/', views.create_topic, name='create_topic'),
     #path('logout/', views.user_logout, name='logout'),
     #path('edit-profile/', views.edit_profile, name='edit_profile'),
     #path('profile-settings/', views.profile_settings, name='profile_settings'),

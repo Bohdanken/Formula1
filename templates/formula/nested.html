@@ -1,0 +1,63 @@
+{% extends 'formula/base.html' %}
+
+{% load static %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block extra_js %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/nested.css' %}?version=0" />
+	<link rel="stylesheet" type="text/css" href="{% static 'css/List.css' %}?version=0" />
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+	<h1>{{ title }}</h1>
+		<p>{{ description }}</p>
+		<hr>
+		<div class="above-list">
+			<a {% if topic %}href="{% url 'formula:topics' category.slug%}">View category page{% else %} href="{% url 'formula:index'%}">View all categories{% endif %}</a>
+			<h3>{% if topic %}Posts under this topic{% else %}Topics under this category{% endif %}</h3>
+			<a {% if topic %}href="">Create post{% else %}href="">Create topic{% endif %}</a>
+		</div>
+		{% for topic, posts in topics.items %}
+			<div class="category">
+				<div>
+					{{ topic.name }}
+				</div>
+				{% if view_topic_page %}
+					<a href="{% url 'formula:posts' category.slug topic.slug %}" class="view-topic-page">
+						View topic page
+					</a>
+				{% endif %}
+				{% for post_data in posts %}
+					<a  href="{% url 'formula:post' category.slug topic.slug post_data.post.id %}">
+						<span>{{ post_data.post.title }}</span>
+						<div class="space"></div>
+						<div class="post-details" style="width: 3cm;">
+							{{ post_data.post.date_added }}
+						</div>
+						<hr>
+						<div class="author-details" style="width: 4cm;">
+							<img src="{{ post_data.pfp.url }}" alt="pfp" class="pfp"/>
+							<div>{{ post_data.post.author.username }}</div>
+						</div>
+					</a>
+				{% empty %}
+					<div>
+						There are no posts under this topic :(
+					</div>
+				{% endfor %}
+			</div>
+		{% empty %}
+			<div class="category">
+				<div>
+					There are no topics under this category :(
+				</div>
+			</div>
+		{% endfor %}
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
