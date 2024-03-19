@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+{% extends 'formula/base.html' %}
+<html lang="en">
+{% block title %}UGR Board{% endblock %}
+{% block content %}
+<div class="login-container">
+    <div class="login-header">
+        <h1><a href="{% url 'login' %}" class="create-account-link">Login</a> or Create an account</h1>
+    </div>
+    <form method="post" action="{% url 'formula:register' %}" class="login-form">
+        {% csrf_token %}
+        {% for field in user_form %}
+    <div class="form-group">
+        {{ field.label_tag }}
+        {{ field }}
+        {% if field.errors %}
+            <div class="errorlist">{{ field.errors }}</div>
+        {% endif %}
+    </div>
+{% endfor %}
+        <input type="submit" value="Register" class="login-button"> <!-- Adjusted the button text -->
+    </form>
+</div>
+
+{% endblock %}
+
+{% block footer %}
+
+{% endblock %}

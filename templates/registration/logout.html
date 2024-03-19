@@ -1,10 +1,22 @@
 {% extends 'formula/base.html' %}
-{% block title_block %}
-Logged Out
+
+{% block title %}Logged Out - Your Site{% endblock %}
+
+{% block extra_js %}
+    <!-- If you have specific JavaScript files for the logout page, include them here -->
 {% endblock %}
-{% block body_block %}
-<h1>Logged Out</h1>
-<p>
-You have been successfully logged out. Thanks for spending time on Rango!
-</p>
+
+
+{% block content %}
+<div class="logout-container">
+    <h1>Logged Out</h1>
+    <p>You have successfully logged out of your account.</p>
+    <a href="{% url 'login' %}" class="logout-link">Log In Again</a>
+    <br><br>
+    <a href="{% url 'index' %}" class="logout-link">Return to Home Page</a>
+</div>
+{% endblock %}
+
+{% block footer %}
+    <!-- Your custom footer for the logout page, if different from the base template -->
 {% endblock %}

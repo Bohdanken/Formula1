@@ -7,23 +7,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Your Site{% endblock %}</title>
-    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/style.css?v=1.1">
 </head>
 <body>
 <header>
-
     <div class="logo-container">
         <img src="/static/images/logo.png" class="logo-img1" alt="Shit">
         <img src='/static/images/Car.png' class="logo-img1 logo-img2" alt="Double shit">
     </div>
     <div class="navigation-bar">
-        <div class="breadcrumb">
-            <a href="{% url 'formula:about' %}">Home</a> » <span>Forums</span>
+       <div class="breadcrumb">
+            {% for url, name in request.breadcrumbs %}
+                &rsaquo; <a href="{{ url }}">{{ name }}</a>
+            {% endfor %}
         </div>
+
         <div class="header-links">
-            <a href="#" class="header-link">?</a>
-            <a href="#" class="header-link">👤</a>
-            <a href="#" class="header-link">➕</a>
+            <a href="{%url 'formula:about' %}" class="header-link">?</a>
+            <a href="{%url 'formula:profile' %}" class="header-link">👤</a>
+            <a href="{%url 'formula:about' %}" class="header-link">➕</a>
+            <a href="{% url 'logout' %}" class="header-link">🚪</a>
         </div>
     </div>
         {% block header %}
