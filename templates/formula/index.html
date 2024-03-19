@@ -5,6 +5,7 @@
 {% block extra_js %}
 	<link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}?version=0">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/List.css' %}?version=0">
+	<script type="text/javascript" src="{% static 'js/tabs.js' %}?version=0"></script>
 	<script type="text/javascript" src="{% static 'js/index.js' %}?version=0"></script>
 {% endblock %}
 
@@ -16,7 +17,7 @@
 		<div id="tabs-bar">
 			<ul>
 				{% for year in years %}
-					<li class="tab{% if forloop.counter0 == 0 %} active{% endif %}" onclick="set_active_tab({{ forloop.counter0 }})">
+					<li class="tab{% if forloop.counter0 == 0 %} active{% endif %}" onclick="set_active_tab({{ forloop.counter0 }}, update_categories)">
 						{{ year }}
 					</li>
 				{% endfor %}

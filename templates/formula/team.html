@@ -6,9 +6,9 @@
 
 {% block extra_js %}
 	<link rel="stylesheet" type="text/css" href="{% static 'css/team.css' %}?version=0" />
-	<script src="{% static 'js/team.js' %}?version=0"></script>
-	
 	<link rel="stylesheet" type="text/css" href="{% static 'css/List.css' %}?version=0" />
+	<script type="text/javascript" src="{% static 'js/tabs.js' %}?version=0"></script>
+	<script src="{% static 'js/team.js' %}?version=0"></script>
 {% endblock %}
 
 {% block header %}
@@ -30,11 +30,11 @@
 	<div id="tabs-display">
 		<div id="tabs-bar">
 			<ul>
-				<li class="tab active" onclick="set_active_tab(0);">
+				<li class="tab active" onclick="set_active_tab(0, update_profile);">
 					{{ team_lead.user.username }}
 				</li>
 				{% for team_member in team_members %}
-					<li class="tab" onclick="set_active_tab({{ forloop.counter0 }} + 1);">
+					<li class="tab" onclick="set_active_tab({{ forloop.counter0 }} + 1, update_profile);">
 						{{ team_member.user.username }}
 					</li>
 				{% endfor %}
