@@ -172,6 +172,7 @@ def populate():
 
 # Entry point
 if __name__ == '__main__':
+
     print("Starting population script...")
     populate()
     print("Database populated successfully!")

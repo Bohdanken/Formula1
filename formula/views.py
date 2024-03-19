@@ -17,7 +17,7 @@ REGISTER_NAME = 'registration'
 
 def index(request):
     years = list(set(Category.objects.annotate(year=ExtractYear('date_added')).values_list('year', flat=True)))
-    years.sort(reverse=True)
+    years.sort(reverse = True)
 
     if not request.GET.get("year", default=False):
         year = years[0] if years else datetime.now().year
@@ -55,14 +55,11 @@ def list_topics(request, category_slug):
         category = Category.objects.get(slug=category_slug)
         topics = Topic.objects.filter(category=category)
         context_dict['category'] = category
-        context_dict['topics'] = {
-            topic: [{'post': post, 'pfp': CustomUser.objects.get(user=post.author).picture} for post in
-                    list(sorted(Post.objects.filter(topic=topic), key=lambda post: post.viewership))[:3]] for topic in
-            topics}
-        return render(request, APP_NAME + '/category.html', context=context_dict)
+        context_dict['topics'] = { topic : [{'post' : post, 'pfp' : UserProfile.objects.get(user = post.author).picture} for post in list(sorted(Post.objects.filter(topic=topic), key = lambda post : post.viewership))[:3]] for topic in topics }
+        return render(request, APP_NAME+'/category.html', context=context_dict)
 
     except Category.DoesNotExist:
-        return render(request, APP_NAME + '/category.html', context={}, status=404)
+        return render(request, APP_NAME+'/category.html', context={}, status=404)
 
 
 def list_posts(request, category_slug, topic_slug):
@@ -75,13 +72,13 @@ def list_posts(request, category_slug, topic_slug):
         context_dict['topic'] = topic
         posts = Post.objects.filter(topic=topic)
         context_dict['topics'] = {
-            topic: [{'post': post, 'pfp': CustomUser.objects.get(user=post.author).picture} for post in posts]
+            topic : [{'post' : post, 'pfp' : UserProfile.objects.get(user = post.author).picture} for post in posts]
         }
 
-        return render(request, APP_NAME + '/topic.html', context=context_dict)
+        return render(request, APP_NAME+'/topic.html', context=context_dict)
 
     except Topic.DoesNotExist:
-        return render(request, APP_NAME + '/topic.html', context={}, status=404)
+        return render(request, APP_NAME+'/topic.html', context={}, status=404)
 
 
 def display_post(request, category_slug, topic_slug, post_id):
@@ -91,14 +88,12 @@ def display_post(request, category_slug, topic_slug, post_id):
         context_dict['post'] = post
         context_dict['topic'] = post.topic
         context_dict['category'] = post.topic.category
-        context_dict['file_is_image'] = post.file.name.split('.')[-1].lower() in {'apng', 'cur', 'gif', 'ico', 'jfif',
-                                                                                  'jpeg', 'jpg', 'pjp', 'pjpeg', 'png',
-                                                                                  'svg'}
-
-        return render(request, APP_NAME + '/post.html', context=context_dict)
-
+        context_dict['file_is_image'] = post.file.name.split('.')[-1].lower() in {'apng', 'cur', 'gif', 'ico', 'jfif', 'jpeg', 'jpg', 'pjp', 'pjpeg', 'png', 'svg'}
+        
+        return render(request, APP_NAME+'/post.html', context=context_dict)
+    
     except Post.DoesNotExist:
-        return render(request, APP_NAME + '/post.html', context={}, status=404)
+        return render(request, APP_NAME+'/post.html', context={}, status=404)
 
 
 def query_result(request, title_query):
