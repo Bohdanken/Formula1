@@ -10,11 +10,6 @@ from random import randint
 from formula.models import *
 from db_dummy import *
 
-# GENERIC FIELDS
-GENERIC_DESC = "This object is created as part of populate_db.py testing. This description is generic and is the same for all object. Object should be deleted before deployment."
-GENERIC_PASSWORD = "abcdefg"
-
-
 def add_category(name, description, date_added, parent):
     c = Category.objects.get_or_create(name=name)[0]
     c.description = description
@@ -100,7 +95,7 @@ def create_dummy_categories() -> dict:
     categories_dict = {}
     
     def generate_cd(category:dict):
-        category['description'] = GENERIC_DESC
+        category['description'] = GenericField.DESC
         category['date_added'] = timezone.now()
         categories_dict[category['name']] = category
 
@@ -121,7 +116,7 @@ def create_dummy_topics() -> dict:
     #                                 }
     
     def generate_td(topic:dict):
-        topic['description'] = GENERIC_DESC
+        topic['description'] = GenericField.DESC
         topic['date_added'] = timezone.now()
         topics_dict[topic['name']] = topic
 
@@ -144,7 +139,7 @@ def __create_dummy_users_only():
     users_dict = {}
 
     def generate_ud(user:dict):
-        user['password'] = GENERIC_PASSWORD
+        user['password'] = GenericField.PASSWORD
         users_dict[user['username']] = user
 
     for user in UserDummy.USERS:
@@ -156,7 +151,7 @@ def __create_dummy_profiles():
     profiles_dict = {}
 
     def generate_up(profile:dict):
-        profile['bio'] = GENERIC_DESC
+        profile['bio'] = GenericField.DESC
         profile['is_admin'] = False
         profiles_dict[profile['username']] = profile
     
@@ -186,8 +181,8 @@ def create_dummy_post():
     def generate_pd(post:dict):
         nonlocal counter
         counter += 1
-        post['description'] = GENERIC_DESC
-        post['content'] = PostDummy.GENERIC_CONTENT
+        post['description'] = GenericField.DESC
+        post['content'] = GenericField.CONTENT
         post['viewership'] = randint(0,42)
         post['date_added'] = timezone.now()
         posts_dict[f'post-{counter}'] = post
@@ -202,7 +197,7 @@ def create_dummy_team():
     teams_dict = {}
 
     def generate_tm(team:dict):
-        team['description'] = GENERIC_DESC
+        team['description'] = GenericField.DESC
         teams_dict[team['name']] = team
     
     for team in TeamDummy.TEAMS:
@@ -215,7 +210,7 @@ def create_dummy_team():
 def test_add_category():
 
     test_category = add_category(name='Test Category',
-                 description=GENERIC_DESC,
+                 description=GenericField.DESC,
                  date_added=timezone.now(),
                  parent=CategoryDummy.ROOT_PARENT.GENERAL
                  )
@@ -224,7 +219,7 @@ def test_add_category():
 
 def test_add_topic(category:Category):
     test_topic = add_topic(name='Fake Topic',
-              description=GENERIC_DESC,
+              description=GenericField.DESC,
               date_added=timezone.now(),
               category_name=category
               )
@@ -234,7 +229,7 @@ def test_add_topic(category:Category):
 def test_add_user():
     test_user = add_user(username='normaluser', 
              email='noadmin@privileges.com', 
-             password=GENERIC_PASSWORD, 
+             password=GenericField.PASSWORD, 
              first_name='Normal', 
              last_name='User', 
              student_id=1111111, 
@@ -246,8 +241,8 @@ def test_add_user():
 
 def test_add_post(topic:Topic, author:User):
     test_post = add_post(title='It\'s a dummy post, Dummy!',
-                         description=GENERIC_DESC,
-                         content=PostDummy.GENERIC_CONTENT,
+                         description=GenericField.DESC,
+                         content=GenericField.CONTENT,
                          viewership=1,
                          date_added=timezone.now(),
                          topic_name=topic.name,
@@ -257,7 +252,7 @@ def test_add_post(topic:Topic, author:User):
 
 def test_add_team():
     test_team = add_team(name='Ferrari Test Drive',
-                         description=GENERIC_DESC)
+                         description=GenericField.DESC)
     print(f'TEST: TEAM add succesful - {test_team.name}')
     return test_team
 
@@ -283,7 +278,7 @@ def save_user_profiles(user_profiles_dict:dict):
     for usp_data in user_profiles_dict.values():
         added_profile = add_user(username=usp_data['username'],
                                  email=usp_data['email'],
-                                 password=GENERIC_PASSWORD,
+                                 password=GenericField.PASSWORD,
                                  first_name=usp_data['first_name'],
                                  last_name=usp_data['last_name'],
                                  student_id=usp_data['student_id'],

@@ -1,5 +1,11 @@
 from formula.models import Category
+from django.utils import timezone
 
+class GenericField():
+    DESC = "This object is created as part of populate_db.py testing. This description is generic and is the same for all object. Object should be deleted before deployment."
+    PASSWORD = "abcdefg"
+    CONTENT = 'This is a generic content. Please delete before deployment.'
+    
 class CategoryDummy():
     ROOT_PARENT = Category.Parent
 
@@ -273,7 +279,6 @@ class TeamDummy():
     ]
 
 class PostDummy():
-    GENERIC_CONTENT = 'This is a generic content. Please delete before deployment.'
     TOP_CALL_KEY = 'name'
     USR_CALL_KEY = 'username'
 
