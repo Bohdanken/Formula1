@@ -2,10 +2,13 @@ from formula.models import Category
 from django.utils import timezone
 
 class GenericField():
-    DESC = "This object is created as part of populate_db.py testing. This description is generic and is the same for all object. Object should be deleted before deployment."
+    DESC = "This object is created as part of populate_db.py testing.\
+            This description is generic and is the same for all object.\
+             Object should be deleted before deployment."
     PASSWORD = "abcdefg"
     CONTENT = 'This is a generic content. Please delete before deployment.'
-    
+    IS_ADMIN = False
+
 class CategoryDummy():
     ROOT_PARENT = Category.Parent
 
@@ -346,8 +349,9 @@ class PostDummy():
     ]
 
 class TeamMemberDummy():
-    TEM_CALL_KEY = 'name'
+    
     USR_CALL_KEY = 'username'
+    TEM_CALL_KEY = 'name'
 
     TEAM_MEMBERS = [
         BOBBYKEREN_VENCERA := {
@@ -369,5 +373,51 @@ class TeamMemberDummy():
         ALICEWOND_THUNDERBOLT := {
             'user': UserDummy.ALICEWOND[USR_CALL_KEY],
             'team': TeamDummy.THUNDERBOLT[TEM_CALL_KEY],
+        },
+    ]
+
+class CustomUserDummy():
+    CUSTOM_USERS = [
+        BOBBYKEREN := {
+            'username': 'bobbykeren',
+            'email': 'bobbykeren@example.com',
+            'first_name': 'Bobby',
+            'last_name': 'Keren',
+            'student_id': '2347773',          
+        }, 
+        JEFFREYMULLOC := {
+            'username': 'jeffreymulloc',
+            'email': 'jeffr4y@gmail.com',
+            'first_name': 'Jeffrey',
+            'last_name': 'Mulloc',
+            'student_id': '2748235',          
+        },
+        ALICEWOND := {
+            'username': 'alicewond',
+            'email': 'alicewond@example.com',
+            'first_name': 'Alice',
+            'last_name': 'Wond',
+            'student_id': '2018551',          
+        },
+        DANNYBOY := {
+            'username': 'dannyboy',
+            'email': 'dannyboy@example.com',
+            'first_name': 'Danny',
+            'last_name': 'Boy',
+            'student_id': '2345678',          
+        },
+        SARAHJANE := {
+            'username': 'sarahjane',
+            'email': 'sarahjane@example.com',
+            'first_name': 'Sarah',
+            'last_name': 'Jane',
+            'student_id': '2980477',          
+        },
+        MICHAELSCOTT := {
+            'username': 'michaelscott',
+            'email': 'michaelscott@example.com',
+            'first_name': 'Michael',
+            'last_name': 'Scott',
+            'student_id': '2348778',          
         },
     ]

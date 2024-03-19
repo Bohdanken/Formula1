@@ -174,6 +174,19 @@ def create_dummy_user_profiles():
 
     return user_profiles_dict
 
+def create_dummy_custom_users():
+    custom_users_dict = {}
+
+    def generate_cu(custom_users:dict):
+        custom_users['bio'] = GenericField.DESC
+        custom_users['is_admin'] = GenericField.IS_ADMIN
+        custom_users_dict[custom_users['username']] = custom_users
+
+    for custom_user in CustomUserDummy.CUSTOM_USERS:
+        generate_cu(custom_user)
+
+    return custom_users_dict
+
 def create_dummy_post():
     posts_dict = {}
     counter = 0
@@ -255,6 +268,9 @@ def test_add_team():
                          description=GenericField.DESC)
     print(f'TEST: TEAM add succesful - {test_team.name}')
     return test_team
+
+def test_add_custom_user():
+    pass
 
 # ---------------------------------------------------------
 
