@@ -1,18 +1,16 @@
 {% extends 'formula/base.html' %}
 {% load static %}
 
-{% block title_block %}
-About Rango
+{% block title %}
+    About FormulaU
 {% endblock %}
-{% block body_block %}
-<h1>Rango says..</h1>
-<div>
-    here is the about page.<br />
-    <strong>{{ boldmessage }}</strong><br />
-</div>
 
-<div>
-    <img src="{{MEDIA_URL}}cat.jpg" alt = "Picture of a cat"/>
-    <img src="{% static 'images/rango.jpg' %}" alt ="Picture of Rango"/>
+{% block content %}
+<div class="about-container" style="color: white;">
+    <h1>About FormulaU Racing Team</h1>
+    <p>
+        {{ text_description }}
+    </p>
+    <p>Contact us: <a href="mailto:{{ contact_email }}" style="color: white;">{{ contact_email }}</a></p>
 </div>
 {% endblock %}

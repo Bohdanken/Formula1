@@ -38,12 +38,11 @@ def index(request):
 
 
 def about(request):
-    text_description = "A forum dedicated to allowing users to communicate and learn about the development, upkeep and use of race cars"
-    contact_email = "2345678@student.gla.ac.uk"
 
-    context_dict = {}
-    context_dict['text'] = text_description
-    context_dict['contact'] = contact_email
+    context_dict = {
+        'text_description' : "A forum dedicated to allowing users to communicate and learn about the development, upkeep and use of race cars. For Racers, by Racers.",
+        'contact_email' : "formulau1@outlook.com"
+    }
 
     return render(request, APP_NAME + '/about.html', context=context_dict)
 
