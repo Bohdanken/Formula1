@@ -145,10 +145,6 @@ def create_topic(request, category_slug):
     try:
         category = Category.objects.get(slug=category_slug)
     except Category.DoesNotExist:
-        category = None
-
-    # You cannot ade a post to a Topic that does not exist
-    if category is None:
         return redirect(APP_NAME + ':index')
 
     form = TopicForm()
@@ -163,14 +159,14 @@ def create_topic(request, category_slug):
                 topic.date_added = timezone.now()
                 topic.save()
 
-                return redirect(reverse(APP_NAME + ':show_topics',
-                                        kwargs={'category_slug': category_slug}))
+                return redirect(reverse(APP_NAME + ':posts',
+                                        kwargs={'category_slug': category_slug, 'topic_slug' : topic.slug}))
 
         else:
             print(form.errors)
 
-    context_dict = {'form': form, 'topic': category}
-    return render(request, APP_NAME + '/add_post.html', context=context_dict)
+    context_dict = {'form': form, 'category': category}
+    return render(request, APP_NAME + '/create-topic.html', context=context_dict)
 
 
 @login_required
