@@ -1,0 +1,382 @@
+{
+    "CategoryDummy": {
+      "ROOT_PARENT": "Category.Parent",
+      "CATEGORIES": [
+        {
+          "name": "Engineering Project",
+          "parent": "ROOT_PARENT.EVEHICLE"
+        },
+        {
+          "name": "Design",
+          "parent": "ROOT_PARENT.GENERAL"
+        },
+        {
+          "name": "Software Development",
+          "parent": "ROOT_PARENT.EVEHICLE"
+        },
+        {
+          "name": "Business Operations",
+          "parent": "ROOT_PARENT.OPERATION"
+        },
+        {
+          "name": "Research and Development",
+          "parent": "ROOT_PARENT.EVEHICLE"
+        },
+        {
+          "name": "Testing",
+          "parent": "ROOT_PARENT.EVEHICLE"
+        },
+        {
+          "name": "Marketing",
+          "parent": "ROOT_PARENT.OPERATION"
+        },
+        {
+          "name": "Finance",
+          "parent": "ROOT_PARENT.OPERATION"
+        },
+        {
+          "name": "Events",
+          "parent": "ROOT_PARENT.OPERATION"
+        },
+        {
+          "name": "Education",
+          "parent": "ROOT_PARENT.GENERAL"
+        },
+        {
+          "name": "Community Outreach",
+          "parent": "ROOT_PARENT.OPERATION"
+        }
+      ]
+    },
+    "TopicDummy": {
+      "CAT_CALL_KEY": "name",
+      "TOPICS": [
+        {
+          "name": "Vehicle Design",
+          "category": "Design"
+        },
+        {
+          "name": "Graphic Design",
+          "category": "Design"
+        },
+        {
+          "name": "Aerodynamics",
+          "category": "Engineering Project"
+        },
+        {
+          "name": "Chassis Design",
+          "category": "Engineering Project"
+        },
+        {
+          "name": "Powertrain",
+          "category": "Engineering Project"
+        },
+        {
+          "name": "Suspension",
+          "category": "Engineering Project"
+        },
+        {
+          "name": "Electronics",
+          "category": "Engineering Project"
+        },
+        {
+          "name": "Materials",
+          "category": "Engineering Project"
+        },
+        {
+          "name": "Testing and Simulation",
+          "category": "Engineering Project"
+        },
+        {
+          "name": "Sponsorship",
+          "category": "Business Operations"
+        },
+        {
+          "name": "Event Management",
+          "category": "Business Operations"
+        },
+        {
+          "name": "Market Research",
+          "category": "Research and Development"
+        },
+        {
+          "name": "Product Development",
+          "category": "Research and Development"
+        },
+        {
+          "name": "Financial Planning",
+          "category": "Finance"
+        },
+        {
+          "name": "Budgeting",
+          "category": "Finance"
+        },
+        {
+          "name": "Advertising",
+          "category": "Marketing"
+        },
+        {
+          "name": "Public Relations",
+          "category": "Marketing"
+        },
+        {
+          "name": "Software Engineering",
+          "category": "Software Development"
+        },
+        {
+          "name": "Data Analysis",
+          "category": "Software Development"
+        },
+        {
+          "name": "Community Outreach",
+          "category": "Community Outreach"
+        },
+        {
+          "name": "Educational Programs",
+          "category": "Education"
+        }
+      ]
+    },
+    "UserDummy": {
+      "USERS": [
+        {
+          "username": "jeffreymulloc",
+          "email": "jeffr4y@gmail.com",
+          "first_name": "Jeffrey",
+          "last_name": "Mulloc"
+        },
+        {
+          "username": "bobbykeren",
+          "email": "bob@ed.uk",
+          "first_name": "Bob",
+          "last_name": "Keren"
+        },
+        {
+          "username": "alicewond",
+          "email": "alice@gmail.com",
+          "first_name": "Alice",
+          "last_name": "Wond"
+        },
+        {
+          "username": "dannyboy",
+          "email": "danny@web.com",
+          "first_name": "Danny",
+          "last_name": "Boy"
+        },
+        {
+          "username": "sarahjane",
+          "email": "sarah@gmail.com",
+          "first_name": "Sarah",
+          "last_name": "Jane"
+        },
+        {
+          "username": "michaelscott",
+          "email": "michael@dundermifflin.com",
+          "first_name": "Michael",
+          "last_name": "Scott"
+        }
+      ]
+    },
+    "UserProfileDummy": {
+      "USR_CALL_KEY": "username",
+      "USER_PROFILES": [
+        {
+          "username": "bobbykeren",
+          "student_id": "2347773"
+        },
+        {
+          "username": "jeffreymulloc",
+          "student_id": "2748235"
+        },
+        {
+          "username": "alicewond",
+          "student_id": "2018551"
+        },
+        {
+          "username": "dannyboy",
+          "student_id": "2345678"
+        },
+        {
+          "username": "sarahjane",
+          "student_id": "2980477"
+        },
+        {
+          "username": "michaelscott",
+          "student_id": "2348778"
+        }
+      ]
+    },
+    "TeamDummy": {
+      "TEAMS": [
+        {
+          "name": "Vencera Racing"
+        },
+        {
+          "name": "Alusis Motor Team"
+        },
+        {
+          "name": "Speedforce Racing"
+        },
+        {
+          "name": "Titan Motorsport"
+        },
+        {
+          "name": "Crimson Racing"
+        },
+        {
+          "name": "Blaze Speedsters"
+        },
+        {
+          "name": "Thunderbolt Racing"
+        },
+        {
+          "name": "Nova Velocity Racing"
+        },
+        {
+          "name": "Aurora Racing"
+        },
+        {
+          "name": "Dragon Fury Racing"
+        }
+      ]
+    },
+    "PostDummy": {
+      "TOP_CALL_KEY": "name",
+      "USR_CALL_KEY": "username",
+      "POSTS": [
+        {
+          "title": "Help! Error in Git Push",
+          "topic": "Data Analysis",
+          "author": "jeffreymulloc"
+        },
+        {
+          "title": "Vencera Wins F1inSchool",
+          "topic": "Educational Programs",
+          "author": "alicewond"
+        },
+        {
+          "title": "Join Our Racing Team!",
+          "topic": "Community Outreach",
+          "author": "michaelscott"
+        },
+        {
+          "title": "Design Challenge Announcement",
+          "topic": "Vehicle Design",
+          "author": "jeffreymulloc"
+        },
+        {
+          "title": "Announcing Our New Software Release",
+          "topic": "Software Engineering",
+          "author": "bobbykeren"
+        },
+        {
+          "title": "Promotion Event Tomorrow!",
+          "topic": "Event Management",
+          "author": "sarahjane"
+        },
+        {
+          "title": "Data Analysis Workshop Registration Open",
+          "topic": "Educational Programs",
+          "author": "jeffreymulloc"
+        },
+        {
+          "title": "Critical Bug Fix Released",
+          "topic": "Software Engineering",
+          "author": "jeffreymulloc"
+        },
+        {
+          "title": "Participate in Our Market Research Survey",
+          "topic": "Market Research",
+          "author": "sarahjane"
+        },
+        {
+          "title": "Design Competition Announcement",
+          "topic": "Graphic Design",
+          "author": "michaelscott"
+        },
+        {
+          "title": "Exciting News: New Product Launch!",
+          "topic": "Product Development",
+          "author": "alicewond"
+        },
+        {
+          "title": "Quarterly Financial Report Released",
+          "topic": "Financial Planning",
+          "author": "michaelscott"
+        }
+      ]
+    },
+    "TeamMemberDummy": {
+      "USR_CALL_KEY": "username",
+      "TEM_CALL_KEY": "name",
+      "TEAM_MEMBERS": [
+        {
+          "user": "bobbykeren",
+          "team": "Vencera Racing"
+        },
+        {
+          "user": "michaelscott",
+          "team": "Alusis Motor Team"
+        },
+        {
+          "user": "alicewond",
+          "team": "Speedforce Racing"
+        },
+        {
+          "user": "dannyboy",
+          "team": "Blaze Speedsters"
+        },
+        {
+          "user": "alicewond",
+          "team": "Thunderbolt Racing"
+        }
+      ]
+    },
+    "CustomUserDummy": {
+      "CUSTOM_USERS": [
+        {
+          "username": "bobbykeren",
+          "email": "bobbykeren@example.com",
+          "first_name": "Bobby",
+          "last_name": "Keren",
+          "student_id": "2347773"
+        },
+        {
+          "username": "jeffreymulloc",
+          "email": "jeffr4y@gmail.com",
+          "first_name": "Jeffrey",
+          "last_name": "Mulloc",
+          "student_id": "2748235"
+        },
+        {
+          "username": "alicewond",
+          "email": "alicewond@example.com",
+          "first_name": "Alice",
+          "last_name": "Wond",
+          "student_id": "2018551"
+        },
+        {
+          "username": "dannyboy",
+          "email": "dannyboy@example.com",
+          "first_name": "Danny",
+          "last_name": "Boy",
+          "student_id": "2345678"
+        },
+        {
+          "username": "sarahjane",
+          "email": "sarahjane@example.com",
+          "first_name": "Sarah",
+          "last_name": "Jane",
+          "student_id": "2980477"
+        },
+        {
+          "username": "michaelscott",
+          "email": "michaelscott@example.com",
+          "first_name": "Michael",
+          "last_name": "Scott",
+          "student_id": "2348778"
+        }
+      ]
+    }
+  }
+  

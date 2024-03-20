@@ -82,15 +82,14 @@ def add_user_profile(username, student_id, bio, is_admin):
         print(f'USER {username} is not found in the database.')
         return None  
 
-def add_custom_user(username, email, password, student_id, bio, is_admin){
+def add_custom_user(username, email, password, student_id, bio, is_admin):
     custom_user = CustomUser.objects.get_or_create(username=username, email=email)[0]
     custom_user.password = password
     custom_user.student_id = student_id
-    custom.user.bio = bio
+    custom_user.bio = bio
     custom_user.is_admin = is_admin
     custom_user.save()
     return custom_user
-}
 
 def add_team(name, description):
     tm = Team.objects.get_or_create(name=name)[0]
@@ -354,8 +353,8 @@ def dummy_populate():
     topics_dict = create_dummy_topics()
     save_topics(topics_dict)
 
-    user_profiles_dict = create_dummy_user_profiles()
-    save_user_profiles(user_profiles_dict)
+    # user_profiles_dict = create_dummy_user_profiles()
+    # save_user_profiles(user_profiles_dict)
 
     posts_dict = create_dummy_post()
     save_posts(posts_dict)
@@ -363,8 +362,8 @@ def dummy_populate():
     teams_dict = create_dummy_team()
     save_teams(teams_dict)
 
-    # custom_users_dict = create_dummy_custom_users()
-    # save_teams(custom_users_dict)
+    custom_users_dict = create_dummy_custom_users()
+    save_teams(custom_users_dict)
 
 
 # Start execution here! ------------------------------------------
@@ -375,5 +374,5 @@ if __name__ == '__main__':
     t_topic = test_add_topic(t_category)
     t_post = test_add_post(topic=t_topic, author=t_user.user)
     t_team = test_add_team()
-    #t_custom_user = test_add_custom_user()
+    t_custom_user = test_add_custom_user()
     dummy_populate()
