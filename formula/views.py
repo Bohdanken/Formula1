@@ -225,28 +225,17 @@ class CustomLogoutView(LogoutView):
         return super().dispatch(request, *args, **kwargs)
 
 def show_team(request, team_slug):
-    topics = Topic.objects.order_by('?')[:3]
-    context_dict = {
-        'team' : {
-            'name' : "False team",
-            'description' : """Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget neque congue, volutpat ex sed, commodo diam. Aliquam justo libero, porttitor sed luctus ac, vulputate quis mi. Praesent velit metus, vulputate ac eros convallis, luctus elementum justo. Aliquam pulvinar egestas nisi eget porta. Nulla et ligula eget sem pretium volutpat vitae ac justo. Duis imperdiet diam a nisl fermentum, sit amet iaculis ligula ultricies. Suspendisse tincidunt mollis sapien sed accumsan. Phasellus in magna velit. Nam quis blandit nibh, at varius lacus. Sed ut congue enim. Donec libero velit, venenatis id quam sed, tincidunt bibendum purus. Donec eu eros urna. Pellentesque fringilla sem ac imperdiet rhoncus.
-Etiam accumsan sollicitudin nisl sed pellentesque. Sed congue pulvinar leo, eu mattis elit volutpat vitae. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vestibulum turpis vel pretium tempor. Curabitur eros eros, bibendum sit amet elementum non, feugiat a massa. Curabitur ultrices magna maximus sagittis mattis. Morbi convallis massa at lectus ullamcorper, a euismod erat tempus.
-Mauris pellentesque tempor erat, vitae lacinia risus. Quisque sed aliquet augue, eget placerat velit. Fusce quis dui et lorem dignissim tincidunt nec vitae diam. Proin sed sem suscipit, semper felis ut, cursus nibh. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Suspendisse viverra mi in libero vehicula scelerisque. Etiam varius turpis massa, eget tempus sapien aliquet id. Proin a sem porttitor, egestas nunc nec, venenatis dolor. Vivamus euismod congue libero nec scelerisque. Nam viverra diam in eleifend fermentum. Interdum et malesuada fames ac ante ipsum primis in faucibus. Phasellus quis nisi at lorem pellentesque gravida. Vivamus sed purus gravida, tristique nulla eu, mattis nibh. Nam erat lorem, lacinia nec pulvinar sed, consectetur nec ligula. Aliquam eleifend magna nec sem semper commodo.
-Aenean vitae imperdiet metus, ut efficitur tortor. Sed faucibus varius lorem, aliquam fermentum magna scelerisque vitae. Nam eget enim ipsum. Mauris vehicula hendrerit ligula, eget venenatis lorem sollicitudin eget. Sed placerat nibh sed elit mattis, at mattis nibh tincidunt. Vestibulum eu sagittis tortor. Nulla eu tincidunt tellus. Aliquam maximus est metus, id volutpat risus suscipit semper.
-Pellentesque id euismod metus, eget hendrerit felis. Vestibulum et felis in metus semper feugiat ac sit amet mauris. Nulla facilisi. Quisque vitae nisi vitae turpis consequat ultrices. Integer ut felis in nisi faucibus sagittis. Nam erat mauris, posuere non lobortis non, lacinia id nunc. Maecenas tincidunt tellus ut purus blandit, et viverra sapien pretium. Sed elementum sem a ante vehicula semper. Ut a elementum massa. Nullam malesuada augue dignissim nibh facilisis, eu efficitur lacus ullamcorper. Praesent sodales diam ac tortor congue, vel tristique lectus aliquam."""
-        },
-        'team_lead' : {
-            'user' : (team_lead := CustomUser.objects.order_by('?')[0]),
-        },
-        'team_members' : [
-            user for user in CustomUser.objects.all().exclude(email=team_lead.email)
-        ],
-        'team_members_names' : [
-            user.username for user in CustomUser.objects.all().exclude(email=team_lead.email)
-        ],
-        'topics' : {
-            topic : [{'post' : post, 'pfp' : UserProfile.objects.get(user = post.author).picture} for post in list(sorted(Post.objects.filter(topic=topic), key = lambda post : post.viewership))[:3]] for topic in topics
-        },
-        'view_topic_page' : True
-    }
-    return render(request, APP_NAME+'/team.html', context=context_dict)
+    try:
+        context_dict={}
+        context_dict['team'] = Team.objects.get(slug=team_slug)
+        context_dict['team_members'] = TeamMember.objects.filter(team=context_dict['team'])
+        context_dict['team_lead'] = TeamLead.objects.get(team=context_dict['team'])
+        context_dict['team_members_names'] = [context_dict['team_lead'].user.username] + [memebr.user.username for memebr in context_dict['team_members']]
+        context_dict['view_topic_page'] = True
+        context_dict['topics'] = {
+            topic : [{'post' : post, 'pfp' : UserProfile.objects.get(user = post.author).picture} for post in list(sorted(Post.objects.filter(topic=topic), key = lambda post : post.viewership))[:3]] for topic in context_dict['team_lead'].topic_access.all()
+        }
+        return render(request, APP_NAME+'/team.html', context=context_dict)
+
+    except Team.DoesNotExist:
+        return render(request, APP_NAME+'/404.html', context=context_dict, status=404)
