@@ -82,6 +82,15 @@ def add_user_profile(username, student_id, bio, is_admin):
         print(f'USER {username} is not found in the database.')
         return None  
 
+def add_custom_user(username, email, password, student_id, bio, is_admin){
+    custom_user = CustomUser.objects.get_or_create(username=username, email=email)[0]
+    custom_user.password = password
+    custom_user.student_id = student_id
+    custom.user.bio = bio
+    custom_user.is_admin = is_admin
+    custom_user.save()
+    return custom_user
+}
 
 def add_team(name, description):
     tm = Team.objects.get_or_create(name=name)[0]
@@ -270,7 +279,15 @@ def test_add_team():
     return test_team
 
 def test_add_custom_user():
-    pass
+    test_custom_user = add_custom_user(username='fraudilo',
+                                       email='fraud@account.com',
+                                       password=GenericField.PASSWORD,
+                                       student_id='1234567',
+                                       bio=GenericField.DESC,
+                                       is_admin=GenericField.IS_ADMIN)
+    print(f'TEST: CUSTOM USER add succesful - {test_custom_user.username}')
+    return test_custom_user
+ 
 
 # ---------------------------------------------------------
 
@@ -319,8 +336,17 @@ def save_teams(teams_dict:dict):
                               description=tms_data['description'])
         print(f'TEAM add succesful - {added_team.name}')
         
+def save_custom_users(custom_users_dict:dict):
+    for custom_user in custom_users_dict.values():
+        added_custom_user = add_custom_user(username=custom_user['username'],
+                                            email=custom_user['email'],
+                                            password=custom_user['password'],
+                                            student_id=custom_user['student_id'],
+                                            bio=custom_user['bio'],
+                                            is_admin=custom_user['is_admin'])
+        print(f'TEST: CUSTOM USER add succesful - {custom_user.username}')
 
-
+# ----------------------------------------------------------------
 def dummy_populate():
     categories_dict = create_dummy_categories()
     save_categories(categories_dict)
@@ -337,8 +363,11 @@ def dummy_populate():
     teams_dict = create_dummy_team()
     save_teams(teams_dict)
 
+    # custom_users_dict = create_dummy_custom_users()
+    # save_teams(custom_users_dict)
 
-# Start execution here!
+
+# Start execution here! ------------------------------------------
 if __name__ == '__main__':
     print('Starting Formula1 population script...')
     t_user = test_add_user()
@@ -346,4 +375,5 @@ if __name__ == '__main__':
     t_topic = test_add_topic(t_category)
     t_post = test_add_post(topic=t_topic, author=t_user.user)
     t_team = test_add_team()
+    #t_custom_user = test_add_custom_user()
     dummy_populate()
