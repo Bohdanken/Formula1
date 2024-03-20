@@ -50,6 +50,14 @@
 	vertical-align: middle;
 }
 
+.tab > span {
+	display: block;
+	width: 100%;
+	text-align: center;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
 .tab + .tab {
 	margin-left: 1mm;
 }

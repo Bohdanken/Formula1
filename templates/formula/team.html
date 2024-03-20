@@ -27,8 +27,12 @@
 	{% endfor %}
 	<hr>
 	<h3>Meet the team!</h3>
-	{% include 'formula/tab-display.html' with end=False tabs=team_members_names only %}
-		This is temporary text, I will put user's profile here once the 
+	{% include 'formula/tab-display.html' with end=False tabs=team_members_names tab_selected_func="update_profile" only %}
+		<img id="pfp" src="{% static 'images/Default_pfp.svg' %}" alt="pfp"/>
+		<div>
+			<h3>{{ selected.username }} · {% if selected == team_lead.user %}Team lead{% else %}Team member{% endif %}</h3>
+			<span>{{ selected.bio }}</span>
+		</div>
 	{% include 'formula/tab-display.html' with end=True only%}
 	<hr>
 	<h3>Browse their topics</h3>

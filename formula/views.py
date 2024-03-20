@@ -235,6 +235,11 @@ def show_team(request, team_slug):
         context_dict['topics'] = {
             topic : [{'post' : post, 'pfp' : UserProfile.objects.get(user = post.author).picture} for post in list(sorted(Post.objects.filter(topic=topic), key = lambda post : post.viewership))[:3]] for topic in context_dict['team_lead'].topic_access.all()
         }
+        context_dict['selected'] = context_dict['team_lead'].user
+
+        if request.GET.get("profile", default=False) in context_dict['team_members_names']:
+            context_dict['selected'] = CustomUser.objects.get(username=request.GET.get('profile'))
+
         return render(request, APP_NAME+'/team.html', context=context_dict)
 
     except Team.DoesNotExist:
