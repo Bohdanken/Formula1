@@ -6,7 +6,7 @@
 
 {% block extra_js %}
 	<link rel="stylesheet" type="text/css" href="{% static 'css/team.css' %}?version=0" />
-	<link rel="stylesheet" type="text/css" href="{% static 'css/List.css' %}?version=0" />
+	{% include 'formula/topic-list.html' with header=True only %}
 	<script type="text/javascript" src="{% static 'js/tabs.js' %}?version=0"></script>
 	<script src="{% static 'js/team.js' %}?version=0"></script>
 {% endblock %}
@@ -47,7 +47,9 @@
 	<hr>
 	<h3>Browse their topics</h3>
 	<div>
-		Not implemented yet
+		{% for topic, posts in topics.items %}
+			{% include 'formula/topic-list.html' %}
+		{% endfor %}
 	</div>
 {% endblock %}
 

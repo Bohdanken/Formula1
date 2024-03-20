@@ -4,7 +4,7 @@
 
 {% block extra_js %}
 	<link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}?version=0">
-	<link rel="stylesheet" type="text/css" href="{% static 'css/List.css' %}?version=0">
+	{% include 'formula/topic-list.html' with header=True only %} <!-- Allows us to copy the css for topic-list using different html structure -->
 	<script type="text/javascript" src="{% static 'js/tabs.js' %}?version=0"></script>
 	<script type="text/javascript" src="{% static 'js/index.js' %}?version=0"></script>
 {% endblock %}

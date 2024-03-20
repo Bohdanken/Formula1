@@ -6,6 +6,10 @@
 	margin: 3mm;
 }
 
+.view-topic-page {
+	background-color: #25425F !Important;
+}
+
 div.category > * {
 	display: flex;
 	background-color: var(--category-color);

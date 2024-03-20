@@ -225,6 +225,7 @@ class CustomLogoutView(LogoutView):
         return super().dispatch(request, *args, **kwargs)
 
 def show_team(request, team_slug):
+    topics = Topic.objects.order_by('?')[:3]
     context_dict = {
         'team' : {
             'name' : "False team",
@@ -237,7 +238,12 @@ Pellentesque id euismod metus, eget hendrerit felis. Vestibulum et felis in metu
         'team_lead' : {
             'user' : (team_lead := CustomUser.objects.order_by('?')[0]),
         },
-        'team_members' : [{'user' : user} for user in CustomUser.objects.all().exclude(email=team_lead.email)],
-        'topics' : Topic.objects.order_by('?')[:5]
+        'team_members' : [
+            {'user' : user} for user in CustomUser.objects.all().exclude(email=team_lead.email)
+        ],
+        'topics' : {
+            topic : [{'post' : post, 'pfp' : UserProfile.objects.get(user = post.author).picture} for post in list(sorted(Post.objects.filter(topic=topic), key = lambda post : post.viewership))[:3]] for topic in topics
+        },
+        'view_topic_page' : True
     }
     return render(request, APP_NAME+'/team.html', context=context_dict)
