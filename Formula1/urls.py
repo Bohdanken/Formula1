@@ -20,7 +20,8 @@ from formula import views
 from formula.views import CustomLogoutView
 
 urlpatterns = [
-    path('', views.index, name='index'),
+    path('', views.redirectView),
+    path('formula/', views.index, name='index'),
     path('formula/', include('formula.urls')),
     path('accounts/logout/', CustomLogoutView.as_view(), name='logout'),
     path('accounts/login/', LoginView.as_view(redirect_authenticated_user=True), name='login'),

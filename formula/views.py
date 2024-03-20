@@ -213,6 +213,8 @@ def register(request):
 def testLogoutView(request):
     return render(request, REGISTER_NAME + '/logout.html', context={})
 
+def redirectView(request):
+    return redirect("formula/")
 
 class CustomLogoutView(LogoutView):
     template_name = 'registration/logout.html'
