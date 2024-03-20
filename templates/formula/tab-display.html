@@ -1,0 +1,22 @@
+{% if header %}
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/tab-display.css' %}?version=0" />
+	<script type="text/javascript" src="{% static 'js/tab-display.js' %}?version=0"></script>
+{% else %}
+	{% if not end %}
+	<div id="tabs-display">
+		<div id="tabs-bar">
+			<ul>
+				{% for tab in tabs %}
+					<li class="tab{% if forloop.counter0 == 0 %} active{% endif %}" onclick="set_active_tab({{ forloop.counter0 }}, {{ tab_selected_func }})">
+						{{ tab }}
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
+		<div id="tabs-display-content" class="{{ content_class }}">
+	{% else %}
+		</div>
+	</div>
+	{% endif %}
+{% endif %}

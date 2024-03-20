@@ -7,7 +7,7 @@
 {% block extra_js %}
 	<link rel="stylesheet" type="text/css" href="{% static 'css/team.css' %}?version=0" />
 	{% include 'formula/topic-list.html' with header=True only %}
-	<script type="text/javascript" src="{% static 'js/tabs.js' %}?version=0"></script>
+	{% include 'formula/tab-display.html' with header=True only %}
 	<script src="{% static 'js/team.js' %}?version=0"></script>
 {% endblock %}
 
@@ -27,23 +27,9 @@
 	{% endfor %}
 	<hr>
 	<h3>Meet the team!</h3>
-	<div id="tabs-display">
-		<div id="tabs-bar">
-			<ul>
-				<li class="tab active" onclick="set_active_tab(0, update_profile);">
-					{{ team_lead.user.username }}
-				</li>
-				{% for team_member in team_members %}
-					<li class="tab" onclick="set_active_tab({{ forloop.counter0 }} + 1, update_profile);">
-						{{ team_member.user.username }}
-					</li>
-				{% endfor %}
-			</ul>
-		</div>
-		<div id="tabs-display-content">
-			This is temporary text, I will put user's profile here once the 
-		</div>
-	</div>
+	{% include 'formula/tab-display.html' with end=False tabs=team_members_names only %}
+		This is temporary text, I will put user's profile here once the 
+	{% include 'formula/tab-display.html' with end=True only%}
 	<hr>
 	<h3>Browse their topics</h3>
 	<div>
