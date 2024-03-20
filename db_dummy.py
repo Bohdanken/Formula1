@@ -10,7 +10,7 @@ class GenericField():
     IS_ADMIN = False
 
 class CategoryDummy():
-    ROOT_PARENT = Category.Parent
+    ROOT_PARENT = Category
 
     CATEGORIES = [
         ENGINEERING := {

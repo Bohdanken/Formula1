@@ -9,7 +9,12 @@ from django.utils import timezone
 from random import randint
 from formula.models import *
 from db_dummy import *
+import json
 
+
+
+
+# ---------------------------------------------------------------
 def add_category(name, description, date_added, parent):
     c = Category.objects.get_or_create(name=name)[0]
     c.description = description
@@ -33,11 +38,11 @@ def add_topic(name, description, date_added, category_name):
 def add_post(title, description, content, viewership, date_added, topic_name, author_username):
     try:
         topic = Topic.objects.get(name=topic_name)
-        author = User.objects.get(username=author_username)
+        author = CustomUser.objects.get(username=author_username)
     except Topic.DoesNotExist:
         print(f'Topic {topic_name} does not exist for POST: {title}.')
         return None
-    except User.DoesNotExist:
+    except CustomUser.DoesNotExist:
         print(f'User {author_username} does not exist for POST: {title}.')
         return None
     p = Post.objects.create(topic=topic, author=author, date_added=date_added)
@@ -49,48 +54,14 @@ def add_post(title, description, content, viewership, date_added, topic_name, au
     p.save()
     return p
 
-def add_user(username, email, password, student_id, first_name, last_name, bio, is_admin):
-    user = add_user_only(username=username, email=email, password=password, first_name=first_name, last_name=last_name)
-    profile = add_user_profile(username=username, student_id=student_id, bio=bio, is_admin=is_admin)
-    return profile
-
-def add_user_only(username, email, password, first_name, last_name):
-    user = User.objects.get_or_create(username=username)[0]
-    user.email = email
-    user.set_password(password)
-    user.first_name = first_name
-    user.last_name = last_name
-    user.save()
-    return user
-
-def add_user_profile(username, student_id, bio, is_admin):
-    try:
-        user = User.objects.get(username=username)
-        user_p = UserProfile.objects.get_or_create(user=user)
-        if user_p[1] is False:
-            print(f'User {username} already added')
-            return user_p[0]
-        else:
-            user_p = user_p[0]
-        user_p.student_id = student_id
-        user_p.bio = bio
-        user_p.is_admin = is_admin
-        user_p.save()
-        return user_p
-    
-    except User.DoesNotExist:
-        print(f'USER {username} is not found in the database.')
-        return None  
-
 def add_custom_user(username, email, password, student_id, bio, is_admin):
-    custom_user = CustomUser.objects.get_or_create(username=username, email=email)[0]
+    custom_user = CustomUser.objects.get_or_create(username=username, email=email, student_id=student_id)[0]
     custom_user.password = password
     custom_user.student_id = student_id
-    custom.user.bio = bio
+    custom_user.bio = bio
     custom_user.is_admin = is_admin
     custom_user.save()
     return custom_user
-
 
 def add_team(name, description):
     tm = Team.objects.get_or_create(name=name)[0]
@@ -117,13 +88,6 @@ def create_dummy_categories() -> dict:
 def create_dummy_topics() -> dict:
     topics_dict = {}
 
-    # def generate_td(topic_name, category_name):
-    #     topics_dict[topic_name] = { 'name':topic_name,
-    #                                 'description':GENERIC_DESC,
-    #                                 'date_added':timezone.now(),
-    #                                 'category':category_name,
-    #                                 }
-    
     def generate_td(topic:dict):
         topic['description'] = GenericField.DESC
         topic['date_added'] = timezone.now()
@@ -134,59 +98,11 @@ def create_dummy_topics() -> dict:
         
     return topics_dict
 
-# ????
-def assign_topics_to_categories(categories_dict:dict, topics_dict:dict):
-    for topic in topics_dict:
-        category = topics_dict[topic]['categories']
-        if not 'topics' in categories_dict[category]:
-            categories_dict[category]['topics'] = []
-        categories_dict[category]['topics'].append(topics_dict[topic])
-    
-    return categories_dict
-
-def __create_dummy_users_only():
-    users_dict = {}
-
-    def generate_ud(user:dict):
-        user['password'] = GenericField.PASSWORD
-        users_dict[user['username']] = user
-
-    for user in UserDummy.USERS:
-        generate_ud(user)
-
-    return users_dict
-
-def __create_dummy_profiles():
-    profiles_dict = {}
-
-    def generate_up(profile:dict):
-        profile['bio'] = GenericField.DESC
-        profile['is_admin'] = False
-        profiles_dict[profile['username']] = profile
-    
-    for profile in UserProfileDummy.USER_PROFILES:
-        generate_up(profile)
-    
-    return profiles_dict
-
-def create_dummy_user_profiles():
-    user_profiles_dict = {}
-    user_profiles_dict = __create_dummy_users_only()
-    profiles_dict = __create_dummy_profiles()
-
-    for profile in profiles_dict.values():
-        user = user_profiles_dict[profile['username']]
-        for field, value in profile.items():
-            if field == 'username':
-                continue
-            user[field] = value
-
-    return user_profiles_dict
-
 def create_dummy_custom_users():
     custom_users_dict = {}
 
     def generate_cu(custom_users:dict):
+        custom_users['password'] = GenericField.PASSWORD
         custom_users['bio'] = GenericField.DESC
         custom_users['is_admin'] = GenericField.IS_ADMIN
         custom_users_dict[custom_users['username']] = custom_users
@@ -248,20 +164,7 @@ def test_add_topic(category:Category):
     print(f'TEST: TOPIC add succesful - {test_topic.name} in {category.name}')
     return test_topic
 
-def test_add_user():
-    test_user = add_user(username='normaluser', 
-             email='noadmin@privileges.com', 
-             password=GenericField.PASSWORD, 
-             first_name='Normal', 
-             last_name='User', 
-             student_id=1111111, 
-             bio='This is a generic user with no privileges', 
-             is_admin=False
-             )
-    print(f'TEST: USER add succesful - {test_user.user.username}')
-    return test_user
-
-def test_add_post(topic:Topic, author:User):
+def test_add_post(topic:Topic, author:CustomUser):
     test_post = add_post(title='It\'s a dummy post, Dummy!',
                          description=GenericField.DESC,
                          content=GenericField.CONTENT,
@@ -307,18 +210,6 @@ def save_topics(topics_dict:dict):
                                 category_name=top_data['category'])
         print(f'TOPIC add succesful - {added_topic.name} IN CATEGORY {added_topic.category}')
  
-def save_user_profiles(user_profiles_dict:dict):
-    for usp_data in user_profiles_dict.values():
-        added_profile = add_user(username=usp_data['username'],
-                                 email=usp_data['email'],
-                                 password=GenericField.PASSWORD,
-                                 first_name=usp_data['first_name'],
-                                 last_name=usp_data['last_name'],
-                                 student_id=usp_data['student_id'],
-                                 bio=usp_data['bio'],
-                                 is_admin=usp_data['is_admin'])
-        print(f'USER add succesful - {added_profile.user.username}')
-
 def save_posts(posts_dict:dict):
     for pos_data in posts_dict.values():
         added_post = add_post(title=pos_data['title'],
@@ -328,7 +219,7 @@ def save_posts(posts_dict:dict):
                               date_added=pos_data['date_added'],
                               topic_name=pos_data['topic'],
                               author_username=pos_data['author'])
-        print(f'POST add succesful - {added_post.title} BY {added_post.author.username}')
+        print(f'POST add succesful - {added_post.title} BY {added_post.author}')
        
 def save_teams(teams_dict:dict):
     for tms_data in teams_dict.values():
@@ -344,7 +235,7 @@ def save_custom_users(custom_users_dict:dict):
                                             student_id=custom_user['student_id'],
                                             bio=custom_user['bio'],
                                             is_admin=custom_user['is_admin'])
-        print(f'TEST: CUSTOM USER add succesful - {custom_user.username}')
+        print(f'TEST: CUSTOM USER add succesful - {added_custom_user.username}')
 
 # ----------------------------------------------------------------
 def dummy_populate():
@@ -354,8 +245,8 @@ def dummy_populate():
     topics_dict = create_dummy_topics()
     save_topics(topics_dict)
 
-    # user_profiles_dict = create_dummy_user_profiles()
-    # save_user_profiles(user_profiles_dict)
+    custom_users_dict = create_dummy_custom_users()
+    save_custom_users(custom_users_dict)
 
     posts_dict = create_dummy_post()
     save_posts(posts_dict)
@@ -363,17 +254,13 @@ def dummy_populate():
     teams_dict = create_dummy_team()
     save_teams(teams_dict)
 
-    custom_users_dict = create_dummy_custom_users()
-    save_teams(custom_users_dict)
-
 
 # Start execution here! ------------------------------------------
 if __name__ == '__main__':
     print('Starting Formula1 population script...')
-    #t_user = test_add_user()
     t_category = test_add_category()
     t_topic = test_add_topic(t_category)
-    t_post = test_add_post(topic=t_topic, author=t_user.user)
-    t_team = test_add_team()
     t_custom_user = test_add_custom_user()
+    t_post = test_add_post(topic=t_topic, author=t_custom_user)
+    t_team = test_add_team()
     dummy_populate()
