@@ -38,12 +38,11 @@ def index(request):
 
 
 def about(request):
-    text_description = "A forum dedicated to allowing users to communicate and learn about the development, upkeep and use of race cars"
-    contact_email = "2345678@student.gla.ac.uk"
 
-    context_dict = {}
-    context_dict['text'] = text_description
-    context_dict['contact'] = contact_email
+    context_dict = {
+        'text_description' : "A forum dedicated to allowing users to communicate and learn about the development, upkeep and use of race cars. For Racers, by Racers.",
+        'contact_email' : "formulau1@outlook.com"
+    }
 
     return render(request, APP_NAME + '/about.html', context=context_dict)
 
@@ -224,3 +223,23 @@ class CustomLogoutView(LogoutView):
         # User is authenticated, proceed with the normal LogoutView flow
         return super().dispatch(request, *args, **kwargs)
 
+def show_team(request, team_slug):
+    try:
+        context_dict={}
+        context_dict['team'] = Team.objects.get(slug=team_slug)
+        context_dict['team_members'] = TeamMember.objects.filter(team=context_dict['team'])
+        context_dict['team_lead'] = TeamLead.objects.get(team=context_dict['team'])
+        context_dict['team_members_names'] = [context_dict['team_lead'].user.username] + [memebr.user.username for memebr in context_dict['team_members']]
+        context_dict['view_topic_page'] = True
+        context_dict['topics'] = {
+            topic : [{'post' : post, 'pfp' : UserProfile.objects.get(user = post.author).picture} for post in list(sorted(Post.objects.filter(topic=topic), key = lambda post : post.viewership))[:3]] for topic in context_dict['team_lead'].topic_access.all()
+        }
+        context_dict['selected'] = context_dict['team_lead'].user
+
+        if request.GET.get("profile", default=False) in context_dict['team_members_names']:
+            context_dict['selected'] = CustomUser.objects.get(username=request.GET.get('profile'))
+
+        return render(request, APP_NAME+'/team.html', context=context_dict)
+
+    except Team.DoesNotExist:
+        return render(request, APP_NAME+'/404.html', context=context_dict, status=404)

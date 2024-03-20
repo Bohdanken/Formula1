@@ -43,7 +43,7 @@
     <footer>
     <p>
     Statistics //  Who is online <br>
-    Total posts {{ total_posts }} • Total topics {{ total_topics }} • Total members {{ total_members }} • Our newest member {{ newest_member }}
+    Total posts {{ request.total_posts }} • Total topics {{ request.total_topics }} • Total members {{ request.total_members }} • Our newest member {{ request.newest_member }}
     </p>
         {% block footer %}
         <!-- Your universal footer content goes here -->
