@@ -42,4 +42,4 @@ def save_custom_users(custom_users_dict:dict):
                                             student_id=custom_user['student_id'],
                                             bio=custom_user['bio'],
                                             is_admin=custom_user['is_admin'])
-        print(f'TEST: CUSTOM USER add succesful - {added_custom_user.username}')
+        print(f'USER add succesful - {added_custom_user.username}')

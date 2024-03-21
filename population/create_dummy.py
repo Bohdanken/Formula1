@@ -1,4 +1,5 @@
 from population.setup import *
+from population.setup import data
 
 def create_dummy_categories() -> dict:
     categories_dict = {}
