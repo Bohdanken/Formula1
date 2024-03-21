@@ -12,6 +12,9 @@ from django.utils import timezone
 from django.db.models.functions import ExtractYear
 from django.urls import reverse, NoReverseMatch
 from django.utils.deprecation import MiddlewareMixin
+from django.shortcuts import get_object_or_404
+from .forms import CustomUserChangeForm
+
 
 from Formula1.settings import MEDIA_ROOT
 
@@ -34,6 +37,7 @@ def index(request):
     categories = set(Category.objects.annotate(year=ExtractYear('date_added')).filter(year=year))
 
     context_dict = {
+        'year' : year,
         'years': years,
         'current_year_categories': categories
     }
@@ -58,7 +62,7 @@ def list_topics(request, category_slug):
         category = Category.objects.get(slug=category_slug)
         topics = Topic.objects.filter(category=category)
         context_dict['category'] = category
-        context_dict['topics'] = { topic : [{'post' : post, 'pfp' : UserProfile.objects.get(user = post.author).picture} for post in list(sorted(Post.objects.filter(topic=topic), key = lambda post : post.viewership))[:3]] for topic in topics }
+        context_dict['topics'] = { topic : Post.objects.filter(topic = topic) for topic in topics } #[{'post' : post, 'pfp' : post.author.picture} for post in list(sorted(Post.objects.filter(topic=topic), key = lambda post : post.viewership))[:3]] for topic in topics }
         return render(request, APP_NAME+'/category.html', context=context_dict)
 
     except Category.DoesNotExist:
@@ -75,7 +79,7 @@ def list_posts(request, category_slug, topic_slug):
         context_dict['topic'] = topic
         posts = Post.objects.filter(topic=topic)
         context_dict['topics'] = {
-            topic : [{'post' : post, 'pfp' : UserProfile.objects.get(user = post.author).picture} for post in posts]
+            topic : posts
         }
 
         return render(request, APP_NAME+'/topic.html', context=context_dict)
@@ -123,8 +127,8 @@ def create_post(request, category_slug, topic_slug):
             if topic:
                 post = form.save(commit=False)
                 post.topic = topic
-                post.viewership = 0
-                post.author = request.user
+                post.user = CustomUser.objects.get(user=request.user)
+
                 post.date_added = timezone.now()
 
                 if 'file' in request.FILES:
@@ -202,6 +206,18 @@ def show_profile(request, username):
 
     return render(request, APP_NAME + '/profile.html', context=context_dict)
 
+@login_required
+def edit_profile(request, username):
+    user = get_object_or_404(CustomUser, username=username)
+    if request.method == 'POST':
+        form = CustomUserChangeForm(request.POST, request.FILES, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('formula:profile', username=request.user.username)
+    else:
+        form = CustomUserChangeForm(instance=request.user)
+    return render(request, 'registration/edit_profile.html')
+
 
 def register(request):
     registered = False
@@ -250,7 +266,7 @@ def show_team(request, team_slug):
         context_dict['team_members_names'] = [context_dict['team_lead'].user.username] + [memebr.user.username for memebr in context_dict['team_members']]
         context_dict['view_topic_page'] = True
         context_dict['topics'] = {
-            topic : [{'post' : post, 'pfp' : UserProfile.objects.get(user = post.author).picture} for post in list(sorted(Post.objects.filter(topic=topic), key = lambda post : post.viewership))[:3]] for topic in context_dict['team_lead'].topic_access.all()
+            topic : list(sorted(Post.objects.filter(topic=topic), key = lambda post : post.viewership))[:3] for topic in context_dict['team_lead'].topic_access.all() #[{'post' : post, 'pfp' : UserProfile.objects.get(user = post.author).picture} for post in list(sorted(Post.objects.filter(topic=topic), key = lambda post : post.viewership))[:3]] for topic in context_dict['team_lead'].topic_access.all()
         }
         context_dict['selected'] = context_dict['team_lead'].user
 

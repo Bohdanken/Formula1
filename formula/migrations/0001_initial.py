@@ -114,7 +114,7 @@ class Migration(migrations.Migration):
                 ('file', models.FileField(blank=True, upload_to='post_files/')),
                 ('viewership', models.IntegerField(default=0)),
                 ('date_added', models.DateTimeField()),
-                ('author', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='author', to=settings.AUTH_USER_MODEL)),
+                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='user', to=settings.AUTH_USER_MODEL)),
                 ('topic', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='posts', to='formula.Topic')),
             ],
         ),

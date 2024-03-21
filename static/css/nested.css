@@ -13,26 +13,6 @@ p {
 	margin-right: 1cm;
 }
 
-.post-details, .author-details {
-	position: relative;
-	height: 100%;
-}
-
-.author-details {
-	padding-left: 0.5cm;
-}
-
-.space {
-	width: 0;
-	margin: auto;
-}
-
-hr {
-	margin: 0;
-	border-color: rgba(0, 0, 0, 0.25);
-	border-style: solid;
-}
-
 .above-list {
 	display: flex;
 	flex-direction: row;
@@ -49,16 +29,4 @@ hr {
 	color: yellow;
 	flex-grow: 1;
 	flex-basis: 0;
-}
-
-img.pfp {
-	border-radius: 50%;
-	width: 2em;
-	height: 2em;
-}
-
-.author-details > div {
-	display: inline-block;
-	height: 100%;
-	vertical-align: top;
 }

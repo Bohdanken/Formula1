@@ -13,7 +13,7 @@
 {% endblock %}
 
 {% block content %}
-	{% include 'formula/tab-display.html' with end=False tabs=years content_class="category" tab_selected_func="update_categories" only %}
+	{% include 'formula/tab-display.html' with end=False tabs=years content_class="category" tab_selected_func="update_categories" active_tab=year only %}
 		{% for category in current_year_categories %}
 			<a href="{% url 'formula:topics' category.slug %}">{{ category.name }}</a>
 		{% empty %}
@@ -24,5 +24,3 @@
 
 {% block footer %}
 {% endblock %}
-Statistics //  Who is online <br>
-Total posts {{ request.total_posts }} • Total topics {{ total_topics }} • Total members {{ total_members }} • Our newest member {{ newest_member }}
