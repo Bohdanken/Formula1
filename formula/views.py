@@ -4,7 +4,7 @@ import random
 
 from django.contrib.auth.views import LogoutView
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, FileResponse
 from formula.forms import *
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
@@ -14,6 +14,9 @@ from django.urls import reverse, NoReverseMatch
 from django.utils.deprecation import MiddlewareMixin
 from django.shortcuts import get_object_or_404
 from .forms import CustomUserChangeForm
+
+from zipfile import ZipFile
+from io import BytesIO
 
 
 from Formula1.settings import MEDIA_ROOT
@@ -89,18 +92,32 @@ def list_posts(request, category_slug, topic_slug):
 
 
 def display_post(request, category_slug, topic_slug, post_id):
+    if request.GET.get('file', default=False):
+        if Post.objects.get(id=post_id).file:
+            zip_path = Post.objects.get(id=post_id).file.path
+            zipfile = ZipFile(zip_path, 'r')
+            file_bytes = zipfile.read(request.GET.get('file'))
+            return FileResponse(BytesIO(file_bytes), as_attachment=True, filename=request.GET.get('file'))
     context_dict = {}
     try:
         post = Post.objects.get(id=post_id)
         context_dict['post'] = post
         context_dict['topic'] = post.topic
         context_dict['category'] = post.topic.category
-        context_dict['file_is_image'] = post.file.name.split('.')[-1].lower() in {'apng', 'cur', 'gif', 'ico', 'jfif', 'jpeg', 'jpg', 'pjp', 'pjpeg', 'png', 'svg'}
-        
+        context_dict['images'] = []
+        context_dict['files'] = []
+
+        zipfile = ZipFile(post.file.path, 'r')
+        for filename in zipfile.namelist():
+            if filename.split('.')[-1].lower() in {'apng', 'cur', 'gif', 'ico', 'jfif', 'jpeg', 'jpg', 'pjp', 'pjpeg', 'png', 'svg'}:
+                context_dict['images'].append(filename)
+            else:
+                context_dict['files'].append(filename)
+
         return render(request, APP_NAME+'/post.html', context=context_dict)
     
     except Post.DoesNotExist:
-        return render(request, APP_NAME+'/post.html', context={}, status=404)
+        return render(request, APP_NAME+'/404.html', context={}, status=404)
 
 
 def query_result(request, title_query):

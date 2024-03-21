@@ -22,31 +22,21 @@
 		{% for paragraph in post.content.splitlines %}
 			<p>{{ paragraph }}</p>
 		{% endfor %}
-		{% if post.file %}
+		{% if files or images %}
 			<hr>
-			{% if file_is_image %}
-				<div class="imagename">Attached image: <a href="{{ post.file.url }}">{{ post.file.name }}</a></div>
+			<p>
+				Attached file(s):
+				{% for filename in files %}
+					<a href="{% url 'formula:post' category.slug topic.slug post.id %}?file={{filename}}">{{ filename }}</a>{% if not forloop.last %},{% endif %}
+				{% endfor %}
+			</p>
+			{% for filename in images %}
+				<div class="imagename"><a href="{% url 'formula:post' category.slug topic.slug post.id %}?file={{ filename }}">{{ filename }}</a></div>
 				<a href="{{ post.file.url }}" class="image-link">
-					<img src="{{ post.file.url }}" alt="{{ post.file.name }}" />
+					<img src="{% url 'formula:post' category.slug topic.slug post.id %}?file={{ filename }}" alt="Could not load file" />
 				</a>
-			{% else %}
-				<p>
-					Attached file: <a href="{{ post.file.url }}">{{ post.file.name }}</a>
-				</p>
-			{% endif %}
+			{% endfor %}
 		{% endif %}
-	{% else %}
-		<h1>404</h1>
-		<i>That's an error!</i>
-		<p>
-			The page you requested does not exist.
-		</p>
-		<p>
-			It's possible that it may have have moved
-			or has been removed from the site entirely.<br>
-			If you were brought to this page from within the site,
-			please <a href="mailto:2727599m+FomulaForumSite404@student.gla.ac.uk">let us know</a>.
-		</p>
 	{% endif %}
 {% endblock %}
 
