@@ -12,3 +12,21 @@ p {
 	margin-left: 1cm;
 	margin-right: 1cm;
 }
+
+.above-list {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: space-around;
+}
+
+.above-list > a {
+	margin-top: auto;
+	margin-bottom: auto;
+	height: 1em;
+	text-align: center;
+	vertical-align: middle;
+	color: yellow;
+	flex-grow: 1;
+	flex-basis: 0;
+}

@@ -61,24 +61,6 @@ hr {
 	border-style: solid;
 }
 
-.above-list {
-	display: flex;
-	flex-direction: row;
-	flex-wrap: nowrap;
-	justify-content: space-around;
-}
-
-.above-list > a {
-	margin-top: auto;
-	margin-bottom: auto;
-	height: 1em;
-	text-align: center;
-	vertical-align: middle;
-	color: yellow;
-	flex-grow: 1;
-	flex-basis: 0;
-}
-
 img.pfp {
 	position: relative;
 	border-radius: 50%;
