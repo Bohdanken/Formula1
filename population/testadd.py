@@ -23,15 +23,15 @@ def test_add_topic(category:Category):
     print(f'TEST: TOPIC add succesful - {test_topic.name} in {category.name}')
     return test_topic
 
-def test_add_post(topic:Topic, author:CustomUser):
+def test_add_post(topic:Topic, user:CustomUser):
     test_post = add_post(title='It\'s a dummy post, Dummy!',
                          description="Post description.",
                          content="Post content.",
                          viewership=1,
                          date_added=random_datetime(),
                          topic_name=topic.name,
-                         author_username=author.username)
-    print(f'TEST: POST add succesful - {test_post.title} by USER {author.username} in TOPIC {topic.name}')
+                         user_username=user.username)
+    print(f'TEST: POST add succesful - {test_post.title} by USER {user.username} in TOPIC {topic.name}')
     return test_post
 
 def test_add_team():
@@ -66,7 +66,7 @@ def run_test(resetafter=True):
     t_category = test_add_category()
     t_topic = test_add_topic(t_category)
     t_custom_user = test_add_custom_user()
-    t_post = test_add_post(topic=t_topic, author=t_custom_user)
+    t_post = test_add_post(topic=t_topic, user=t_custom_user)
     t_team = test_add_team()
     t_team_member = test_assign_team_member(t_custom_user, t_team)
     

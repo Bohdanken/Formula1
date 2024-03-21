@@ -20,17 +20,17 @@ def add_topic(name, description, date_added, category_name):
     t.save()
     return t
 
-def add_post(title, description, content, viewership, date_added, topic_name, author_username):
+def add_post(title, description, content, viewership, date_added, topic_name, user_username):
     try:
         topic = Topic.objects.get(name=topic_name)
-        author = CustomUser.objects.get(username=author_username)
+        user = CustomUser.objects.get(username=user_username)
     except Topic.DoesNotExist:
         print(f'Topic {topic_name} does not exist for POST: {title}.')
         return None
     except CustomUser.DoesNotExist:
-        print(f'User {author_username} does not exist for POST: {title}.')
+        print(f'User {user_username} does not exist for POST: {title}.')
         return None
-    p = Post.objects.create(topic=topic, author=author, date_added=date_added)
+    p = Post.objects.create(topic=topic, user=user, date_added=date_added)
     p.title = title
     p.description = description
     p.content = content

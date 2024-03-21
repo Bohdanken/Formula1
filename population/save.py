@@ -25,8 +25,8 @@ def save_posts(posts_dict:dict):
                               viewership=pos_data['viewership'],
                               date_added=pos_data['date_added'],
                               topic_name=pos_data['topic'],
-                              author_username=pos_data['author'])
-        print(f'POST add succesful - {added_post.title} by USER {added_post.author.username}')
+                              user_username=pos_data['user'])
+        print(f'POST add succesful - {added_post.title} by USER {added_post.user.username}')
        
 def save_teams(teams_dict:dict):
     for tms_data in teams_dict.values():

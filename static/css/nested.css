@@ -13,12 +13,12 @@ p {
 	margin-right: 1cm;
 }
 
-.post-details, .author-details {
+.post-details, .user-details {
 	position: relative;
 	height: 100%;
 }
 
-.author-details {
+.user-details {
 	padding-left: 0.5cm;
 }
 
@@ -57,7 +57,7 @@ img.pfp {
 	height: 2em;
 }
 
-.author-details > div {
+.user-details > div {
 	display: inline-block;
 	height: 100%;
 	vertical-align: top;
