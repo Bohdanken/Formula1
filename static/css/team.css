@@ -26,12 +26,7 @@ p {
 	background-color: #2c5782;
 	border-bottom-left-radius: var(--radius);
 	border-bottom-right-radius: var(--radius);
-}
-
-@supports (aspect-ratio: 69 / 25) {
-	#tabs-display-content {
-		aspect-ratio: 69 / 25;
-	}
+	aspect-ratio: 69 / 25;
 }
 
 img#pfp {
@@ -41,6 +36,7 @@ img#pfp {
 	margin-left: 4.5%;
 	margin-right: 4.5%;
 	height: 75%;
+	aspect-ratio: 1 / 1;
 }
 
 #tabs-display-content img#pfp + div > * {
