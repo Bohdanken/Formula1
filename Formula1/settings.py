@@ -26,7 +26,7 @@ SECRET_KEY = 'k=no$5#n6*!4066@axkr1+9ouzb_g5pk+m$%_7+8xfu976ff$@'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ALLOWED_HOSTS = ['buddygames.pythonanywhere.com', 'www.buddygames.pythonanywhere.com']
+ALLOWED_HOSTS = ALLOWED_HOSTS = ['127.0.0.1', 'buddygames.pythonanywhere.com', 'www.buddygames.pythonanywhere.com']
 
 # Application definition
 
