@@ -1,0 +1,30 @@
+{% extends 'formula/base.html' %}
+
+{% block extra_js %}
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+	<h1>Create a post</h1>
+	<div>
+		<form enctype="multipart/form-data" class="login-form" method="post" action="{% url 'formula:create_post' category.slug topic.slug  %}">
+			{% csrf_token %}
+			{% for hidden in form.hidden_field %}
+				{{ hidden }}
+			{% endfor %}
+			{% for field in form.visible_fields %}
+				<div class="form-group">
+					{{ field.errors }}
+					{{ field.help_text }}<br>
+					{{ field }}
+				</div>
+			{% endfor %}
+			<input type="submit" name="submit" value="Create post" />
+		</form>
+	</div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
