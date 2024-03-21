@@ -118,7 +118,7 @@ class Post(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='user', on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.user.username
+        return self.title
 
 
 class Team(NameSlugMixin, models.Model):
