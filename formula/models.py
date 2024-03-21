@@ -140,6 +140,7 @@ class TeamLead(models.Model):
     class Meta:
         db_table = "Team Lead"
 
+
     def __str__(self):
         return f'{self.user.get_username()} : {self.team.get_team_name()}'
 

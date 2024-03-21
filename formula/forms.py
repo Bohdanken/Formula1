@@ -7,6 +7,7 @@ class TopicForm(forms.ModelForm):
     name = forms.CharField(max_length=NAME_MAX_LENGTH,
                            help_text="Please enter the name of the topic.")
     description = forms.CharField(max_length=DESC_MAX_LENGTH,
+
                                   help_text="Briefly describe this topic.",
                                   widget=forms.Textarea)
 
