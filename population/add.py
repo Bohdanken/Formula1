@@ -1,28 +1,28 @@
 from population.setup import *
 
 def add_category(name, description, date_added, parent):
-    c = Category.objects.get_or_create(name=name)[0]
+    c = Category.objects.create(name=name, date_added=date_added)
     c.description = description
-    c.date_added = date_added
     c.parent = parent
     c.save()
     return c
 
 def add_topic(name, description, date_added, category_name):
+    cat_slug = __get_slug__(category_name, date_added)
     try:
-        category = Category.objects.get(name=category_name)
+        category = Category.objects.get(slug=cat_slug)
     except Category.DoesNotExist:
         print(f'Category {category_name} does not exist for TOPIC: {name}.')
         return None
-    t = Topic.objects.get_or_create(category=category, name=name)[0]
+    t = Topic.objects.create(category=category, name=name, date_added=date_added)
     t.description = description
-    t.date_added = date_added
     t.save()
     return t
 
 def add_post(title, description, content, viewership, date_added, topic_name, user_username):
+    top_slug = __get_slug__(topic_name, date_added)
     try:
-        topic = Topic.objects.get(name=topic_name)
+        topic = Topic.objects.get(slug=top_slug)
         user = CustomUser.objects.get(username=user_username)
     except Topic.DoesNotExist:
         print(f'Topic {topic_name} does not exist for POST: {title}.')
@@ -35,13 +35,12 @@ def add_post(title, description, content, viewership, date_added, topic_name, us
     p.description = description
     p.content = content
     p.viewership = viewership
-    p.date_added = date_added
     p.save()
     return p
 
 def add_custom_user(username, email, password, student_id, picture, bio, is_admin):
-    cu = CustomUser.objects.get_or_create(username=username, email=email, student_id=student_id)[0]
-    cu.password = password
+    cu = CustomUser.objects.create(username=username, email=email, student_id=student_id)
+    cu.set_password(password)
     cu.student_id = student_id
     cu.picture = picture
     cu.bio = bio
@@ -50,7 +49,7 @@ def add_custom_user(username, email, password, student_id, picture, bio, is_admi
     return cu
 
 def add_team(name, description):
-    tm = Team.objects.get_or_create(name=name)[0]
+    tm = Team.objects.create(name=name)
     tm.description = description
     tm.save()
     return tm
@@ -68,3 +67,6 @@ def assign_team_member(username, team_name):
     m = TeamMember.objects.create(user=u, team=tm)
     m.save()
     return m
+
+def __get_slug__(name, datetime):
+    return slugify(f'{name}-{str(datetime.year)}')
