@@ -33,6 +33,7 @@ def create_dummy_custom_users() -> dict:
 
     def generate_cu(custom_users:dict):
         custom_users['password'] = data['GenericField']['password']
+        custom_users['picture'] = data['GenericField']['picture']
         custom_users['bio'] = data['GenericField']['desc']
         custom_users['is_admin'] = False
         custom_users_dict[custom_users['username']] = custom_users

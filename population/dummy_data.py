@@ -288,62 +288,62 @@ class PostDummy():
         HELP_ERROR := {
             'title':'Help! Error in Git Push',
             'topic': TopicDummy.DATA_ANALYSIS[TOP_CALL_KEY],
-            'author': UserDummy.JEFFREYMULLOC[USR_CALL_KEY],
+            'user': UserDummy.JEFFREYMULLOC[USR_CALL_KEY],
         },
         CONTEST_WIN := {
             'title':'Vencera Wins F1inSchool',
             'topic':TopicDummy.EDUCATIONAL_PROGRAMS[TOP_CALL_KEY],
-            'author':UserDummy.ALICEWOND[USR_CALL_KEY],
+            'user':UserDummy.ALICEWOND[USR_CALL_KEY],
         },
         TEAM_RECRUITMENT := {
             'title': 'Join Our Racing Team!',
             'topic': TopicDummy.COMMUNITY_OUTREACH[TOP_CALL_KEY],
-            'author': UserDummy.MICHAELSCOTT[USR_CALL_KEY],
+            'user': UserDummy.MICHAELSCOTT[USR_CALL_KEY],
         },
         DESIGN_CHALLENGE := {
             'title': 'Design Challenge Announcement',
             'topic': TopicDummy.VEHICLE_DESIGN[TOP_CALL_KEY],
-            'author': UserDummy.JEFFREYMULLOC[USR_CALL_KEY],
+            'user': UserDummy.JEFFREYMULLOC[USR_CALL_KEY],
         },
         NEW_SOFTWARE_RELEASE := {
             'title': 'Announcing Our New Software Release',
             'topic': TopicDummy.SOFTWARE_ENGINEERING[TOP_CALL_KEY],
-            'author': UserDummy.BOBBYKEREN[USR_CALL_KEY],
+            'user': UserDummy.BOBBYKEREN[USR_CALL_KEY],
         },
         PROMOTION_EVENT := {
             'title': 'Promotion Event Tomorrow!',
             'topic': TopicDummy.EVENT_MANAGEMENT[TOP_CALL_KEY],
-            'author': UserDummy.SARAHJANE[USR_CALL_KEY],
+            'user': UserDummy.SARAHJANE[USR_CALL_KEY],
         },
         DATA_ANALYSIS_WORKSHOP := {
             'title': 'Data Analysis Workshop Registration Open',
             'topic': TopicDummy.EDUCATIONAL_PROGRAMS[TOP_CALL_KEY],
-            'author': UserDummy.JEFFREYMULLOC[USR_CALL_KEY],
+            'user': UserDummy.JEFFREYMULLOC[USR_CALL_KEY],
         },
         SOFTWARE_BUG_FIX := {
             'title': 'Critical Bug Fix Released',
             'topic': TopicDummy.SOFTWARE_ENGINEERING[TOP_CALL_KEY],
-            'author': UserDummy.JEFFREYMULLOC[USR_CALL_KEY],
+            'user': UserDummy.JEFFREYMULLOC[USR_CALL_KEY],
         },
         MARKET_RESEARCH_SURVEY := {
             'title': 'Participate in Our Market Research Survey',
             'topic': TopicDummy.MARKET_RESEARCH[TOP_CALL_KEY],
-            'author': UserDummy.SARAHJANE[USR_CALL_KEY],
+            'user': UserDummy.SARAHJANE[USR_CALL_KEY],
         },
         DESIGN_COMPETITION := {
             'title': 'Design Competition Announcement',
             'topic': TopicDummy.GRAPHIC_DESIGN[TOP_CALL_KEY],
-            'author': UserDummy.MICHAELSCOTT[USR_CALL_KEY],
+            'user': UserDummy.MICHAELSCOTT[USR_CALL_KEY],
         },
         NEW_PRODUCT_LAUNCH := {
             'title': 'Exciting News: New Product Launch!',
             'topic': TopicDummy.PRODUCT_DEVELOPMENT[TOP_CALL_KEY],
-            'author': UserDummy.ALICEWOND[USR_CALL_KEY],
+            'user': UserDummy.ALICEWOND[USR_CALL_KEY],
         },
         FINANCIAL_REPORT := {
             'title': 'Quarterly Financial Report Released',
             'topic': TopicDummy.FINANCIAL_PLANNING[TOP_CALL_KEY],
-            'author': UserDummy.MICHAELSCOTT[USR_CALL_KEY],
+            'user': UserDummy.MICHAELSCOTT[USR_CALL_KEY],
         }
     ]
 

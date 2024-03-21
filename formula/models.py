@@ -115,10 +115,10 @@ class Post(models.Model):
     viewership = models.IntegerField(default=0)
     date_added = models.DateTimeField()
     topic = models.ForeignKey(Topic, related_name='posts', on_delete=models.CASCADE)
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='author', on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='user', on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.author.get_username()
+        return self.title
 
 
 class Team(NameSlugMixin, models.Model):
