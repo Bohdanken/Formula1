@@ -47,7 +47,7 @@ class CustomUser(AbstractUser):
     email = models.EmailField(_('email address'), unique=True, primary_key=True)
     username = models.CharField(_('username'), unique=True, max_length=30)
     student_id = models.IntegerField(unique=True, null=False, default=0)
-    picture = models.ImageField(upload_to='profile_images', blank=True)
+    picture = models.ImageField(upload_to='profile_images', default='Default_pfp.svg')
     bio = models.TextField(max_length=DESC_MAX_LENGTH, blank=True)
     is_admin = models.BooleanField(default=False)
     USERNAME_FIELD = 'email'

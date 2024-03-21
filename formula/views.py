@@ -30,6 +30,7 @@ def index(request):
     categories = set(Category.objects.annotate(year=ExtractYear('date_added')).filter(year=year))
 
     context_dict = {
+        'year' : year,
         'years': years,
         'current_year_categories': categories
     }
@@ -71,7 +72,7 @@ def list_posts(request, category_slug, topic_slug):
         context_dict['topic'] = topic
         posts = Post.objects.filter(topic=topic)
         context_dict['topics'] = {
-            topic : posts #[{'post' : post, 'pfp' : post.author.picture} for post in posts]
+            topic : posts
         }
 
         return render(request, APP_NAME+'/topic.html', context=context_dict)
@@ -232,7 +233,7 @@ def show_team(request, team_slug):
         context_dict['team_members_names'] = [context_dict['team_lead'].user.username] + [memebr.user.username for memebr in context_dict['team_members']]
         context_dict['view_topic_page'] = True
         context_dict['topics'] = {
-            topic : [{'post' : post, 'pfp' : UserProfile.objects.get(user = post.author).picture} for post in list(sorted(Post.objects.filter(topic=topic), key = lambda post : post.viewership))[:3]] for topic in context_dict['team_lead'].topic_access.all()
+            topic : list(sorted(Post.objects.filter(topic=topic), key = lambda post : post.viewership))[:3] for topic in context_dict['team_lead'].topic_access.all() #[{'post' : post, 'pfp' : UserProfile.objects.get(user = post.author).picture} for post in list(sorted(Post.objects.filter(topic=topic), key = lambda post : post.viewership))[:3]] for topic in context_dict['team_lead'].topic_access.all()
         }
         context_dict['selected'] = context_dict['team_lead'].user
 
