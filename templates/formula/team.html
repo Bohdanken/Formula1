@@ -38,7 +38,7 @@
 	<h3>Browse their topics</h3>
 	<div>
 		{% for topic, posts in topics.items %}
-			{% include 'formula/topic-list.html' %}
+			{% include 'formula/topic-list.html' with category=topic.category %}
 		{% endfor %}
 	</div>
 {% endblock %}
