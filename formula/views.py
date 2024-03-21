@@ -30,6 +30,7 @@ def index(request):
     categories = set(Category.objects.annotate(year=ExtractYear('date_added')).filter(year=year))
 
     context_dict = {
+        'year' : year,
         'years': years,
         'current_year_categories': categories
     }
@@ -71,7 +72,7 @@ def list_posts(request, category_slug, topic_slug):
         context_dict['topic'] = topic
         posts = Post.objects.filter(topic=topic)
         context_dict['topics'] = {
-            topic : posts #[{'post' : post, 'pfp' : post.author.picture} for post in posts]
+            topic : posts
         }
 
         return render(request, APP_NAME+'/topic.html', context=context_dict)

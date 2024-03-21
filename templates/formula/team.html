@@ -27,7 +27,7 @@
 	{% endfor %}
 	<hr>
 	<h3>Meet the team!</h3>
-	{% include 'formula/tab-display.html' with end=False tabs=team_members_names tab_selected_func="update_profile" only %}
+	{% include 'formula/tab-display.html' with end=False tabs=team_members_names tab_selected_func="update_profile" active_tab=selected.username only %}
 		<img id="pfp" src="{{ selected.picture.url }}" alt="pfp"/>
 		<div>
 			<h3>{% if selected == team_lead.user %}Team lead{% else %}Team member{% endif %}&ensp;·&ensp;{{ selected.username }}</h3>
