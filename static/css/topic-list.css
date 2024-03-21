@@ -102,3 +102,14 @@ img.pfp {
 	color: var(--white-text-color);
 	background-color: var(--category-color);
 }
+
+.empty {
+	color: var(--white-text-color);
+	background-color: var(--category-color);
+	border-bottom-left-radius: 3mm;
+	border-bottom-right-radius: 3mm;
+}
+
+.empty > span {
+	margin-left: 2mm;
+}
