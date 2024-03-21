@@ -2,10 +2,10 @@ from datetime import datetime
 
 from django.contrib.auth.views import LogoutView
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseForbidden
 from formula.forms import *
 from django.urls import reverse
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils import timezone
 from django.db.models.functions import ExtractYear
 from django.urls import reverse, NoReverseMatch
@@ -16,6 +16,10 @@ from .forms import CustomUserChangeForm
 
 APP_NAME = 'formula'
 REGISTER_NAME = 'registration'
+
+
+def is_superuser(user):
+    return user.is_authenticated and user.is_superuser
 
 
 def index(request):
@@ -149,10 +153,15 @@ def create_topic(request, category_slug):
         category = Category.objects.get(slug=category_slug)
     except Category.DoesNotExist:
         category = None
-
-    # You cannot ade a post to a Topic that does not exist
     if category is None:
         return redirect(APP_NAME + ':index')
+    if not request.user.is_superuser:
+        try:
+            team_lead = TeamLead.objects.get(user=request.user)
+            if not team_lead.topic_access.filter(category=category).exists():
+                return HttpResponseForbidden("You do not have access to this category.")
+        except TeamLead.DoesNotExist:
+            return HttpResponseForbidden("Access denied.")
 
     form = TopicForm()
 
@@ -241,6 +250,7 @@ class CustomLogoutView(LogoutView):
         # User is authenticated, proceed with the normal LogoutView flow
         return super().dispatch(request, *args, **kwargs)
 
+
 def show_team(request, team_slug):
     try:
         context_dict={}
@@ -261,3 +271,5 @@ def show_team(request, team_slug):
 
     except Team.DoesNotExist:
         return render(request, APP_NAME+'/404.html', context=context_dict, status=404)
+
+
