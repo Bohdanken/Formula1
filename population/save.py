@@ -40,6 +40,7 @@ def save_custom_users(custom_users_dict:dict):
                                             email=custom_user['email'],
                                             password=custom_user['password'],
                                             student_id=custom_user['student_id'],
+                                            picture=custom_user['picture'],
                                             bio=custom_user['bio'],
                                             is_admin=custom_user['is_admin'])
         print(f'USER add succesful - {added_custom_user.username}')

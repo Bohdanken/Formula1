@@ -13,6 +13,6 @@ from population.randomdatetime import random_datetime
 import json
 # from population.db_dummy import *
 
-f = open('population/dummy.json')
+f = open('population/dummy_data.json')
 
 data = json.load(f)

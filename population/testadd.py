@@ -45,6 +45,7 @@ def test_add_custom_user():
                                        email='fraud@account.com',
                                        password="boohoopassword",
                                        student_id='1234567',
+                                       picture='static\images\Default_pfp.svg',
                                        bio="fraudilo's bio",
                                        is_admin=False)
     print(f'TEST: CUSTOM USER add succesful - {test_custom_user.username}')

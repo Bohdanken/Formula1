@@ -39,10 +39,11 @@ def add_post(title, description, content, viewership, date_added, topic_name, us
     p.save()
     return p
 
-def add_custom_user(username, email, password, student_id, bio, is_admin):
+def add_custom_user(username, email, password, student_id, picture, bio, is_admin):
     cu = CustomUser.objects.get_or_create(username=username, email=email, student_id=student_id)[0]
     cu.password = password
     cu.student_id = student_id
+    cu.picture = picture
     cu.bio = bio
     cu.is_admin = is_admin
     cu.save()
