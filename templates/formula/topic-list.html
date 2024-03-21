@@ -4,26 +4,30 @@
 {% else %}
 	<div class="category">
 		<div>
-			{{ topic.name }}
+			<span>{{ topic.name }}</span>
 		</div>
 		{% if view_topic_page %}
 			<a href="{% url 'formula:posts' topic.category.slug topic.slug %}" class="view-topic-page">
-				View topic page
+				<span>View topic page</span>
 			</a>
 		{% endif %}
 		{% for post in posts %}
-			<a  href="{% url 'formula:post' category.slug topic.slug post.id %}">
-				<span>{{ post.title }}</span>
-				<div class="space"></div>
-				<div class="post-details" style="width: 3cm;">
-					{{ post.date_added|date:"d M, Y" }}
-				</div>
+			<div>
+				<a class="post-link" href="{% url 'formula:post' category.slug topic.slug post.id %}">
+					<span>{{ post.title }}</span>
+					<div class="space"></div>
+					<div class="post-details" style="width: 3cm;">
+						{{ post.date_added|date:"d M, Y" }}
+					</div>
+				</a>
 				<hr>
-				<div class="author-details" style="width: 4cm;">
-					<img src="{{ post.author.picture.url }}" alt="pfp" class="pfp"/>
-					<div id="author-name">{{ post.author.username }}</div>
-				</div>
-			</a>
+				<a class="author-link" href="">
+					<div class="author-details" style="width: 4cm;">
+						<img src="{{ post.author.picture.url }}" alt="pfp" class="pfp"/>
+						<div id="author-name">{{ post.author.username }}</div>
+					</div>
+				</a>
+			</div>
 		{% empty %}
 			<div>
 				There are no posts under this topic :(
