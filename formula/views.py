@@ -112,12 +112,13 @@ def display_post(request, category_slug, topic_slug, post_id):
         context_dict['images'] = []
         context_dict['files'] = []
 
-        zipfile = ZipFile(post.file.path, 'r')
-        for filename in zipfile.namelist():
-            if filename.split('.')[-1].lower() in {'apng', 'cur', 'gif', 'ico', 'jfif', 'jpeg', 'jpg', 'pjp', 'pjpeg', 'png', 'svg'}:
-                context_dict['images'].append(filename)
-            else:
-                context_dict['files'].append(filename)
+        if post.file:
+            zipfile = ZipFile(post.file.path, 'r')
+            for filename in zipfile.namelist():
+                if filename.split('.')[-1].lower() in {'apng', 'cur', 'gif', 'ico', 'jfif', 'jpeg', 'jpg', 'pjp', 'pjpeg', 'png', 'svg'}:
+                    context_dict['images'].append(filename)
+                else:
+                    context_dict['files'].append(filename)
 
         return render(request, APP_NAME+'/post.html', context=context_dict)
     
