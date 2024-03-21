@@ -17,6 +17,7 @@
     text-align: center;
     vertical-align: top;
     margin-bottom: 20px;
+    display: block;
 }
 
 /* Profile details on the left */
@@ -42,6 +43,7 @@
     max-width: 200px; /* Adjust as needed */
     border-radius: 50%;
     object-fit: cover;
+    aspect-ratio: 1 / 1;
 }
 
 /* Edit profile link at the bottom */

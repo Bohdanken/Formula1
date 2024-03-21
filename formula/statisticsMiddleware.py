@@ -16,6 +16,8 @@ class StatisticsMiddleware(MiddlewareMixin):
         request.newest_member = newest_member
 
         
+
+        
     
 
 

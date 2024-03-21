@@ -208,7 +208,9 @@ def show_profile(request, username):
 
 @login_required
 def edit_profile(request, username):
+    context_dict = {}
     user = get_object_or_404(CustomUser, username=username)
+    context_dict['user'] = user
     if request.method == 'POST':
         form = CustomUserChangeForm(request.POST, request.FILES, instance=request.user)
         if form.is_valid():
@@ -216,7 +218,7 @@ def edit_profile(request, username):
             return redirect('formula:profile', username=request.user.username)
     else:
         form = CustomUserChangeForm(instance=request.user)
-    return render(request, 'registration/edit_profile.html')
+    return render(request, 'registration/edit_profile.html', context=context_dict)
 
 
 def register(request):

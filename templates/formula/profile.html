@@ -5,8 +5,6 @@
 {% block extra_js %}
 	<link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}?version=0">
     <link rel="stylesheet" type="text/css" href="{% static 'css/profile.css' %}?version=0">
-	{% include 'formula/topic-list.html' with header=True only %} <!-- Allows us to copy the css for topic-list using different html structure -->
-	{% include 'formula/tab-display.html' with header=True only %}
 	<script type="text/javascript" src="{% static 'js/index.js' %}?version=0"></script>
 {% endblock %}
 
@@ -14,15 +12,20 @@
 {% endblock %}
 
 {% block content %}
+<div class="profile-name">
+    <h3>{{ user.get_full_name|default:"User" }}</h3>
+</div>
 <div class="profile-container">
-    <div class="profile-name">
-        <h3>{{ user.get_full_name|default:"User" }}</h3>
+    <div class="profile-details">
+        <p><strong>Bio:</strong> {{ user.bio }}</p>
     </div>
     <div class="profile-details">
         <p><strong>Username:</strong> {{ user.username }}</p>
         <p><strong>Registered on:</strong> {{ user.date_joined|date:"Y-m-d" }}</p>
-        <p><strong>Email:</strong> {{ user.email }}</p> <!-- Conditional visibility based on permissions -->
+        <p><strong>Email:</strong> {{ user.email }}</p> 
     </div>
+    
+    
     <div class="profile-image-container">
         {% if user.picture %}
         <img src="{{ user.picture.url }}" alt="User profile image">

@@ -6,7 +6,7 @@ def create_dummy_categories() -> dict:
     
     def generate_cd(category:dict):
         category['description'] = data['GenericField']['desc']
-        category['date_added'] = random_datetime()
+        category['date_added'] = timezone.now()
         categories_dict[category['name']] = category
 
     for category in data['Category']:
@@ -20,7 +20,7 @@ def create_dummy_topics() -> dict:
 
     def generate_td(topic:dict):
         topic['description'] = data['GenericField']['desc']
-        topic['date_added'] = random_datetime()
+        topic['date_added'] = timezone.now()
         topics_dict[topic['name']] = topic
 
     for topic in data['Topic']:
@@ -53,7 +53,7 @@ def create_dummy_post() -> dict:
         post['description'] = data['GenericField']['desc']
         post['content'] = data['GenericField']['content']
         post['viewership'] = randint(1,42)
-        post['date_added'] = random_datetime()
+        post['date_added'] = timezone.now()
         posts_dict[f'post-{counter}'] = post
 
 
