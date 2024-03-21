@@ -75,7 +75,7 @@ def list_topics(request, category_slug):
         return render(request, APP_NAME+'/category.html', context={}, status=404)
 
 
-def list_posts(request, topic_slug):
+def list_posts(request, category_slug, topic_slug):
     context_dict = {}
 
     try:
@@ -84,9 +84,18 @@ def list_posts(request, topic_slug):
         context_dict['category'] = category
         context_dict['topic'] = topic
         posts = Post.objects.filter(topic=topic)
-        context_dict['topics'] = {
-            topic : [{'post' : post, 'pfp' : CustomUser.objects.get(user = post.user).picture} for post in posts]
-        }
+        # context_dict['topics'] = {
+        #     topic : [{'post' : post, 'pfp' : CustomUser.objects.get(user = post.user).picture} for post in posts]
+        # }
+        context_dict['topics'] = {}
+        pfp_list = []
+        for post in posts:
+            post_dict = {}
+            post_dict['post'] = post
+            p = CustomUser.objects.get(username=post.user.username)
+            post_dict['pfp'] = p.picture
+            pfp_list.append(post_dict)
+            context_dict['topics'][topic] = pfp_list
 
         return render(request, APP_NAME+'/topic.html', context=context_dict)
 
@@ -94,7 +103,7 @@ def list_posts(request, topic_slug):
         return render(request, APP_NAME+'/topic.html', context={}, status=404)
 
 
-def display_post(request, post_id):
+def display_post(request, category_slug, topic_slug, post_id):
     context_dict = {}
     try:
         post = Post.objects.get(id=post_id)
