@@ -84,9 +84,6 @@ def list_posts(request, category_slug, topic_slug):
         context_dict['category'] = category
         context_dict['topic'] = topic
         posts = Post.objects.filter(topic=topic)
-        # context_dict['topics'] = {
-        #     topic : [{'post' : post, 'pfp' : CustomUser.objects.get(user = post.user).picture} for post in posts]
-        # }
         context_dict['topics'] = {}
         pfp_list = []
         for post in posts:
