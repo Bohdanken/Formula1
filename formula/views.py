@@ -3,6 +3,7 @@ from zipfile import ZipFile
 import random
 
 from django.contrib.auth.views import LogoutView
+from django.conf.global_settings import LOGIN_URL
 from django.shortcuts import render, redirect
 from django.http import  HttpResponseForbidden
 from django.http import HttpResponse, FileResponse
@@ -134,7 +135,7 @@ def query_result(request, title_query):
     return render(request, APP_NAME + '/post.html', context=context_dict)
 
 
-@login_required
+@login_required(login_url=LOGIN_URL)
 def create_post(request, category_slug, topic_slug):
     try:
         topic = Topic.objects.get(slug=topic_slug)
@@ -188,7 +189,7 @@ def create_post(request, category_slug, topic_slug):
     return render(request, APP_NAME + '/create-post.html', context=context_dict)
 
 
-@login_required
+@login_required(login_url=LOGIN_URL)
 def create_topic(request, category_slug):
     try:
         category = Category.objects.get(slug=category_slug)
@@ -226,7 +227,7 @@ def create_topic(request, category_slug):
     return render(request, APP_NAME + '/create-topic.html', context=context_dict)
 
 
-@login_required
+@login_required(login_url=LOGIN_URL)
 def show_profile(request, username):
     context_dict = {}
 
@@ -238,7 +239,7 @@ def show_profile(request, username):
 
     return render(request, APP_NAME + '/profile.html', context=context_dict)
 
-@login_required
+@login_required(login_url=LOGIN_URL)
 def edit_profile(request, username):
     user = get_object_or_404(CustomUser, username=username)
     if request.method == 'POST':
