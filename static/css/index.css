@@ -11,3 +11,17 @@
 	border-top-left-radius: 0 !Important;
 	border-top-right-radius: 0 !Important;
 }
+
+.category > * {
+	padding-left: 2mm;
+	background-color: var(--category-color)
+}
+
+.category >:last-child {
+	border-bottom-left-radius: 3mm;
+	border-bottom-right-radius: 3mm;
+}
+
+.category >:hover {
+	filter: brightness(110%);
+}
