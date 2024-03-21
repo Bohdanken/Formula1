@@ -1,5 +1,4 @@
 from formula.models import Category
-from django.utils import timezone
 
 class GenericField():
     DESC = "This object is created as part of populate_db.py testing.\
