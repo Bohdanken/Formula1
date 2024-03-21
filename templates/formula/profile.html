@@ -13,10 +13,11 @@
 {% block header %}
 {% endblock %}
 
-
 {% block content %}
 <div class="profile-container">
-    <h1> {{ user.get_full_name|default:"User" }} </h1>
+    <div class="profile-name">
+        <h3>{{ user.get_full_name|default:"User" }}</h3>
+    </div>
     <div class="profile-details">
         <p><strong>Username:</strong> {{ user.username }}</p>
         <p><strong>Registered on:</strong> {{ user.date_joined|date:"Y-m-d" }}</p>
@@ -29,7 +30,9 @@
         <img src="{% static 'default-profile-image.png' %}" alt="Default profile image">
         {% endif %}
     </div>
-    <!-- Additional sections for 'Edit Profile' and 'Settings' if needed -->
+    <div class="edit-profile-link">
+        <a href="{% url 'formula:edit_profile' username=user.username %}">Edit Profile</a>
+    </div>
 </div>
 {% endblock %}
 
