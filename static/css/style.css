@@ -3,6 +3,7 @@
 	--medium-blue: #213851;
 	--white-text-color: #fcfcfd;
 	--blue-text-color: #3889f3;
+    --text-color: #d3f2f3;
 	--header-height: 15vw;
 	--footer-height: 5ex;
 	--vertical-content-margin: 2.5mm;
@@ -277,7 +278,7 @@ footer p{
     }
     .logout-link {
         font-size: 1.25em;
-        color: var(--blue-text-color);
+        color: var(--text-color);
         text-decoration: none;
         padding: 10px 20px;
         border: 2px solid var(--blue-text-color);
