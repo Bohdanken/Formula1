@@ -146,7 +146,7 @@ def create_post(request, topic_slug):
             if topic:
                 post = form.save(commit=False)
                 post.topic = topic
-                post.user = CustomUser.objects.get(user=request.user)
+                post.user = CustomUser.objects.get(username=request.user.get_name())
                 post.date_added = timezone.now()
                 if 'file' in request.FILES:
                     post.file = request.FILES['file']
