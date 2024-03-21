@@ -4,6 +4,8 @@
 
 {% block extra_js %}
 	<link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}?version=0">
+    <!--<link rel="stylesheet" type="text/css" href="{% static 'css/profile.css' %}?version=0">-->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/profile.css' %}?version=0">
 	{% include 'formula/topic-list.html' with header=True only %} <!-- Allows us to copy the css for topic-list using different html structure -->
 	{% include 'formula/tab-display.html' with header=True only %}
 	<script type="text/javascript" src="{% static 'js/index.js' %}?version=0"></script>
@@ -11,6 +13,7 @@
 
 {% block header %}
 {% endblock %}
+
 
 {% block content %}
 <div class="profile-container">

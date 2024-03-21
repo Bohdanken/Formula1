@@ -1,0 +1,29 @@
+/* profile.css */
+.profile-container {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 20px;
+    max-width: 900px;
+    margin: auto;
+}
+
+.profile-details,
+.profile-image-container {
+    background: #3287c3;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.profile-image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-image-container img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 50%;
+}
+
+
