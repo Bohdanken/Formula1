@@ -1,11 +1,14 @@
 from datetime import datetime
+from zipfile import ZipFile
+import random
 
 from django.contrib.auth.views import LogoutView
 from django.shortcuts import render, redirect
+from django.http import  HttpResponseForbidden
 from django.http import HttpResponse, FileResponse
 from formula.forms import *
 from django.urls import reverse
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils import timezone
 from django.db.models.functions import ExtractYear
 from django.urls import reverse, NoReverseMatch
@@ -17,8 +20,14 @@ from zipfile import ZipFile
 from io import BytesIO
 
 
+from Formula1.settings import MEDIA_ROOT
+
 APP_NAME = 'formula'
 REGISTER_NAME = 'registration'
+
+
+def is_superuser(user):
+    return user.is_authenticated and user.is_superuser
 
 
 def index(request):
@@ -125,14 +134,10 @@ def query_result(request, title_query):
 
 
 @login_required
-def create_post(request, topic_slug):
+def create_post(request, category_slug, topic_slug):
     try:
         topic = Topic.objects.get(slug=topic_slug)
     except Topic.DoesNotExist:
-        topic = None
-
-    # You cannot ade a post to a Topic that does not exist
-    if topic is None:
         return redirect(APP_NAME + ':index')
 
     form = PostForm()
@@ -145,19 +150,41 @@ def create_post(request, topic_slug):
                 post = form.save(commit=False)
                 post.topic = topic
                 post.user = CustomUser.objects.get(user=request.user)
+
                 post.date_added = timezone.now()
+
                 if 'file' in request.FILES:
-                    post.file = request.FILES['file']
+
+                    # Should allow for 99,636,535,482,328,266,092,631,578,144,895,845,295,049,065,188,420,485,120
+                    # unique filenames (or 99 septendecillion 636 sexdecillion 535 quindecillion 482 quattuordecillion
+                    # 328 tredecillion 266 duodecillion 92 undecillion 631 decillion 578 nonillion 144 octillion
+                    # 895 septillion 845 sextillion 295 quintillion 49 quadrillion 65 trillion 188 billion
+                    # 420 million 485 thousand one hundred and twenty)
+
+                    filename_chars = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM_-0123456789"
+
+                    while True:
+                        filename = "".join(random.choice(filename_chars) for i in range(random.randint(16, 32))) + ".zip"
+                        try:
+                            zipfile = ZipFile(MEDIA_ROOT+"\\post_files\\" + filename, mode='x')
+                        except FileExistsError: continue
+                        else: break
+
+                    for file in request.FILES.getlist('file'):
+                        zipfile.writestr(file.name, file.read())
+
+                    post.file.name = "post_files\\" + filename
+                    zipfile.close()
                 post.save()
 
-                return redirect(reverse(APP_NAME + ':display_post',
-                                        kwargs={'topic_slug': topic_slug}))
+                return redirect(reverse(APP_NAME + ':post',
+                                        kwargs={'category_slug': category_slug, 'topic_slug': topic_slug, 'post_id' : post.id}))
 
         else:
             print(form.errors)
 
-    context_dict = {'form': form, 'topic': topic}
-    return render(request, APP_NAME + '/add_post.html', context=context_dict)
+    context_dict = {'form': form, 'topic': topic, 'category': topic.category }
+    return render(request, APP_NAME + '/create-post.html', context=context_dict)
 
 
 @login_required
@@ -166,10 +193,15 @@ def create_topic(request, category_slug):
         category = Category.objects.get(slug=category_slug)
     except Category.DoesNotExist:
         category = None
-
-    # You cannot ade a post to a Topic that does not exist
     if category is None:
         return redirect(APP_NAME + ':index')
+    if not request.user.is_superuser:
+        try:
+            team_lead = TeamLead.objects.get(user=request.user)
+            if not team_lead.topic_access.filter(category=category).exists():
+                return HttpResponseForbidden("You do not have access to this category.")
+        except TeamLead.DoesNotExist:
+            return HttpResponseForbidden("Access denied.")
 
     form = TopicForm()
 
@@ -183,14 +215,14 @@ def create_topic(request, category_slug):
                 topic.date_added = timezone.now()
                 topic.save()
 
-                return redirect(reverse(APP_NAME + ':show_topics',
-                                        kwargs={'category_slug': category_slug}))
+                return redirect(reverse(APP_NAME + ':posts',
+                                        kwargs={'category_slug': category_slug, 'topic_slug' : topic.slug}))
 
         else:
             print(form.errors)
 
-    context_dict = {'form': form, 'topic': category}
-    return render(request, APP_NAME + '/add_post.html', context=context_dict)
+    context_dict = {'form': form, 'category': category}
+    return render(request, APP_NAME + '/create-topic.html', context=context_dict)
 
 
 @login_required
@@ -215,7 +247,7 @@ def edit_profile(request, username):
             return redirect('formula:profile', username=request.user.username)
     else:
         form = CustomUserChangeForm(instance=request.user)
-    return redirect('formula:edit_profile', username=request.user.username)
+    return render(request, 'registration/edit_profile.html')
 
 
 def register(request):
@@ -245,6 +277,8 @@ def register(request):
 def testLogoutView(request):
     return render(request, REGISTER_NAME + '/logout.html', context={})
 
+def redirectView(request):
+    return redirect("formula/")
 
 class CustomLogoutView(LogoutView):
     template_name = 'registration/logout.html'
@@ -255,6 +289,7 @@ class CustomLogoutView(LogoutView):
             return redirect('login')  # Assuming you have a URL named 'login'
         # User is authenticated, proceed with the normal LogoutView flow
         return super().dispatch(request, *args, **kwargs)
+
 
 def show_team(request, team_slug):
     try:
@@ -276,3 +311,5 @@ def show_team(request, team_slug):
 
     except Team.DoesNotExist:
         return render(request, APP_NAME+'/404.html', context=context_dict, status=404)
+
+

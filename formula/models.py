@@ -9,7 +9,7 @@ from Formula1 import settings
 
 # GENERAL FIELD LIMIT
 NAME_MAX_LENGTH = 64
-DESC_MAX_LENGTH = 512
+DESC_MAX_LENGTH = 4_096
 
 
 class CustomUserManager(BaseUserManager):
@@ -80,7 +80,7 @@ class Category(NameSlugMixin, models.Model):
     ]
 
     name = models.CharField(max_length=NAME_MAX_LENGTH, unique=True)
-    description = models.CharField(max_length=DESC_MAX_LENGTH)
+    description = models.TextField(max_length=DESC_MAX_LENGTH)
     date_added = models.DateTimeField(null=True)
     parent = models.CharField(max_length=NAME_MAX_LENGTH, choices=CHOICES, default=GENERAL)
 
@@ -93,7 +93,7 @@ class Category(NameSlugMixin, models.Model):
 
 class Topic(NameSlugMixin, models.Model):
     name = models.CharField(max_length=NAME_MAX_LENGTH, unique=True)
-    description = models.CharField(max_length=DESC_MAX_LENGTH)
+    description = models.TextField(max_length=DESC_MAX_LENGTH)
     date_added = models.DateTimeField(null=True)
     category = models.ForeignKey(Category, related_name='topics', on_delete=models.CASCADE)
 
@@ -139,6 +139,7 @@ class TeamLead(models.Model):
 
     class Meta:
         db_table = "Team Lead"
+
 
     def __str__(self):
         return f'{self.user.get_username()} : {self.team.get_team_name()}'
