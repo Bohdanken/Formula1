@@ -135,10 +135,11 @@ class Team(NameSlugMixin, models.Model):
 class TeamLead(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     team = models.OneToOneField(Team, on_delete=models.CASCADE)
-    topic_access = models.ManyToManyField(Topic, related_name="access")
+    topic_access = models.ManyToManyField(Topic, related_name="access", blank=True)
 
     class Meta:
         db_table = "Team Lead"
+
 
     def __str__(self):
         return f'{self.user.get_username()} : {self.team.get_team_name()}'
