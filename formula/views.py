@@ -136,7 +136,7 @@ def create_post(request, category_slug, topic_slug):
                     # 895 septillion 845 sextillion 295 quintillion 49 quadrillion 65 trillion 188 billion
                     # 420 million 485 thousand one hundred and twenty)
 
-                    filename_chars = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJLZXCVBNM_-0123456789"
+                    filename_chars = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM_-0123456789"
 
                     while True:
                         filename = "".join(random.choice(filename_chars) for i in range(random.randint(16, 32))) + ".zip"
