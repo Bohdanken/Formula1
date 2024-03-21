@@ -44,7 +44,7 @@ def test_add_custom_user():
     test_custom_user = add_custom_user(username='fraudilo',
                                        email='fraud@account.com',
                                        password="boohoopassword",
-                                       student_id='1234567',
+                                       student_id='2000001',
                                        picture='static\images\Default_pfp.svg',
                                        bio="fraudilo's bio",
                                        is_admin=False)
@@ -74,7 +74,7 @@ def run_test(resetafter=True):
     print("----------------- TEST SUCCESS ------------------------------------------------------")
     print()
 
-    # Reset database - emptying the database for actual population
+    print("Flushing database - emptying the database for actual population.")
     if resetafter:
         call_command('flush', interactive=False)
  
