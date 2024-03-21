@@ -1,5 +1,4 @@
 from formula.models import Category
-from django.utils import timezone
 
 class GenericField():
     DESC = "This object is created as part of populate_db.py testing.\
@@ -10,7 +9,7 @@ class GenericField():
     IS_ADMIN = False
 
 class CategoryDummy():
-    ROOT_PARENT = Category.Parent
+    ROOT_PARENT = Category
 
     CATEGORIES = [
         ENGINEERING := {
