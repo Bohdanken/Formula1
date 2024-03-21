@@ -16,7 +16,7 @@
 				<span>{{ post.title }}</span>
 				<div class="space"></div>
 				<div class="post-details" style="width: 3cm;">
-					{{ post.date_added }}
+					{{ post.date_added|date:"d M, Y" }}
 				</div>
 				<hr>
 				<div class="author-details" style="width: 4cm;">
