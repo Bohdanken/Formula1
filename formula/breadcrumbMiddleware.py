@@ -9,6 +9,8 @@ class BreadcrumbMiddleware(MiddlewareMixin):
         for slug in path:
             if not slug:
                 continue
+            if slug=="accounts":
+                slug="formula"
             url += slug + '/'
             slug=slug.capitalize()
             try:
