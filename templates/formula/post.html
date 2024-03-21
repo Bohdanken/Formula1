@@ -18,7 +18,7 @@
 {% block content %}
 	{% if post %}
 		<h1>{{ post.title }}</h1>
-		<i>by {{ post.author }}</i>
+		<i>by {{ post.author.username }}</i>
 		{% for paragraph in post.content.splitlines %}
 			<p>{{ paragraph }}</p>
 		{% endfor %}
