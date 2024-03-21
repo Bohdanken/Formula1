@@ -1,775 +1,774 @@
 {
-    "GenericField": {
-      "desc": "This object is created as part of populate_db.py testing. This description is generic and is the same for all object. Object should be deleted before deployment.",
-      "password": "abcdefg",
-      "picture": "static/images/Default_pfp.svg",
-      "content": "This is a generic content. Please delete before deployment."      
-    },
-    "Category": [
-        {
-          "name": "Engineering Project",
-          "parent": "EVEHICLE"
-        },
-        {
-          "name": "Design",
-          "parent": "GENERAL"
-        },
-        {
-          "name": "Software Development",
-          "parent": "EVEHICLE"
-        },
-        {
-          "name": "Business Operations",
-          "parent": "OPERATION"
-        },
-        {
-          "name": "Research and Development",
-          "parent": "EVEHICLE"
-        },
-        {
-          "name": "Testing",
-          "parent": "EVEHICLE"
-        },
-        {
-          "name": "Marketing",
-          "parent": "OPERATION"
-        },
-        {
-          "name": "Finance",
-          "parent": "OPERATION"
-        },
-        {
-          "name": "Events",
-          "parent": "OPERATION"
-        },
-        {
-          "name": "Education",
-          "parent": "GENERAL"
-        },
-        {
-          "name": "Community Outreach",
-          "parent": "OPERATION"
-        }
-      ],
-    "Topic": [
-        {
-          "name": "Vehicle Design",
-          "category": "Design"
-        },
-        {
-          "name": "Graphic Design",
-          "category": "Design"
-        },
-        {
-          "name": "Aerodynamics",
-          "category": "Engineering Project"
-        },
-        {
-          "name": "Chassis Design",
-          "category": "Engineering Project"
-        },
-        {
-          "name": "Powertrain",
-          "category": "Engineering Project"
-        },
-        {
-          "name": "Suspension",
-          "category": "Engineering Project"
-        },
-        {
-          "name": "Electronics",
-          "category": "Engineering Project"
-        },
-        {
-          "name": "Materials",
-          "category": "Engineering Project"
-        },
-        {
-          "name": "Testing and Simulation",
-          "category": "Engineering Project"
-        },
-        {
-          "name": "Sponsorship",
-          "category": "Business Operations"
-        },
-        {
-          "name": "Event Management",
-          "category": "Business Operations"
-        },
-        {
-          "name": "Market Research",
-          "category": "Research and Development"
-        },
-        {
-          "name": "Product Development",
-          "category": "Research and Development"
-        },
-        {
-          "name": "Financial Planning",
-          "category": "Finance"
-        },
-        {
-          "name": "Budgeting",
-          "category": "Finance"
-        },
-        {
-          "name": "Advertising",
-          "category": "Marketing"
-        },
-        {
-          "name": "Public Relations",
-          "category": "Marketing"
-        },
-        {
-          "name": "Software Engineering",
-          "category": "Software Development"
-        },
-        {
-          "name": "Data Analysis",
-          "category": "Software Development"
-        },
-        {
-          "name": "Community Outreach",
-          "category": "Community Outreach"
-        },
-        {
-          "name": "Educational Programs",
-          "category": "Education"
-        }
-      ],
-    "Team": [
-        {
-          "name": "Vencera Racing"
-        },
-        {
-          "name": "Alusis Motor Team"
-        },
-        {
-          "name": "Speedforce Racing"
-        },
-        {
-          "name": "Titan Motorsport"
-        },
-        {
-          "name": "Crimson Racing"
-        },
-        {
-          "name": "Blaze Speedsters"
-        },
-        {
-          "name": "Thunderbolt Racing"
-        },
-        {
-          "name": "Nova Velocity Racing"
-        },
-        {
-          "name": "Aurora Racing"
-        },
-        {
-          "name": "Dragon Fury Racing"
-        }
-      ],
-    "Post": [
+  "GenericField": {
+    "desc": "This is a generic content. Please delete before deployment.",      
+    "password": "abcdefg",
+    "picture": "static/images/Default_pfp.svg",
+    "content": "This object is created as part of population_script.py testing. This content is generic and is the same for all object. Object should be deleted before deployment.\\"    
+  },
+  "Category": [
       {
-        "title": "Data Analysis Techniques Workshop",
-        "topic": "Data Analysis",
-        "user": "emilybaker"
+        "name": "Engineering Project",
+        "parent": "EVEHICLE"
       },
       {
-        "title": "STEM Education Outreach Program",
-        "topic": "Educational Programs",
-        "user": "miasanchez"
+        "name": "Design",
+        "parent": "GENERAL"
       },
       {
-        "title": "Community Clean-up Campaign",
-        "topic": "Community Outreach",
-        "user": "sarahjane"
+        "name": "Software Development",
+        "parent": "EVEHICLE"
       },
       {
-        "title": "Latest Innovations in Vehicle Design",
-        "topic": "Vehicle Design",
-        "user": "williamsanders"
+        "name": "Business Public Relations",
+        "parent": "OPERATION"
       },
       {
-        "title": "Software Development Updates",
-        "topic": "Software Engineering",
-        "user": "oliverstone"
+        "name": "Research and Development",
+        "parent": "EVEHICLE"
       },
       {
-        "title": "Innovative Product Launch Announcement",
-        "topic": "Product Development",
-        "user": "emilybaker"
+        "name": "Testing",
+        "parent": "EVEHICLE"
       },
       {
-        "title": "Financial Planning Strategies for Startups",
-        "topic": "Financial Planning",
-        "user": "williamhayes"
+        "name": "Marketing",
+        "parent": "OPERATION"
       },
       {
-        "title": "Market Research Survey Participation Request",
-        "topic": "Market Research",
-        "user": "sophiasmith"
+        "name": "Finance",
+        "parent": "OPERATION"
       },
       {
-        "title": "Graphic Design Competition Announcement",
-        "topic": "Graphic Design",
-        "user": "williamsanders"
+        "name": "Events",
+        "parent": "OPERATION"
       },
       {
-        "title": "Exciting News: Software Release",
-        "topic": "Software Engineering",
-        "user": "sophiacook"
+        "name": "Education",
+        "parent": "GENERAL"
       },
       {
-        "title": "Event Management Workshop",
-        "topic": "Event Management",
-        "user": "emilybaker"
-      },
-      {
-        "title": "Data Analysis Workshop Registration Open",
-        "topic": "Educational Programs",
-        "user": "miasanchez"
-      },
-      {
-        "title": "Software Bug Fix Released",
-        "topic": "Software Engineering",
-        "user": "liamrivera"
-      },
-      {
-        "title": "Design Competition Announcement",
-        "topic": "Graphic Design",
-        "user": "oliverstone"
-      },
-      {
-        "title": "Financial Report Insights",
-        "topic": "Financial Planning",
-        "user": "miasanchez"
-      },
-      {
-        "title": "Community Outreach Initiative",
-        "topic": "Community Outreach",
-        "user": "emilybaker"
-      },
-      {
-        "title": "Materials Innovation Discussion",
-        "topic": "Materials",
-        "user": "sarahjane"
-      },
-      {
-        "title": "Business Performance Analysis Report",
-        "topic": "Financial Planning",
-        "user": "williamsanders"
-      },
-      {
-        "title": "Design Thinking Workshop",
-        "topic": "Graphic Design",
-        "user": "williamhayes"
-      },
-      {
-        "title": "Electric Vehicle Powertrain Innovations",
-        "topic": "Powertrain",
-        "user": "miasanchez"
-      },
-      {
-        "title": "Software Security Update Alert",
-        "topic": "Software Engineering",
-        "user": "williamsanders"
-      },
-      {
-        "title": "Event Sponsorship Opportunities",
-        "topic": "Sponsorship",
-        "user": "emilybaker"
-      },
-      {
-        "title": "Effective Data Visualization Techniques",
-        "topic": "Data Analysis",
-        "user": "miasanchez"
-      },
-      {
-        "title": "User Experience Design Trends",
-        "topic": "Graphic Design",
-        "user": "oliverstone"
-      },
-      {
-        "title": "Product Testing and Simulation Methods",
-        "topic": "Testing and Simulation",
-        "user": "williamhayes"
-      },
-      {
-        "title": "Financial Budgeting Strategies for Startups",
-        "topic": "Budgeting",
-        "user": "liamrivera"
-      },
-      {
-        "title": "Advertising Campaign Success Metrics",
-        "topic": "Advertising",
-        "user": "sophiacook"
-      },
-      {
-        "title": "Open Source Software Contributions",
-        "topic": "Software Engineering",
-        "user": "williamhayes"
-      },
-      {
-        "title": "Community Awareness Campaign",
-        "topic": "Community Outreach",
-        "user": "oliverstone"
-      },
-      {
-        "title": "Market Trends Analysis Report",
-        "topic": "Market Research",
-        "user": "liamrivera"
-      },
-      {
-        "title": "Sustainable Design Materials Discussion",
-        "topic": "Materials",
-        "user": "sarahjane"
-      },
-      {
-        "title": "Retirement Planning Strategies",
-        "topic": "Financial Planning",
-        "user": "sophiacook"
-      },
-      {
-        "title": "Creative Advertising Strategies",
-        "topic": "Advertising",
-        "user": "oliverstone"
-      },
-      {
-        "title": "Innovations in Chassis Design",
-        "topic": "Chassis Design",
-        "user": "emilyclark"
-      },
-      {
-        "title": "Advanced Aerodynamics Seminar",
-        "topic": "Aerodynamics",
-        "user": "ethanmoore"
-      },
-      {
-        "title": "New Electrical Systems Development",
-        "topic": "Electronics",
-        "user": "oliviawalker"
-      },
-      {
-        "title": "Cutting-edge Suspension Techniques",
-        "topic": "Suspension",
-        "user": "isabellajones"
-      },
-      {
-        "title": "Material Science Breakthroughs",
-        "topic": "Materials",
-        "user": "noahrogers"
-      },
-      {
-        "title": "Market Expansion Strategies",
-        "topic": "Market Research",
-        "user": "jacksonmiller"
-      },
-      {
-        "title": "Financial Analysis Workshop",
-        "topic": "Financial Planning",
-        "user": "aidenmartinez"
-      },
-      {
-        "title": "Effective Branding Techniques",
-        "topic": "Advertising",
-        "user": "avaanderson"
-      },
-      {
-        "title": "Software Optimization Techniques",
-        "topic": "Software Engineering",
-        "user": "jacobthompson"
-      },
-      {
-        "title": "Community Engagement Initiatives",
-        "topic": "Community Outreach",
-        "user": "miasanchez"
-      },
-      {
-        "title": "Product Development Strategies",
-        "topic": "Product Development",
-        "user": "sophiasmith"
-      },
-      {
-        "title": "Event Coordination Tips",
-        "topic": "Event Management",
-        "user": "oliverstone"
-      },
-      {
-        "title": "Data Analytics Trends",
-        "topic": "Data Analysis",
-        "user": "liamrivera"
-      },
-      {
-        "title": "Graphic Design Principles",
-        "topic": "Graphic Design",
-        "user": "williamhayes"
-      },
-      {
-        "title": "Software Security Best Practices",
-        "topic": "Software Engineering",
-        "user": "emmawilson"
-      },
-      {
-        "title": "Financial Forecasting Techniques",
-        "topic": "Financial Planning",
-        "user": "sophiacook"
-      },
-      {
-        "title": "Brand Promotion Strategies",
-        "topic": "Advertising",
-        "user": "williamsanders"
-      },
-      {
-        "title": "User Interface Design Trends",
-        "topic": "Software Engineering",
-        "user": "bobbykeren"
-      },
-      {
-        "title": "Community Building Efforts",
-        "topic": "Community Outreach",
-        "user": "jeffreymulloc"
-      },
-      {
-        "title": "Educational Program Expansion Plans",
-        "topic": "Educational Programs",
-        "user": "alicewond"
-      },
-      {
-        "title": "Data-driven Decision Making",
-        "topic": "Data Analysis",
-        "user": "michaelscott"
-      },
-      {
-        "title": "Software Quality Assurance Techniques",
-        "topic": "Software Engineering",
-        "user": "ameliabarnes"
-      },
-      {
-        "title": "Financial Investment Strategies",
-        "topic": "Financial Planning",
-        "user": "dannyboy"
-      },
-      {
-        "title": "Market Penetration Strategies",
-        "topic": "Market Research",
-        "user": "sarahjane"
-      },
-      {
-        "title": "Brand Identity Development",
-        "topic": "Advertising",
-        "user": "emilyclark"
-      },
-      {
-        "title": "Software Development Life Cycle Management",
-        "topic": "Software Engineering",
-        "user": "noahrogers"
-      },
-      {
-        "title": "Community Outreach Planning",
-        "topic": "Community Outreach",
-        "user": "jacksonmiller"
-      },
-      {
-        "title": "Financial Risk Management",
-        "topic": "Financial Planning",
-        "user": "ethanmoore"
-      },
-      {
-        "title": "Software Deployment Strategies",
-        "topic": "Software Engineering",
-        "user": "isabellajones"
-      },
-      {
-        "title": "Advertising Campaign Analysis",
-        "topic": "Advertising",
-        "user": "avaanderson"
+        "name": "Community Outreach",
+        "parent": "OPERATION"
       }
     ],
-    "TeamMember": [
-        {
-          "user": "bobbykeren",
-          "team": "Vencera Racing"
+  "Topic": [
+      {
+        "name": "Vehicle Design",
+        "category": "Design"
+      },
+      {
+        "name": "Graphic Design",
+        "category": "Design"
+      },
+      {
+        "name": "Aerodynamics",
+        "category": "Engineering Project"
+      },
+      {
+        "name": "Chassis Design",
+        "category": "Engineering Project"
+      },
+      {
+        "name": "Powertrain",
+        "category": "Engineering Project"
+      },
+      {
+        "name": "Suspension",
+        "category": "Engineering Project"
+      },
+      {
+        "name": "Electronics",
+        "category": "Engineering Project"
+      },
+      {
+        "name": "Materials",
+        "category": "Engineering Project"
+      },
+      {
+        "name": "Testing and Simulation",
+        "category": "Engineering Project"
+      },
+      {
+        "name": "Sponsorship",
+        "category": "Business Public Relations"
+      },
+      {
+        "name": "Event Management",
+        "category": "Business Public Relations"
+      },
+      {
+        "name": "Market Research",
+        "category": "Research and Development"
+      },
+      {
+        "name": "Product Development",
+        "category": "Research and Development"
+      },
+      {
+        "name": "Financial Planning",
+        "category": "Finance"
+      },
+      {
+        "name": "Budgeting",
+        "category": "Finance"
+      },
+      {
+        "name": "Advertising",
+        "category": "Marketing"
+      },
+      {
+        "name": "Public Relations",
+        "category": "Marketing"
+      },
+      {
+        "name": "Software Engineering",
+        "category": "Software Development"
+      },
+      {
+        "name": "Data Analysis",
+        "category": "Software Development"
+      },
+      {
+        "name": "Community Outreach",
+        "category": "Community Outreach"
+      },
+      {
+        "name": "Educational Programs",
+        "category": "Education"
+      }
+    ],
+  "Team": [
+      {
+        "name": "Public Relations Team"
+      },
+      {
+        "name": "Driverless Team"
+      },
+      {
+        "name": "Aerodynamics Team"
+      },
+      {
+        "name": "Chassis Team"
+      },
+      {
+        "name": "Manufacturing Team"
+      },
+      {
+        "name": "Electronics Team"
+      },
+      {
+        "name": "Vehicle Dynamics Team"
+      },
+      {
+        "name": "Software Development Team"
+      },
+      {
+        "name": "Financial Team"
+      },
+      {
+        "name": "Strategic Planning Team"
+      }
+    ],
+  "Post": [
+    {
+      "title": "Data Analysis Techniques Workshop",
+      "topic": "Data Analysis",
+      "user": "emilybaker"
+    },
+    {
+      "title": "STEM Education Outreach Program",
+      "topic": "Educational Programs",
+      "user": "miasanchez"
+    },
+    {
+      "title": "Community Clean-up Campaign",
+      "topic": "Community Outreach",
+      "user": "sarahjane"
+    },
+    {
+      "title": "Latest Innovations in Vehicle Design",
+      "topic": "Vehicle Design",
+      "user": "williamsanders"
+    },
+    {
+      "title": "Software Development Updates",
+      "topic": "Software Engineering",
+      "user": "oliverstone"
+    },
+    {
+      "title": "Innovative Product Launch Announcement",
+      "topic": "Product Development",
+      "user": "emilybaker"
+    },
+    {
+      "title": "Financial Planning Strategies for Startups",
+      "topic": "Financial Planning",
+      "user": "williamhayes"
+    },
+    {
+      "title": "Market Research Survey Participation Request",
+      "topic": "Market Research",
+      "user": "sophiasmith"
+    },
+    {
+      "title": "Graphic Design Competition Announcement",
+      "topic": "Graphic Design",
+      "user": "williamsanders"
+    },
+    {
+      "title": "Exciting News: Software Release",
+      "topic": "Software Engineering",
+      "user": "sophiacook"
+    },
+    {
+      "title": "Event Management Workshop",
+      "topic": "Event Management",
+      "user": "emilybaker"
+    },
+    {
+      "title": "Data Analysis Workshop Registration Open",
+      "topic": "Educational Programs",
+      "user": "miasanchez"
+    },
+    {
+      "title": "Software Bug Fix Released",
+      "topic": "Software Engineering",
+      "user": "liamrivera"
+    },
+    {
+      "title": "Design Competition Announcement",
+      "topic": "Graphic Design",
+      "user": "oliverstone"
+    },
+    {
+      "title": "Financial Report Insights",
+      "topic": "Financial Planning",
+      "user": "miasanchez"
+    },
+    {
+      "title": "Community Outreach Initiative",
+      "topic": "Community Outreach",
+      "user": "emilybaker"
+    },
+    {
+      "title": "Materials Innovation Discussion",
+      "topic": "Materials",
+      "user": "sarahjane"
+    },
+    {
+      "title": "Business Performance Analysis Report",
+      "topic": "Financial Planning",
+      "user": "williamsanders"
+    },
+    {
+      "title": "Design Thinking Workshop",
+      "topic": "Graphic Design",
+      "user": "williamhayes"
+    },
+    {
+      "title": "Electric Vehicle Powertrain Innovations",
+      "topic": "Powertrain",
+      "user": "miasanchez"
+    },
+    {
+      "title": "Software Security Update Alert",
+      "topic": "Software Engineering",
+      "user": "williamsanders"
+    },
+    {
+      "title": "Event Sponsorship Opportunities",
+      "topic": "Sponsorship",
+      "user": "emilybaker"
+    },
+    {
+      "title": "Effective Data Visualization Techniques",
+      "topic": "Data Analysis",
+      "user": "miasanchez"
+    },
+    {
+      "title": "User Experience Design Trends",
+      "topic": "Graphic Design",
+      "user": "oliverstone"
+    },
+    {
+      "title": "Product Testing and Simulation Methods",
+      "topic": "Testing and Simulation",
+      "user": "williamhayes"
+    },
+    {
+      "title": "Financial Budgeting Strategies for Startups",
+      "topic": "Budgeting",
+      "user": "liamrivera"
+    },
+    {
+      "title": "Advertising Campaign Success Metrics",
+      "topic": "Advertising",
+      "user": "sophiacook"
+    },
+    {
+      "title": "Open Source Software Contributions",
+      "topic": "Software Engineering",
+      "user": "williamhayes"
+    },
+    {
+      "title": "Community Awareness Campaign",
+      "topic": "Community Outreach",
+      "user": "oliverstone"
+    },
+    {
+      "title": "Market Trends Analysis Report",
+      "topic": "Market Research",
+      "user": "liamrivera"
+    },
+    {
+      "title": "Sustainable Design Materials Discussion",
+      "topic": "Materials",
+      "user": "sarahjane"
+    },
+    {
+      "title": "Retirement Planning Strategies",
+      "topic": "Financial Planning",
+      "user": "sophiacook"
+    },
+    {
+      "title": "Creative Advertising Strategies",
+      "topic": "Advertising",
+      "user": "oliverstone"
+    },
+    {
+      "title": "Innovations in Chassis Design",
+      "topic": "Chassis Design",
+      "user": "emilyclark"
+    },
+    {
+      "title": "Advanced Aerodynamics Seminar",
+      "topic": "Aerodynamics",
+      "user": "ethanmoore"
+    },
+    {
+      "title": "New Electrical Systems Development",
+      "topic": "Electronics",
+      "user": "oliviawalker"
+    },
+    {
+      "title": "Cutting-edge Suspension Techniques",
+      "topic": "Suspension",
+      "user": "isabellajones"
+    },
+    {
+      "title": "Material Science Breakthroughs",
+      "topic": "Materials",
+      "user": "noahrogers"
+    },
+    {
+      "title": "Market Expansion Strategies",
+      "topic": "Market Research",
+      "user": "jacksonmiller"
+    },
+    {
+      "title": "Financial Analysis Workshop",
+      "topic": "Financial Planning",
+      "user": "aidenmartinez"
+    },
+    {
+      "title": "Effective Branding Techniques",
+      "topic": "Advertising",
+      "user": "avaanderson"
+    },
+    {
+      "title": "Software Optimization Techniques",
+      "topic": "Software Engineering",
+      "user": "jacobthompson"
+    },
+    {
+      "title": "Community Engagement Initiatives",
+      "topic": "Community Outreach",
+      "user": "miasanchez"
+    },
+    {
+      "title": "Product Development Strategies",
+      "topic": "Product Development",
+      "user": "sophiasmith"
+    },
+    {
+      "title": "Event Coordination Tips",
+      "topic": "Event Management",
+      "user": "oliverstone"
+    },
+    {
+      "title": "Data Analytics Trends",
+      "topic": "Data Analysis",
+      "user": "liamrivera"
+    },
+    {
+      "title": "Graphic Design Principles",
+      "topic": "Graphic Design",
+      "user": "williamhayes"
+    },
+    {
+      "title": "Software Security Best Practices",
+      "topic": "Software Engineering",
+      "user": "emmawilson"
+    },
+    {
+      "title": "Financial Forecasting Techniques",
+      "topic": "Financial Planning",
+      "user": "sophiacook"
+    },
+    {
+      "title": "Brand Promotion Strategies",
+      "topic": "Advertising",
+      "user": "williamsanders"
+    },
+    {
+      "title": "User Interface Design Trends",
+      "topic": "Software Engineering",
+      "user": "bobbykeren"
+    },
+    {
+      "title": "Community Building Efforts",
+      "topic": "Community Outreach",
+      "user": "jeffreymulloc"
+    },
+    {
+      "title": "Educational Program Expansion Plans",
+      "topic": "Educational Programs",
+      "user": "alicewond"
+    },
+    {
+      "title": "Data-driven Decision Making",
+      "topic": "Data Analysis",
+      "user": "michaelscott"
+    },
+    {
+      "title": "Software Quality Assurance Techniques",
+      "topic": "Software Engineering",
+      "user": "ameliabarnes"
+    },
+    {
+      "title": "Financial Investment Strategies",
+      "topic": "Financial Planning",
+      "user": "dannyboy"
+    },
+    {
+      "title": "Market Penetration Strategies",
+      "topic": "Market Research",
+      "user": "sarahjane"
+    },
+    {
+      "title": "Brand Identity Development",
+      "topic": "Advertising",
+      "user": "emilyclark"
+    },
+    {
+      "title": "Software Development Life Cycle Management",
+      "topic": "Software Engineering",
+      "user": "noahrogers"
+    },
+    {
+      "title": "Community Outreach Planning",
+      "topic": "Community Outreach",
+      "user": "jacksonmiller"
+    },
+    {
+      "title": "Financial Risk Management",
+      "topic": "Financial Planning",
+      "user": "ethanmoore"
+    },
+    {
+      "title": "Software Deployment Strategies",
+      "topic": "Software Engineering",
+      "user": "isabellajones"
+    },
+    {
+      "title": "Advertising Campaign Analysis",
+      "topic": "Advertising",
+      "user": "avaanderson"
+    }
+  ],
+  "TeamMember": [
+      {
+        "user": "bobbykeren",
+        "team": "Public Relations Team"
+      },
+      {
+        "user": "michaelscott",
+        "team": "Driverless Team"
+      },
+      {
+        "user": "michaelscott",
+        "team": "Electronics Team"
+      },
+      {
+        "user": "alicewond",
+        "team": "Aerodynamics Team"
+      },
+      {
+        "user": "alicewond",
+        "team": "Vehicle Dynamics Team"
+      },
+      {
+        "user": "dannyboy",
+        "team": "Electronics Team"
+      },
+      {
+        "user": "sarahjane",
+        "team": "Electronics Team"
+      },
+      {
+        "user": "bobbykeren",
+        "team": "Vehicle Dynamics Team"
+      },
+      {
+        "user": "aidenmartinez",
+        "team": "Electronics Team"
+      },
+      {
+        "user": "avaanderson",
+        "team": "Vehicle Dynamics Team"
+      },
+      {
+        "user": "jacobthompson",
+        "team": "Electronics Team"
+      },
+      {
+        "user": "miasanchez",
+        "team": "Software Development Team"
+      },
+      {
+        "user": "liamrivera",
+        "team": "Electronics Team"
+      },
+      {
+        "user": "emilybaker",
+        "team": "Vehicle Dynamics Team"
+      },
+      {
+        "user": "sophiacook",
+        "team": "Strategic Planning Team"
+      },
+      {
+        "user": "williamsanders",
+        "team": "Vehicle Dynamics Team"
+      }
+    ],
+  "TeamLead": [
+      {
+        "user": "jeffreymulloc",
+        "team": "Public Relations Team"
+      },
+      {
+        "user": "ameliabarnes",
+        "team": "Driverless Team"
+      },
+      {
+        "user": "oliverstone",
+        "team": "Aerodynamics Team"
+      },
+      {
+        "user": "emilyclark",
+        "team": "Manufacturing Team"
+      },
+      {
+        "user": "ethanmoore",
+        "team": "Electronics Team"
+      },
+      {
+        "user": "oliviawalker",
+        "team": "Vehicle Dynamics Team"
+      },
+      {
+        "user": "williamhayes",
+        "team": "Software Development Team"
+      },
+      {
+        "user": "isabellajones",
+        "team": "Financial Team"
+      },
+      {
+        "user": "noahrogers",
+        "team": "Strategic Planning Team"
+      },
+      {
+        "user": "sophiasmith",
+        "team": "Chassis Team"
+      }
+    ],
+  "CustomUser": [
+      {
+        "username": "bobbykeren",
+        "email": "bobbykeren@example.com",
+        "first_name": "Bobby",
+        "last_name": "Keren",
+        "student_id": "2347773"
+      },
+      {
+        "username": "jeffreymulloc",
+        "email": "jeffr4y@gmail.com",
+        "first_name": "Jeffrey",
+        "last_name": "Mulloc",
+        "student_id": "2748235"
+      },
+      {
+        "username": "alicewond",
+        "email": "alicewond@example.com",
+        "first_name": "Alice",
+        "last_name": "Wond",
+        "student_id": "2018551"
+      },
+      {
+        "username": "dannyboy",
+        "email": "dannyboy@example.com",
+        "first_name": "Danny",
+        "last_name": "Boy",
+        "student_id": "2345678"
+      },
+      {
+        "username": "sarahjane",
+        "email": "sarahjane@example.com",
+        "first_name": "Sarah",
+        "last_name": "Jane",
+        "student_id": "2980477"
+      },
+      {
+        "username": "michaelscott",
+        "email": "michaelscott@example.com",
+        "first_name": "Michael",
+        "last_name": "Scott",
+        "student_id": "2348778"
+      },
+      {
+        "username": "ameliabarnes",
+        "email": "ameliabarnes@example.com",
+        "first_name": "Amelia",
+        "last_name": "Barnes",
+        "student_id": "7654321"
+      },
+      {
+        "username": "oliverstone",
+        "email": "oliverstone@example.com",
+        "first_name": "Oliver",
+        "last_name": "Stone",
+        "student_id": "3456789"
+      },
+      {
+        "username": "emilyclark",
+        "email": "emilyclark@example.com",
+        "first_name": "Emily",
+        "last_name": "Clark",
+        "student_id": "8765432"
+      },
+      {
+        "username": "ethanmoore",
+        "email": "ethanmoore@example.com",
+        "first_name": "Ethan",
+        "last_name": "Moore",
+        "student_id": "9876543"
+      },
+      {
+        "username": "oliviawalker",
+        "email": "oliviawalker@example.com",
+        "first_name": "Olivia",
+        "last_name": "Walker",
+        "student_id": "4567890"
+      },
+      {
+        "username": "williamhayes",
+        "email": "williamhayes@example.com",
+        "first_name": "William",
+        "last_name": "Hayes",
+        "student_id": "5678901"
+      },
+      {
+        "username": "isabellajones",
+        "email": "isabellajones@example.com",
+        "first_name": "Isabella",
+        "last_name": "Jones",
+        "student_id": "6789012"
+      },
+      {
+        "username": "noahrogers",
+        "email": "noahrogers@example.com",
+        "first_name": "Noah",
+        "last_name": "Rogers",
+        "student_id": "7890123"
+      },
+      {
+        "username": "sophiasmith",
+        "email": "sophiasmith@example.com",
+        "first_name": "Sophia",
+        "last_name": "Smith",
+        "student_id": "8901234"
+      },
+      {
+        "username": "jacksonmiller",
+        "email": "jacksonmiller@example.com",
+        "first_name": "Jackson",
+        "last_name": "Miller",
+        "student_id": "9012345"
+      },
+      {
+        "username": "emmawilson",
+        "email": "emmawilson@example.com",
+        "first_name": "Emma",
+        "last_name": "Wilson",
+        "student_id": "1123456"
+      },
+      {
+        "username": "aidenmartinez",
+        "email": "aidenmartinez@example.com",
+        "first_name": "Aiden",
+        "last_name": "Martinez",
+        "student_id": "1234567"
+      },
+      {
+        "username": "avaanderson",
+        "email": "avaanderson@example.com",
+        "first_name": "Ava",
+        "last_name": "Anderson",
+        "student_id": "2369831"
+      },
+      {
+        "username": "jacobthompson",
+        "email": "jacobthompson@example.com",
+        "first_name": "Jacob",
+        "last_name": "Thompson",
+        "student_id": "2231212"
         },
         {
-          "user": "michaelscott",
-          "team": "Alusis Motor Team"
+        "username": "miasanchez",
+        "email": "miasanchez@example.com",
+        "first_name": "Mia",
+        "last_name": "Sanchez",
+        "student_id": "2938475"
         },
         {
-          "user": "michaelscott",
-          "team": "Blaze Speedsters"
+        "username": "liamrivera",
+        "email": "liamrivera@example.com",
+        "first_name": "Liam",
+        "last_name": "Rivera",
+        "student_id": "2311451"
         },
         {
-          "user": "alicewond",
-          "team": "Speedforce Racing"
+        "username": "emilybaker",
+        "email": "emilybaker@example.com",
+        "first_name": "Emily",
+        "last_name": "Baker",
+        "student_id": "6123112"
         },
         {
-          "user": "alicewond",
-          "team": "Thunderbolt Racing"
+        "username": "sophiacook",
+        "email": "sophiacook@example.com",
+        "first_name": "Sophia",
+        "last_name": "Cook",
+        "student_id": "2773799"
         },
         {
-          "user": "dannyboy",
-          "team": "Blaze Speedsters"
-        },
-        {
-          "user": "sarahjane",
-          "team": "Blaze Speedsters"
-        },
-        {
-          "user": "bobbykeren",
-          "team": "Thunderbolt Racing"
-        },
-        {
-          "user": "aidenmartinez",
-          "team": "Blaze Speedsters"
-        },
-        {
-          "user": "avaanderson",
-          "team": "Thunderbolt Racing"
-        },
-        {
-          "user": "jacobthompson",
-          "team": "Blaze Speedsters"
-        },
-        {
-          "user": "miasanchez",
-          "team": "Nova Velocity Racing"
-        },
-        {
-          "user": "liamrivera",
-          "team": "Blaze Speedsters"
-        },
-        {
-          "user": "emilybaker",
-          "team": "Thunderbolt Racing"
-        },
-        {
-          "user": "sophiacook",
-          "team": "Dragon Fury Racing"
-        },
-        {
-          "user": "williamsanders",
-          "team": "Thunderbolt Racing"
+        "username": "williamsanders",
+        "email": "williamsanders@example.com",
+        "first_name": "William",
+        "last_name": "Sanders",
+        "student_id": "2901234"
         }
-      ],
-    "TeamLead": [
-        {
-          "user": "jeffreymulloc",
-          "team": "Vencera Racing"
-        },
-        {
-          "user": "ameliabarnes",
-          "team": "Alusis Motor Team"
-        },
-        {
-          "user": "oliverstone",
-          "team": "Speedforce Racing"
-        },
-        {
-          "user": "emilyclark",
-          "team": "Crimson Racing"
-        },
-        {
-          "user": "ethanmoore",
-          "team": "Blaze Speedsters"
-        },
-        {
-          "user": "oliviawalker",
-          "team": "Thunderbolt Racing"
-        },
-        {
-          "user": "williamhayes",
-          "team": "Nova Velocity Racing"
-        },
-        {
-          "user": "isabellajones",
-          "team": "Aurora Racing"
-        },
-        {
-          "user": "noahrogers",
-          "team": "Dragon Fury Racing"
-        },
-        {
-          "user": "sophiasmith",
-          "team": "Vencera Racing"
-        }
-      ],
-    "CustomUser": [
-        {
-          "username": "bobbykeren",
-          "email": "bobbykeren@example.com",
-          "first_name": "Bobby",
-          "last_name": "Keren",
-          "student_id": "2347773"
-        },
-        {
-          "username": "jeffreymulloc",
-          "email": "jeffr4y@gmail.com",
-          "first_name": "Jeffrey",
-          "last_name": "Mulloc",
-          "student_id": "2748235"
-        },
-        {
-          "username": "alicewond",
-          "email": "alicewond@example.com",
-          "first_name": "Alice",
-          "last_name": "Wond",
-          "student_id": "2018551"
-        },
-        {
-          "username": "dannyboy",
-          "email": "dannyboy@example.com",
-          "first_name": "Danny",
-          "last_name": "Boy",
-          "student_id": "2345678"
-        },
-        {
-          "username": "sarahjane",
-          "email": "sarahjane@example.com",
-          "first_name": "Sarah",
-          "last_name": "Jane",
-          "student_id": "2980477"
-        },
-        {
-          "username": "michaelscott",
-          "email": "michaelscott@example.com",
-          "first_name": "Michael",
-          "last_name": "Scott",
-          "student_id": "2348778"
-        },
-        {
-          "username": "ameliabarnes",
-          "email": "ameliabarnes@example.com",
-          "first_name": "Amelia",
-          "last_name": "Barnes",
-          "student_id": "7654321"
-        },
-        {
-          "username": "oliverstone",
-          "email": "oliverstone@example.com",
-          "first_name": "Oliver",
-          "last_name": "Stone",
-          "student_id": "3456789"
-        },
-        {
-          "username": "emilyclark",
-          "email": "emilyclark@example.com",
-          "first_name": "Emily",
-          "last_name": "Clark",
-          "student_id": "8765432"
-        },
-        {
-          "username": "ethanmoore",
-          "email": "ethanmoore@example.com",
-          "first_name": "Ethan",
-          "last_name": "Moore",
-          "student_id": "9876543"
-        },
-        {
-          "username": "oliviawalker",
-          "email": "oliviawalker@example.com",
-          "first_name": "Olivia",
-          "last_name": "Walker",
-          "student_id": "4567890"
-        },
-        {
-          "username": "williamhayes",
-          "email": "williamhayes@example.com",
-          "first_name": "William",
-          "last_name": "Hayes",
-          "student_id": "5678901"
-        },
-        {
-          "username": "isabellajones",
-          "email": "isabellajones@example.com",
-          "first_name": "Isabella",
-          "last_name": "Jones",
-          "student_id": "6789012"
-        },
-        {
-          "username": "noahrogers",
-          "email": "noahrogers@example.com",
-          "first_name": "Noah",
-          "last_name": "Rogers",
-          "student_id": "7890123"
-        },
-        {
-          "username": "sophiasmith",
-          "email": "sophiasmith@example.com",
-          "first_name": "Sophia",
-          "last_name": "Smith",
-          "student_id": "8901234"
-        },
-        {
-          "username": "jacksonmiller",
-          "email": "jacksonmiller@example.com",
-          "first_name": "Jackson",
-          "last_name": "Miller",
-          "student_id": "9012345"
-        },
-        {
-          "username": "emmawilson",
-          "email": "emmawilson@example.com",
-          "first_name": "Emma",
-          "last_name": "Wilson",
-          "student_id": "1123456"
-        },
-        {
-          "username": "aidenmartinez",
-          "email": "aidenmartinez@example.com",
-          "first_name": "Aiden",
-          "last_name": "Martinez",
-          "student_id": "1234567"
-        },
-        {
-          "username": "avaanderson",
-          "email": "avaanderson@example.com",
-          "first_name": "Ava",
-          "last_name": "Anderson",
-          "student_id": "2369831"
-        },
-        {
-          "username": "jacobthompson",
-          "email": "jacobthompson@example.com",
-          "first_name": "Jacob",
-          "last_name": "Thompson",
-          "student_id": "2231212"
-          },
-          {
-          "username": "miasanchez",
-          "email": "miasanchez@example.com",
-          "first_name": "Mia",
-          "last_name": "Sanchez",
-          "student_id": "2938475"
-          },
-          {
-          "username": "liamrivera",
-          "email": "liamrivera@example.com",
-          "first_name": "Liam",
-          "last_name": "Rivera",
-          "student_id": "2311451"
-          },
-          {
-          "username": "emilybaker",
-          "email": "emilybaker@example.com",
-          "first_name": "Emily",
-          "last_name": "Baker",
-          "student_id": "6123112"
-          },
-          {
-          "username": "sophiacook",
-          "email": "sophiacook@example.com",
-          "first_name": "Sophia",
-          "last_name": "Cook",
-          "student_id": "2773799"
-          },
-          {
-          "username": "williamsanders",
-          "email": "williamsanders@example.com",
-          "first_name": "William",
-          "last_name": "Sanders",
-          "student_id": "2901234"
-          }
-      ]
-  }
-  
+    ]
+}

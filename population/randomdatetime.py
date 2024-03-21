@@ -3,7 +3,7 @@ from datetime import timedelta, datetime, timezone
 
 DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S.%f"
 UTC_OFFSET = "+00:00"
-FLOOR_DATETIME = "2014-01-01 01:30:00.000000"
+FLOOR_DATETIME = "2022-01-01 01:30:00.000000"
 CEIL_DATETIME = "2024-03-21 03:19:28.999999"
 
 def to_seconds(days):
