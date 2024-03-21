@@ -54,14 +54,14 @@ def list_topics(request, category_slug):
         category = Category.objects.get(slug=category_slug)
         topics = Topic.objects.filter(category=category)
         context_dict['category'] = category
-        context_dict['topics'] = { topic : [{'post' : post, 'pfp' : UserProfile.objects.get(user = post.author).picture} for post in list(sorted(Post.objects.filter(topic=topic), key = lambda post : post.viewership))[:3]] for topic in topics }
+        context_dict['topics'] = { topic : [{'post' : post, 'pfp' : CustomUser.objects.get(user = post.user).picture} for post in list(sorted(Post.objects.filter(topic=topic), key = lambda post : post.viewership))[:3]] for topic in topics }
         return render(request, APP_NAME+'/category.html', context=context_dict)
 
     except Category.DoesNotExist:
         return render(request, APP_NAME+'/category.html', context={}, status=404)
 
 
-def list_posts(request, category_slug, topic_slug):
+def list_posts(request, topic_slug):
     context_dict = {}
 
     try:
@@ -71,7 +71,7 @@ def list_posts(request, category_slug, topic_slug):
         context_dict['topic'] = topic
         posts = Post.objects.filter(topic=topic)
         context_dict['topics'] = {
-            topic : [{'post' : post, 'pfp' : UserProfile.objects.get(user = post.author).picture} for post in posts]
+            topic : [{'post' : post, 'pfp' : CustomUser.objects.get(user = post.user).picture} for post in posts]
         }
 
         return render(request, APP_NAME+'/topic.html', context=context_dict)
@@ -80,7 +80,7 @@ def list_posts(request, category_slug, topic_slug):
         return render(request, APP_NAME+'/topic.html', context={}, status=404)
 
 
-def display_post(request, category_slug, topic_slug, post_id):
+def display_post(request, post_id):
     context_dict = {}
     try:
         post = Post.objects.get(id=post_id)
@@ -123,7 +123,7 @@ def create_post(request, topic_slug):
             if topic:
                 post = form.save(commit=False)
                 post.topic = topic
-                post.author = CustomUser.objects.get(user=request.user)
+                post.user = CustomUser.objects.get(user=request.user)
                 post.date_added = timezone.now()
                 if 'file' in request.FILES:
                     post.file = request.FILES['file']
@@ -232,7 +232,7 @@ def show_team(request, team_slug):
         context_dict['team_members_names'] = [context_dict['team_lead'].user.username] + [memebr.user.username for memebr in context_dict['team_members']]
         context_dict['view_topic_page'] = True
         context_dict['topics'] = {
-            topic : [{'post' : post, 'pfp' : UserProfile.objects.get(user = post.author).picture} for post in list(sorted(Post.objects.filter(topic=topic), key = lambda post : post.viewership))[:3]] for topic in context_dict['team_lead'].topic_access.all()
+            topic : [{'post' : post, 'pfp' : CustomUser.objects.get(user = post.user).picture} for post in list(sorted(Post.objects.filter(topic=topic), key = lambda post : post.viewership))[:3]] for topic in context_dict['team_lead'].topic_access.all()
         }
         context_dict['selected'] = context_dict['team_lead'].user
 
