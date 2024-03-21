@@ -19,6 +19,7 @@ from django.urls import path, include
 from formula import views
 from formula.views import CustomLogoutView
 
+
 urlpatterns = [
     path('', views.redirectView),
     path('formula/', views.index, name='index'),

@@ -10,6 +10,9 @@ from django.utils import timezone
 from django.db.models.functions import ExtractYear
 from django.urls import reverse, NoReverseMatch
 from django.utils.deprecation import MiddlewareMixin
+from django.shortcuts import get_object_or_404
+from .forms import CustomUserChangeForm
+
 
 APP_NAME = 'formula'
 REGISTER_NAME = 'registration'
@@ -38,12 +41,11 @@ def index(request):
 
 
 def about(request):
-    text_description = "A forum dedicated to allowing users to communicate and learn about the development, upkeep and use of race cars"
-    contact_email = "2345678@student.gla.ac.uk"
 
-    context_dict = {}
-    context_dict['text'] = text_description
-    context_dict['contact'] = contact_email
+    context_dict = {
+        'text_description' : "A forum dedicated to allowing users to communicate and learn about the development, upkeep and use of race cars. For Racers, by Racers.",
+        'contact_email' : "formulau1@outlook.com"
+    }
 
     return render(request, APP_NAME + '/about.html', context=context_dict)
 
@@ -55,7 +57,21 @@ def list_topics(request, category_slug):
         category = Category.objects.get(slug=category_slug)
         topics = Topic.objects.filter(category=category)
         context_dict['category'] = category
-        context_dict['topics'] = { topic : [{'post' : post, 'pfp' : UserProfile.objects.get(user = post.author).picture} for post in list(sorted(Post.objects.filter(topic=topic), key = lambda post : post.viewership))[:3]] for topic in topics }
+        context_dict['topics'] = {}
+        for topic in topics:
+            pfp_list = []
+            post_list = Post.objects.filter(topic=topic)
+            post_list = post_list.order_by('viewership')[:3]
+            for post in post_list:
+                post_dict = {}
+                post_dict['post'] = post
+                p = CustomUser.objects.get(username=post.user.username)
+                post_dict['pfp'] = p.picture
+                pfp_list.append(post_dict)
+                context_dict['topics'][topic] = pfp_list
+
+
+        #context_dict['topics'] = { topic : [{'post' : post, 'pfp' : CustomUser.objects.get(user = post.user).picture} for post in list(sorted(Post.objects.filter(topic=topic), key = lambda post : post.viewership))[:3]] for topic in topics }
         return render(request, APP_NAME+'/category.html', context=context_dict)
 
     except Category.DoesNotExist:
@@ -71,9 +87,15 @@ def list_posts(request, category_slug, topic_slug):
         context_dict['category'] = category
         context_dict['topic'] = topic
         posts = Post.objects.filter(topic=topic)
-        context_dict['topics'] = {
-            topic : [{'post' : post, 'pfp' : UserProfile.objects.get(user = post.author).picture} for post in posts]
-        }
+        context_dict['topics'] = {}
+        pfp_list = []
+        for post in posts:
+            post_dict = {}
+            post_dict['post'] = post
+            p = CustomUser.objects.get(username=post.user.username)
+            post_dict['pfp'] = p.picture
+            pfp_list.append(post_dict)
+            context_dict['topics'][topic] = pfp_list
 
         return render(request, APP_NAME+'/topic.html', context=context_dict)
 
@@ -124,7 +146,7 @@ def create_post(request, topic_slug):
             if topic:
                 post = form.save(commit=False)
                 post.topic = topic
-                post.author = CustomUser.objects.get(user=request.user)
+                post.user = CustomUser.objects.get(user=request.user)
                 post.date_added = timezone.now()
                 if 'file' in request.FILES:
                     post.file = request.FILES['file']
@@ -185,6 +207,18 @@ def show_profile(request, username):
 
     return render(request, APP_NAME + '/profile.html', context=context_dict)
 
+@login_required
+def edit_profile(request, username):
+    user = get_object_or_404(CustomUser, username=username)
+    if request.method == 'POST':
+        form = CustomUserChangeForm(request.POST, request.FILES, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('formula:profile', username=request.user.username)
+    else:
+        form = CustomUserChangeForm(instance=request.user)
+    return redirect('formula:edit_profile', username=request.user.username)
+
 
 def register(request):
     registered = False
@@ -226,3 +260,23 @@ class CustomLogoutView(LogoutView):
         # User is authenticated, proceed with the normal LogoutView flow
         return super().dispatch(request, *args, **kwargs)
 
+def show_team(request, team_slug):
+    try:
+        context_dict={}
+        context_dict['team'] = Team.objects.get(slug=team_slug)
+        context_dict['team_members'] = TeamMember.objects.filter(team=context_dict['team'])
+        context_dict['team_lead'] = TeamLead.objects.get(team=context_dict['team'])
+        context_dict['team_members_names'] = [context_dict['team_lead'].user.username] + [memebr.user.username for memebr in context_dict['team_members']]
+        context_dict['view_topic_page'] = True
+        context_dict['topics'] = {
+            topic : [{'post' : post, 'pfp' : CustomUser.objects.get(user = post.user).picture} for post in list(sorted(Post.objects.filter(topic=topic), key = lambda post : post.viewership))[:3]] for topic in context_dict['team_lead'].topic_access.all()
+        }
+        context_dict['selected'] = context_dict['team_lead'].user
+
+        if request.GET.get("profile", default=False) in context_dict['team_members_names']:
+            context_dict['selected'] = CustomUser.objects.get(username=request.GET.get('profile'))
+
+        return render(request, APP_NAME+'/team.html', context=context_dict)
+
+    except Team.DoesNotExist:
+        return render(request, APP_NAME+'/404.html', context=context_dict, status=404)

@@ -24,7 +24,11 @@
 
         <div class="header-links">
             <a href="{%url 'formula:about' %}" class="header-link">?</a>
-            <a href="{%url 'formula:profile' %}" class="header-link">👤</a>
+            {% if request.user.is_authenticated %}
+                <a href="{% url 'formula:profile' request.user.username %}" class="header-link">👤</a>
+            {% else %}
+                <a href="{% url 'login' %}" class="header-link">👤</a>
+            {% endif %}
             <a href="{%url 'formula:about' %}" class="header-link">➕</a>
             <a href="{% url 'logout' %}" class="header-link">🚪</a>
         </div>
@@ -43,7 +47,7 @@
     <footer>
     <p>
     Statistics //  Who is online <br>
-    Total posts {{ total_posts }} • Total topics {{ total_topics }} • Total members {{ total_members }} • Our newest member {{ newest_member }}
+    Total posts {{ request.total_posts }} • Total topics {{ request.total_topics }} • Total members {{ request.total_members }} • Our newest member {{ request.newest_member }}
     </p>
         {% block footer %}
         <!-- Your universal footer content goes here -->

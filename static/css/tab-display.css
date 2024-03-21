@@ -1,0 +1,104 @@
+:root {
+	--radius: 3.5mm;
+	--tab-hover-color: #292929;
+}
+
+#tabs-display {
+	width: 75%;
+	margin: auto;
+	margin-top: 5%;
+	margin-bottom: 5%;
+}
+
+#tabs-display-content {
+	border-top: 1ex solid var(--black);
+	padding-bottom: 1ex;
+	width: 100%;
+}
+
+#tabs-display > nav {
+	height: 1.5cm;
+}
+
+#tabs-bar {
+	overflow-x: hidden;
+	height: 5ex;
+}
+
+#tabs-bar > ul {
+	overflow-x: scroll;
+	scroll-behavior: smooth;
+	scrollbar-width: none;
+	min-width: 100%;
+	padding: 0;
+	margin: 0;
+	height: 100%;
+	list-style-type: none;
+	display: flex;
+	background-color: rgba(0, 0, 0, 0);
+}
+
+.tab {
+	min-width: 14ex; /*Prevnts tabs being squished to avoid overflow*/
+	width: 14ex;
+	height: 100%;
+	border-top-left-radius: var(--radius);
+	border-top-right-radius: var(--radius);
+	position: relative;
+	text-align: center;
+	line-height: 5ex;
+	vertical-align: middle;
+}
+
+.tab > span {
+	display: block;
+	width: 100%;
+	text-align: center;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.tab + .tab {
+	margin-left: 1mm;
+}
+
+.tab.active {
+	background-color: var(--black);
+	z-index: 1;
+	--inherit-color: var(--black);
+}
+
+.tab:not(.active):hover {
+	background-color: var(--tab-hover-color);
+	--inherit-color: var(--tab-hover-color)
+}
+
+.tab:not(.active, :hover) {
+	background-color: rgba(0, 0, 0, 0);
+}
+
+.tab + .tab.active::before,
+.tab + .tab:not(.active):hover::before,
+.tab:not(:last-of-type).active::after,
+.tab:not(.active, :last-of-type):hover::after {
+	content: '';
+	position: absolute;
+	width: calc(2 * var(--radius));
+	height: calc(2 * var(--radius));
+	background-image: radial-gradient(circle,
+		rgba(0, 0, 0, 0) calc(var(--radius) + 1px),
+		var(--inherit-color) var(--radius));
+	bottom: 0%;
+}
+
+.tab + .tab.active::before,
+.tab + .tab:not(.active):hover::before {
+	border-radius: var(--radius) var(--radius) 0 var(--radius);
+	right: 100%;
+}
+
+.tab:not(:last-of-type).active::after ,
+.tab:not(.active, :last-of-type):hover::after {
+	border-radius: var(--radius) var(--radius) var(--radius) 0;
+	left: 100%;
+}

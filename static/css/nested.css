@@ -13,12 +13,12 @@ p {
 	margin-right: 1cm;
 }
 
-.post-details, .author-details {
+.post-details, .user-details {
 	position: relative;
 	height: 100%;
 }
 
-.author-details {
+.user-details {
 	padding-left: 0.5cm;
 }
 
@@ -31,10 +31,6 @@ hr {
 	margin: 0;
 	border-color: rgba(0, 0, 0, 0.25);
 	border-style: solid;
-}
-
-.view-topic-page {
-	background-color: #25425F !Important;
 }
 
 .above-list {
@@ -61,7 +57,7 @@ img.pfp {
 	height: 2em;
 }
 
-.author-details > div {
+.user-details > div {
 	display: inline-block;
 	height: 100%;
 	vertical-align: top;

@@ -1,0 +1,57 @@
+{% if header %}
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/topic-list.css' %}?version=0" />
+{% else %}
+	<div class="category">
+		<div>
+			{{ topic.name }}
+		</div>
+		{% if view_topic_page %}
+			<a href="{% url 'formula:posts' topic.category.slug topic.slug %}" class="view-topic-page">
+				View topic page
+			</a>
+		{% endif %}
+		{% for post_data in posts %}
+			<a  href="{% url 'formula:post' category.slug topic.slug post_data.post.id %}">
+				<span>{{ post_data.post.title }}</span>
+				<div class="space"></div>
+				<div class="post-details" style="width: 3cm;">
+					{{ post_data.post.date_added }}
+				</div>
+				<hr>
+				<div class="user-details" style="width: 4cm;">
+					<img src="{{ post_data.pfp.url }}" alt="pfp" class="pfp"/>
+					<div>{{ post_data.post.user.username }}</div>
+				</div>
+			</a>
+		{% empty %}
+			<div>
+				There are no posts under this topic :(
+			</div>
+		{% endfor %}
+	</div>
+{% endif %}
+
+{% comment %}
+<!--
+	List-name - topic.name
+	Under-list-name - <a href="{% url 'formula:posts' category.slug topic.slug %}" class="view-topic-page">
+				View topic page
+			</a>
+	List-items - <a  href="{% url 'formula:post' category.slug topic.slug post_data.post.id %}">
+				<span>{{ post_data.post.title }}</span>
+				<div class="space"></div>
+				<div class="post-details" style="width: 3cm;">
+					{{ post_data.post.date_added }}
+				</div>
+				<hr>
+				<div class="user-details" style="width: 4cm;">
+					<img src="{{ post_data.pfp.url }}" alt="pfp" class="pfp"/>
+					<div>{{ post_data.post.user.username }}</div>
+				</div>
+			</a>
+	Empty - <div>
+				There are no posts under this topic :(
+			</div>
+-->
+{% endcomment %}

@@ -4,7 +4,8 @@
 
 {% block extra_js %}
 	<link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}?version=0">
-	<link rel="stylesheet" type="text/css" href="{% static 'css/List.css' %}?version=0">
+	{% include 'formula/topic-list.html' with header=True only %} <!-- Allows us to copy the css for topic-list using different html structure -->
+	{% include 'formula/tab-display.html' with header=True only %}
 	<script type="text/javascript" src="{% static 'js/index.js' %}?version=0"></script>
 {% endblock %}
 
@@ -12,24 +13,13 @@
 {% endblock %}
 
 {% block content %}
-	<div id="tabs-display">
-		<div id="tabs-bar">
-			<ul>
-				{% for year in years %}
-					<li class="tab{% if forloop.counter0 == 0 %} active{% endif %}" onclick="set_active_tab({{ forloop.counter0 }})">
-						{{ year }}
-					</li>
-				{% endfor %}
-			</ul>
-		</div>
-		<div id="tabs-display-content" class="category">
-			{% for category in current_year_categories %}
-				<a href="{% url 'formula:topics' category.slug %}">{{ category.name }}</a>
-			{% empty %}
-				<div>There were no categories for this year</div>
-			{% endfor %}
-		</div>
-	</div>
+	{% include 'formula/tab-display.html' with end=False tabs=years content_class="category" tab_selected_func="update_categories" only %}
+		{% for category in current_year_categories %}
+			<a href="{% url 'formula:topics' category.slug %}">{{ category.name }}</a>
+		{% empty %}
+			<div>There were no categories for this year</div>
+		{% endfor %}
+	{% include 'formula/tab-display.html' with end=True only %}
 {% endblock %}
 
 {% block footer %}
