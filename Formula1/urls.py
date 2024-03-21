@@ -21,6 +21,7 @@ from formula import views
 from formula.views import CustomLogoutView
 from . import settings
 
+
 urlpatterns = [
     path('', views.index, name='index'),
     path('formula/', include('formula.urls')),

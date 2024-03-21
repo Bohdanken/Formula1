@@ -1,0 +1,66 @@
+/* Add this to your profile.css file */
+
+/* Container for the entire profile */
+.profile-container {
+    max-width: 900px;
+    margin: 40px auto; /* Center the container with auto margins */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 20px;
+    flex-wrap: wrap; /* Allows wrapping for smaller screens */
+}
+
+/* Name centered at the top */
+.profile-name h3 {
+    width: 100%;
+    text-align: center;
+    vertical-align: top;
+    margin-bottom: 20px;
+}
+
+/* Profile details on the left */
+.profile-details {
+    background: #3287c3;
+    padding: 20px;
+    border-radius: 8px;
+    flex-grow: 1; /* Takes up remaining space */
+}
+
+/* Profile image on the right */
+.profile-image-container {
+    background: #3287c3;
+    padding: 20px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Image style */
+.profile-image-container img {
+    max-width: 200px; /* Adjust as needed */
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* Edit profile link at the bottom */
+.edit-profile-link {
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Link style */
+.edit-profile-link a {
+    color: #ffffff;
+    background-color: #f0ad4e;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.edit-profile-link a:hover {
+    background-color: #ec971f;
+}

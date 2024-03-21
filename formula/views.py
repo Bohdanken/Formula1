@@ -10,6 +10,9 @@ from django.utils import timezone
 from django.db.models.functions import ExtractYear
 from django.urls import reverse, NoReverseMatch
 from django.utils.deprecation import MiddlewareMixin
+from django.shortcuts import get_object_or_404
+from .forms import CustomUserChangeForm
+
 
 APP_NAME = 'formula'
 REGISTER_NAME = 'registration'
@@ -124,7 +127,7 @@ def create_post(request, topic_slug):
             if topic:
                 post = form.save(commit=False)
                 post.topic = topic
-                post.author = CustomUser.objects.get(user=request.user)
+                post.user = CustomUser.objects.get(user=request.user)
                 post.date_added = timezone.now()
                 if 'file' in request.FILES:
                     post.file = request.FILES['file']
@@ -184,6 +187,18 @@ def show_profile(request, username):
         context_dict['user'] = None
 
     return render(request, APP_NAME + '/profile.html', context=context_dict)
+
+@login_required
+def edit_profile(request, username):
+    user = get_object_or_404(CustomUser, username=username)
+    if request.method == 'POST':
+        form = CustomUserChangeForm(request.POST, request.FILES, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('formula:profile', username=request.user.username)
+    else:
+        form = CustomUserChangeForm(instance=request.user)
+    return redirect('formula:edit_profile', username=request.user.username)
 
 
 def register(request):
