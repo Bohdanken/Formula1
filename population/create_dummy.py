@@ -50,7 +50,7 @@ def create_dummy_post():
         counter += 1
         post['description'] = GenericField.DESC
         post['content'] = GenericField.CONTENT
-        post['viewership'] = randint(0,42)
+        post['viewership'] = randint(1,42)
         post['date_added'] = random_datetime()
         posts_dict[f'post-{counter}'] = post
 

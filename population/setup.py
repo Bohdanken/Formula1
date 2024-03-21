@@ -10,4 +10,4 @@ from random import randint
 from formula.models import *
 from population.randomdatetime import random_datetime
 
-from db_dummy import *
+from population.db_dummy import *
