@@ -2,6 +2,7 @@
     "GenericField": {
       "desc": "This object is created as part of populate_db.py testing. This description is generic and is the same for all object. Object should be deleted before deployment.",
       "password": "abcdefg",
+      "picture": "static/images/Default_pfp.svg",
       "content": "This is a generic content. Please delete before deployment."      
     },
     "Category": [
