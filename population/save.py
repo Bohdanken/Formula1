@@ -26,7 +26,7 @@ def save_posts(posts_dict:dict):
                               date_added=pos_data['date_added'],
                               topic_name=pos_data['topic'],
                               author_username=pos_data['author'])
-        print(f'POST add succesful - {added_post.title} BY {added_post.author}')
+        print(f'POST add succesful - {added_post.title} by USER {added_post.author.username}')
        
 def save_teams(teams_dict:dict):
     for tms_data in teams_dict.values():
@@ -43,3 +43,10 @@ def save_custom_users(custom_users_dict:dict):
                                             bio=custom_user['bio'],
                                             is_admin=custom_user['is_admin'])
         print(f'USER add succesful - {added_custom_user.username}')
+
+def save_team_members(team_members_dict:dict):
+    for team_member in team_members_dict.values():
+        assigned_team_member = assign_team_member(username=team_member['user'],
+                                               team_name=team_member['team'])
+        print(f'TEAM MEMBER add succesful - USER {assigned_team_member.user.username} to TEAM {assigned_team_member.team.name}')
+

@@ -1,5 +1,10 @@
 {
-    "CategoryDummy": [
+    "GenericField": {
+      "desc": "This object is created as part of populate_db.py testing. This description is generic and is the same for all object. Object should be deleted before deployment.",
+      "password": "abcdefg",
+      "content": "This is a generic content. Please delete before deployment."      
+    },
+    "Category": [
         {
           "name": "Engineering Project",
           "parent": "EVEHICLE"
@@ -45,7 +50,7 @@
           "parent": "OPERATION"
         }
       ],
-    "TopicDummy": [
+    "Topic": [
         {
           "name": "Vehicle Design",
           "category": "Design"
@@ -131,7 +136,7 @@
           "category": "Education"
         }
       ],
-    "TeamDummy": [
+    "Team": [
         {
           "name": "Vencera Racing"
         },
@@ -163,7 +168,7 @@
           "name": "Dragon Fury Racing"
         }
       ],
-    "PostDummy": [
+    "Post": [
         {
           "title": "Help! Error in Git Push",
           "topic": "Data Analysis",
@@ -225,7 +230,7 @@
           "author": "michaelscott"
         }
       ],
-    "TeamMemberDummy": [
+    "TeamMember": [
         {
           "user": "bobbykeren",
           "team": "Vencera Racing"
@@ -247,7 +252,7 @@
           "team": "Thunderbolt Racing"
         }
       ],
-    "CustomUserDummy": [
+    "CustomUser": [
         {
           "username": "bobbykeren",
           "email": "bobbykeren@example.com",

@@ -1,0 +1,24 @@
+Workflow when adding new models to population script
+--------------------------------------------------------------
+
+In order:
+    population/
+        add.py -> testadd.py -> create.py or create_dummy.py -> save.py -> dummy_populate.py
+
+
+add.py: 
+create an add() function to add (save) instances in the database. add() should return added instances or if failed, None.
+
+
+testadd.py: 
+create a test() function to test add.add() on a concrete instance. The values in parameter is hard-coded. test() should return the test instance. Add newly constructed function into testadd.run_test().
+
+
+create.py or create_dummy.py: 
+create a create() function to extract and process data from source file. Add fields that are missing from the source file manually or with GenericFields. create() should return a dictionary of the data group (e.g. teams_dict, categories_dict, etc.).
+
+
+save.py: create a save() function to iterate through data group dictionary (e.g. teams_dict, categories_dict, e.g.) and use add.add() function to commit into database.
+
+
+dummy_populate: add create.create() and save.save() functions into the dummy_populate() function. save.save() should take in return value of create.create().

@@ -40,16 +40,30 @@ def add_post(title, description, content, viewership, date_added, topic_name, au
     return p
 
 def add_custom_user(username, email, password, student_id, bio, is_admin):
-    custom_user = CustomUser.objects.get_or_create(username=username, email=email, student_id=student_id)[0]
-    custom_user.password = password
-    custom_user.student_id = student_id
-    custom_user.bio = bio
-    custom_user.is_admin = is_admin
-    custom_user.save()
-    return custom_user
+    cu = CustomUser.objects.get_or_create(username=username, email=email, student_id=student_id)[0]
+    cu.password = password
+    cu.student_id = student_id
+    cu.bio = bio
+    cu.is_admin = is_admin
+    cu.save()
+    return cu
 
 def add_team(name, description):
     tm = Team.objects.get_or_create(name=name)[0]
     tm.description = description
     tm.save()
     return tm
+
+def assign_team_member(username, team_name):
+    try:
+        u = CustomUser.objects.get(username=username)
+        tm = Team.objects.get(name=team_name)
+    except CustomUser.DoesNotExist:
+        print(f'User {username} does not exist for TEAM: {team_name}.')
+        return None
+    except Team.DoesNotExist:
+        print(f'User {username} does not exist for TEAM: {team_name}.')
+        return None
+    m = TeamMember.objects.create(user=u, team=tm)
+    m.save()
+    return m

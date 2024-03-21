@@ -11,10 +11,8 @@ from formula.models import *
 from population.randomdatetime import random_datetime
 
 import json
-from population.db_dummy import *
+# from population.db_dummy import *
 
-f = open('dummy.json')
+f = open('population/dummy.json')
 
 data = json.load(f)
-
-print(f)
