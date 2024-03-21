@@ -30,8 +30,10 @@
 	{% include 'formula/tab-display.html' with end=False tabs=team_members_names tab_selected_func="update_profile" only %}
 		<img id="pfp" src="{{ selected.picture.url }}" alt="pfp"/>
 		<div>
-			<h3>{{ selected.username }} · {% if selected == team_lead.user %}Team lead{% else %}Team member{% endif %}</h3>
-			<span>{{ selected.bio }}</span>
+			<h3>{% if selected == team_lead.user %}Team lead{% else %}Team member{% endif %}&ensp;·&ensp;{{ selected.username }}</h3>
+			<span>Member since {{ selected.date_joined|date:"d M, Y" }}</span><br>
+			<br>
+			<span>{% if selected.bio %}{{ selected.bio }}{% else %}<i>User has no bio set</i>{% endif %}</span>
 		</div>
 	{% include 'formula/tab-display.html' with end=True only%}
 	<hr>
