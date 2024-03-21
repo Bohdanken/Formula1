@@ -33,10 +33,6 @@ hr {
 	border-style: solid;
 }
 
-.view-topic-page {
-	background-color: #25425F !Important;
-}
-
 .above-list {
 	display: flex;
 	flex-direction: row;
