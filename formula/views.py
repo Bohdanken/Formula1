@@ -197,7 +197,7 @@ def edit_profile(request, username):
             return redirect('formula:profile', username=request.user.username)
     else:
         form = CustomUserChangeForm(instance=request.user)
-    return redirect('formula:edit_profile', username=request.user.username)
+    return render(request, 'registration/edit_profile.html')
 
 
 def register(request):
