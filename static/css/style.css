@@ -290,5 +290,19 @@ footer p{
         color: var(--white-text-color);
     }
 
+    .about-container{
+        color: var(--text-color);
+        padding: 10px 20px;
+        border: 2px solid var(--blue-text-color);
+    }
+ .about-container h1{
+     color: #00bfff;
+     text-align: center;
+     font-style: italic;
+    }
 
+ #mail{
+     text-align: center;
+     font-style: italic;
+    }
 

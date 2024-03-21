@@ -7,7 +7,6 @@ class TopicForm(forms.ModelForm):
                            help_text="Please enter the name of the topic.")
     description = forms.CharField(max_length=DESC_MAX_LENGTH,
                                   help_text="Briefly describe this topic.")
-
     class Meta:
         model = Topic
         exclude = ('category', 'date_added',)
