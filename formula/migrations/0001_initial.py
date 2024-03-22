@@ -4,6 +4,7 @@ import datetime
 from django.conf import settings
 from django.db import migrations, models
 import django.db.models.deletion
+from django.utils.timezone import utc
 import django.utils.timezone
 from django.utils.timezone import utc
 
@@ -50,7 +51,7 @@ class Migration(migrations.Migration):
                 ('slug', models.SlugField(unique=True)),
                 ('name', models.CharField(max_length=64)),
                 ('description', models.CharField(max_length=4096)),
-                ('date_added', models.DateTimeField(default=datetime.datetime(2024, 3, 22, 12, 26, 52, 968920, tzinfo=utc))),
+                ('date_added', models.DateTimeField(default=datetime.datetime(2024, 3, 22, 11, 45, 13, 507527, tzinfo=utc))),
                 ('parent', models.CharField(choices=[('GE', 'General'), ('OP', 'Operations'), ('EV', 'Electric Vehicle')], default='GE', max_length=64)),
             ],
             options={
@@ -72,7 +73,7 @@ class Migration(migrations.Migration):
                 ('slug', models.SlugField(unique=True)),
                 ('name', models.CharField(max_length=64)),
                 ('description', models.CharField(max_length=4096)),
-                ('date_added', models.DateTimeField(default=datetime.datetime(2024, 3, 22, 12, 26, 52, 968920, tzinfo=utc), null=True)),
+                ('date_added', models.DateTimeField(default=datetime.datetime(2024, 3, 22, 11, 45, 13, 507527, tzinfo=utc), null=True)),
                 ('category', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='topics', to='formula.Category')),
             ],
             options={
@@ -111,7 +112,7 @@ class Migration(migrations.Migration):
                 ('content', models.CharField(max_length=8192)),
                 ('file', models.FileField(blank=True, upload_to='post_files/')),
                 ('viewership', models.IntegerField(default=0)),
-                ('date_added', models.DateTimeField(default=datetime.datetime(2024, 3, 22, 12, 26, 52, 968920, tzinfo=utc))),
+                ('date_added', models.DateTimeField(default=datetime.datetime(2024, 3, 22, 11, 45, 13, 507527, tzinfo=utc))),
                 ('topic', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='posts', to='formula.Topic')),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='user', to=settings.AUTH_USER_MODEL)),
             ],
