@@ -55,18 +55,31 @@ def add_team(name, description):
     return tm
 
 def assign_team_member(username, team_name):
+    u, tm = assign_team(username, team_name)
+    m = TeamMember.objects.create(user=u, team=tm)
+    m.save()
+    return m
+
+def assign_team_lead(username, team_name, topic_list):
+    u, tm = assign_team(username, team_name)
+    l = TeamLead.objects.create(user=u, team=tm)
+    for topic in topic_list:
+        l.topic_access.add(topic)
+    l.save()
+    return l
+    
+
+def assign_team(username, team_name):
     try:
         u = CustomUser.objects.get(username=username)
         tm = Team.objects.get(name=team_name)
     except CustomUser.DoesNotExist:
         print(f'User {username} does not exist for TEAM: {team_name}.')
-        return None
+        u = None
     except Team.DoesNotExist:
         print(f'User {username} does not exist for TEAM: {team_name}.')
-        return None
-    m = TeamMember.objects.create(user=u, team=tm)
-    m.save()
-    return m
+        tm = None    
+    return u, tm
 
 def __get_slug__(name, datetime):
     return slugify(f'{name}-{str(datetime.year)}')

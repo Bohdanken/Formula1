@@ -14,12 +14,14 @@ def dummy_populate():
     topics_dict = create_dummy_topics()
     save_topics(topics_dict)
 
-
     teams_dict = create_dummy_team()
     save_teams(teams_dict)
 
     team_members_dict = assign_dummy_team_member()
     save_team_members(team_members_dict)
+
+    team_leads_dict = assign_dummy_team_lead()
+    save_team_leads(team_leads_dict)
 
     posts_dict = create_dummy_post()
     save_posts(posts_dict)

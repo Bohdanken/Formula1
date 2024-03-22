@@ -2,18 +2,17 @@ from datetime import datetime
 from zipfile import ZipFile
 import random
 
+from django.conf.global_settings import LOGIN_URL
 from django.contrib.auth.views import LogoutView
 from django.conf.global_settings import LOGIN_URL
 from django.shortcuts import render, redirect
 from django.http import  HttpResponseForbidden
 from django.http import HttpResponse, FileResponse
 from formula.forms import *
-from django.urls import reverse
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils import timezone
 from django.db.models.functions import ExtractYear
 from django.urls import reverse, NoReverseMatch
-from django.utils.deprecation import MiddlewareMixin
 from django.shortcuts import get_object_or_404
 from .forms import CustomUserChangeForm
 
@@ -26,9 +25,6 @@ from Formula1.settings import MEDIA_ROOT
 APP_NAME = 'formula'
 REGISTER_NAME = 'registration'
 
-
-def is_superuser(user):
-    return user.is_authenticated and user.is_superuser
 
 
 def index(request):
@@ -203,12 +199,9 @@ def create_topic(request, category_slug):
                 return HttpResponseForbidden("You do not have access to this category.")
         except TeamLead.DoesNotExist:
             return HttpResponseForbidden("Access denied.")
-
     form = TopicForm()
-
     if request.method == 'POST':
         form = TopicForm(request.POST)
-
         if form.is_valid():
             if category:
                 topic = form.save(commit=False)
@@ -218,10 +211,8 @@ def create_topic(request, category_slug):
 
                 return redirect(reverse(APP_NAME + ':posts',
                                         kwargs={'category_slug': category_slug, 'topic_slug' : topic.slug}))
-
         else:
             print(form.errors)
-
     context_dict = {'form': form, 'category': category}
     return render(request, APP_NAME + '/create-topic.html', context=context_dict)
 
@@ -238,9 +229,11 @@ def show_profile(request, username):
 
     return render(request, APP_NAME + '/profile.html', context=context_dict)
 
-@login_required(login_url=LOGIN_URL)
+@login_required
 def edit_profile(request, username):
+    context_dict = {}
     user = get_object_or_404(CustomUser, username=username)
+    context_dict['user'] = user
     if request.method == 'POST':
         form = CustomUserChangeForm(request.POST, request.FILES, instance=request.user)
         if form.is_valid():
@@ -248,7 +241,7 @@ def edit_profile(request, username):
             return redirect('formula:profile', username=request.user.username)
     else:
         form = CustomUserChangeForm(instance=request.user)
-    return render(request, 'registration/edit_profile.html')
+    return render(request, 'registration/edit_profile.html', context=context_dict)
 
 
 def register(request):
@@ -293,23 +286,20 @@ class CustomLogoutView(LogoutView):
 
 
 def show_team(request, team_slug):
+    context_dict = {}
     try:
-        context_dict={}
         context_dict['team'] = Team.objects.get(slug=team_slug)
         context_dict['team_members'] = TeamMember.objects.filter(team=context_dict['team'])
-        context_dict['team_lead'] = TeamLead.objects.get(team=context_dict['team'])
+        context_dict['team_lead'] = TeamLead.objects.filter(team=context_dict['team']).first()
         context_dict['team_members_names'] = [context_dict['team_lead'].user.username] + [memebr.user.username for memebr in context_dict['team_members']]
         context_dict['view_topic_page'] = True
         context_dict['topics'] = {
             topic : list(sorted(Post.objects.filter(topic=topic), key = lambda post : post.viewership))[:3] for topic in context_dict['team_lead'].topic_access.all() #[{'post' : post, 'pfp' : UserProfile.objects.get(user = post.author).picture} for post in list(sorted(Post.objects.filter(topic=topic), key = lambda post : post.viewership))[:3]] for topic in context_dict['team_lead'].topic_access.all()
         }
         context_dict['selected'] = context_dict['team_lead'].user
-
         if request.GET.get("profile", default=False) in context_dict['team_members_names']:
             context_dict['selected'] = CustomUser.objects.get(username=request.GET.get('profile'))
-
         return render(request, APP_NAME+'/team.html', context=context_dict)
-
     except Team.DoesNotExist:
         return render(request, APP_NAME+'/404.html', context=context_dict, status=404)
 
