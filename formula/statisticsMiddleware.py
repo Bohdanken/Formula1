@@ -6,12 +6,10 @@ class StatisticsMiddleware(MiddlewareMixin):
         total_posts = Post.objects.all().count()
         total_topics = Topic.objects.all().count()
         total_members = CustomUser.objects.count()
-
         try:
             newest_member = CustomUser.objects.latest('date_joined').username
         except CustomUser.DoesNotExist:
-            newest_member = None  # Handle the case where no users exist
-
+            newest_member="N/A"
         # Attach the statistics to the request object
         request.total_posts = total_posts
         request.total_topics = total_topics

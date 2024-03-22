@@ -1,5 +1,6 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
+formula/migrations*
 *.py[cod]
 Formula1/__pycache__/
 *$py.class

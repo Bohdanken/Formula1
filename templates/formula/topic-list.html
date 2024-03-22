@@ -1,6 +1,7 @@
+{% load team_tags %}
 {% if header %}
 	{% load static %}
-	<link rel="stylesheet" type="text/css" href="{% static 'css/topic-list.css' %}?version=0" />
+	<link rel="stylesheet" type="text/css" href="{% static 'css/topic-list.css' %}?version=1" />
 {% else %}
 	<div class="category">
 		<div>
@@ -21,12 +22,21 @@
 					</div>
 				</a>
 				<hr>
-				<a class="author-link" href="">
-					<div class="author-details" style="width: 4cm;">
+					<a class="author-link" href="{% url 'formula:profile' post.user.username%}  ">
 						<img src="{{ post.user.picture.url }}" alt="pfp" class="pfp"/>
-						<div id="author-name">{{ post.user.username }}</div>
-					</div>
-				</a>
+                        <div id="author-name">{{ post.user.username}}.</div>
+                    </a>
+                    </div>
+                         <hr>
+                    <div>
+                    <a class="author-link" href="{% url 'formula:team' post.user|team|slugify%}">
+                        {% if post.user|is_team_member %}
+                        <img src="/static/images/member.png" class="pfp" alt="Shit">
+                        <div><{{ post.user|team }}.</div>
+                        {% endif %}
+                     </a>
+				</div>
+            </div>
 			</div>
 		{% empty %}
 			<div class="empty">
