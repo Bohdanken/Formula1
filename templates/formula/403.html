@@ -1,0 +1,26 @@
+{% extends 'formula/base.html' %}
+
+{% load static %}
+
+{% block title %}403{% endblock %}
+
+{% block extra_js %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/error.css' %}?version=0" />
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+	<h1>404</h1>
+		<i>That's an error!</i>
+		<p>
+			You do not have access to that page.
+		</p>
+		<p>
+			If you feel that this is a mistake then you can get in contact <a href="mailto:formulau1@outlook.com">here</a>.
+		</p>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
