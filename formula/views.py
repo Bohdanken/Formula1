@@ -1,5 +1,6 @@
 from datetime import datetime
 from zipfile import ZipFile
+from io import BytesIO
 import random
 
 from django.conf.global_settings import LOGIN_URL
@@ -15,9 +16,6 @@ from django.db.models.functions import ExtractYear
 from django.urls import reverse, NoReverseMatch
 from django.shortcuts import get_object_or_404
 from .forms import CustomUserChangeForm
-
-from zipfile import ZipFile
-from io import BytesIO
 
 
 from Formula1.settings import MEDIA_ROOT
@@ -296,7 +294,7 @@ def show_team(request, team_slug):
     try:
         context_dict['team'] = Team.objects.get(slug=team_slug)
         context_dict['team_members'] = TeamMember.objects.filter(team=context_dict['team'])
-        context_dict['team_lead'] = TeamLead.objects.filter(team=context_dict['team']).first()
+        context_dict['team_lead'] = TeamLead.objects.get(team=context_dict['team'])
         context_dict['team_members_names'] = [context_dict['team_lead'].user.username] + [memebr.user.username for memebr in context_dict['team_members']]
         context_dict['view_topic_page'] = True
         context_dict['topics'] = {
@@ -308,5 +306,17 @@ def show_team(request, team_slug):
         return render(request, APP_NAME+'/team.html', context=context_dict)
     except Team.DoesNotExist:
         return render(request, APP_NAME+'/404.html', context=context_dict, status=404)
+    except TeamLead.DoesNotExist:
+        context_dict['team_lead'] = None
+        context_dict['team_members_names'] = [memebr.user.username for memebr in context_dict['team_members']]
+        context_dict['view_topic_page'] = True
+        context_dict['topics'] = {}
+        context_dict['selected'] = context_dict['team_members'][0].user if context_dict['team_members'] else None
+
+        if request.GET.get("profile", default=False) in context_dict['team_members_names']:
+            context_dict['selected'] = CustomUser.objects.get(username=request.GET.get('profile'))
+
+        return render(request, APP_NAME+'/team.html', context=context_dict)
+        
 
 
