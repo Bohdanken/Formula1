@@ -196,9 +196,9 @@ class Post(models.Model):
 
 
 class Team(models.Model):
-    name = models.CharField(max_length=NAME_MAX_LENGTH)
+    name = models.CharField(max_length=NAME_MAX_LENGTH, unique=True)
     description = models.CharField(max_length=DESC_MAX_LENGTH)
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField(null=True)
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -221,10 +221,10 @@ class TeamLead(models.Model):
         db_table = "Team Lead"
 
     def __str__(self):
-        return f'{self.user.get_username()} : {self.team.name}'
+        return f'{self.user.username} : {self.team.name}'
 
     def get_name(self):
-        return self.user.get_name()
+        return self.user.name
 
 
 class TeamMember(models.Model):
@@ -235,7 +235,7 @@ class TeamMember(models.Model):
         db_table = "Team Member"
 
     def __str__(self):
-        return f'{self.user.get_username()} : {self.team.name}'
+        return f'{self.user.username} : {self.team.name}'
 
     def get_name(self):
-        return self.user.get_name()
+        return self.user.name
