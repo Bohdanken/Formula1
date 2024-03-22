@@ -2,6 +2,7 @@ from django import forms
 
 from formula.models import *
 from formula.fields import *
+from django.contrib.auth.forms import UserChangeForm
 
 class TopicForm(forms.ModelForm):
     name = forms.CharField(max_length=NAME_MAX_LENGTH,
@@ -44,7 +45,23 @@ class UserForm(forms.ModelForm):
 class CustomUserChangeForm(forms.ModelForm):
     class Meta:
         model = CustomUser
-        fields = ('username', 'email', 'first_name', 'last_name', 'bio', 'picture') 
+        fields = ('username', 'password', 'bio', 'picture')
+
+class EditProfileForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput(), required=False, help_text='Enter a new password or leave blank to keep the current one.')
+    picture = forms.ImageField(required=False, help_text='Select a new profile picture or leave blank to keep the current one.')
+    bio = forms.CharField(widget=forms.Textarea, required=False, help_text='Update your bio.')
+
+    class Meta:
+        model = CustomUser
+        fields = ('username', 'password', 'bio', 'picture')
+
+    def clean_password(self):
+        password = self.cleaned_data.get('password')
+        if not password:
+            return self.initial["password"]
+        return password
+
 
 
 

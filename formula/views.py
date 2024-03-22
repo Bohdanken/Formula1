@@ -240,17 +240,21 @@ def show_profile(request, username):
 
 @login_required
 def edit_profile(request, username):
-    context_dict = {}
     user = get_object_or_404(CustomUser, username=username)
-    context_dict['user'] = user
     if request.method == 'POST':
-        form = CustomUserChangeForm(request.POST, request.FILES, instance=request.user)
+        form = EditProfileForm(request.POST, request.FILES, instance=user)
         if form.is_valid():
-            form.save()
-            return redirect('formula:profile', username=request.user.username)
+            user = form.save(commit=False)
+            if 'password' in form.changed_data:
+                password = form.cleaned_data['password']
+                if password:
+                    print(password)
+                    user.set_password(password)
+            user.save()
+            return redirect('formula:profile', username=user.username)
     else:
-        form = CustomUserChangeForm(instance=request.user)
-    return render(request, 'registration/edit_profile.html', context=context_dict)
+        form = EditProfileForm(instance=user)
+    return render(request, 'registration/edit_profile.html', {'form': form, 'user': user})
 
 
 def register(request):
