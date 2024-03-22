@@ -2,6 +2,7 @@ from datetime import datetime
 from zipfile import ZipFile
 import random
 
+from django.conf.global_settings import LOGIN_URL
 from django.contrib.auth.views import LogoutView
 from django.shortcuts import render, redirect
 from django.http import  HttpResponseForbidden
@@ -187,7 +188,7 @@ def create_post(request, category_slug, topic_slug):
     return render(request, APP_NAME + '/create-post.html', context=context_dict)
 
 
-@login_required
+@login_required(login_url=LOGIN_URL)
 def create_topic(request, category_slug):
     try:
         category = Category.objects.get(slug=category_slug)
@@ -202,12 +203,9 @@ def create_topic(request, category_slug):
                 return HttpResponseForbidden("You do not have access to this category.")
         except TeamLead.DoesNotExist:
             return HttpResponseForbidden("Access denied.")
-
     form = TopicForm()
-
     if request.method == 'POST':
         form = TopicForm(request.POST)
-
         if form.is_valid():
             if category:
                 topic = form.save(commit=False)
@@ -217,10 +215,8 @@ def create_topic(request, category_slug):
 
                 return redirect(reverse(APP_NAME + ':posts',
                                         kwargs={'category_slug': category_slug, 'topic_slug' : topic.slug}))
-
         else:
             print(form.errors)
-
     context_dict = {'form': form, 'category': category}
     return render(request, APP_NAME + '/create-topic.html', context=context_dict)
 
