@@ -51,3 +51,10 @@ def save_team_members(team_members_dict:dict):
                                                team_name=team_member['team'])
         print(f'TEAM MEMBER add succesful - USER {assigned_team_member.user.username} to TEAM {assigned_team_member.team.name}')
 
+def save_team_leads(team_leads_dict:dict):
+    for team_lead in team_leads_dict.values():
+        assigned_team_lead = assign_team_lead(username=team_lead['user'],
+                                              team_name=team_lead['team'],
+                                              topic_list=team_lead['topic_access'])
+        print(f'TEAM LEAD add succesful - USER {assigned_team_lead.user.username} to TEAM {assigned_team_lead.team.name}')
+     

@@ -1,5 +1,6 @@
 from population.setup import *
 from population.setup import data
+from random import sample
 
 def create_dummy_categories() -> dict:
     categories_dict = {}
@@ -84,3 +85,17 @@ def assign_dummy_team_member() -> dict:
         generate_mb(team_member)
 
     return team_members_dict
+
+def assign_dummy_team_lead() -> dict:
+    team_leads_dict = {}
+
+    all_topics = list(Topic.objects.all())
+
+    def generate_ld(team_lead:dict):
+        team_lead['topic_access'] = sample(all_topics, 3)
+        team_leads_dict[team_lead['user']] = team_lead
+
+    for team_lead in data['TeamLead']:
+        generate_ld(team_lead)
+
+    return team_leads_dict
