@@ -290,7 +290,7 @@ def show_team(request, team_slug):
     try:
         context_dict['team'] = Team.objects.get(slug=team_slug)
         context_dict['team_members'] = TeamMember.objects.filter(team=context_dict['team'])
-        context_dict['team_lead'] = TeamLead.objects.filter(team=context_dict['team']).first()
+        context_dict['team_lead'] = TeamLead.objects.get(team=context_dict['team'])
         context_dict['team_members_names'] = [context_dict['team_lead'].user.username] + [memebr.user.username for memebr in context_dict['team_members']]
         context_dict['view_topic_page'] = True
         context_dict['topics'] = {
@@ -306,10 +306,8 @@ def show_team(request, team_slug):
         context_dict['team_lead'] = None
         context_dict['team_members_names'] = [memebr.user.username for memebr in context_dict['team_members']]
         context_dict['view_topic_page'] = True
-        context_dict['topics'] = {
-            topic : list(sorted(Post.objects.filter(topic=topic), key = lambda post : post.viewership))[:3] for topic in context_dict['team_lead'].topic_access.all() #[{'post' : post, 'pfp' : UserProfile.objects.get(user = post.author).picture} for post in list(sorted(Post.objects.filter(topic=topic), key = lambda post : post.viewership))[:3]] for topic in context_dict['team_lead'].topic_access.all()
-        }
-        context_dict['selected'] = context_dict['team_lead'].user
+        context_dict['topics'] = {}
+        context_dict['selected'] = context_dict['team_members'][0].user if context_dict['team_members'] else None
 
         if request.GET.get("profile", default=False) in context_dict['team_members_names']:
             context_dict['selected'] = CustomUser.objects.get(username=request.GET.get('profile'))
