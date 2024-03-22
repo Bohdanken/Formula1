@@ -4,6 +4,7 @@ from django.utils import timezone
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin, AbstractUser
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from time import strftime
 
 from Formula1 import settings
 
@@ -56,18 +57,37 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return self.email
+    
+    def get_name(self):
+        return self.username
 
 
 class NameSlugMixin(models.Model):
-    slug = models.SlugField()
+    slug = models.SlugField(unique=True)
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
+        year:str = str(self.date_added.year)
+        name:str = self.name 
+        self.slug = slugify(name+'-'+year)
         super().save(*args, **kwargs)
 
     class Meta:
         abstract = True
 
+    def lend_slug(self, increment):
+        year = self.date_added.year + increment
+        return slugify(self.name + '-' + str(year))
+
+class Clone:
+    @staticmethod
+    def clone_all(self, copies):
+        all = self.objects.all()
+        for cat in all:
+            clone = cat.clone()
+            n = copies
+            while (n - 1 > 0):
+                clone = clone.clone()
+                n -= 1
 
 class Category(NameSlugMixin, models.Model):
     GENERAL = "GE"
@@ -79,9 +99,9 @@ class Category(NameSlugMixin, models.Model):
         (EVEHICLE, "Electric Vehicle"),
     ]
 
-    name = models.CharField(max_length=NAME_MAX_LENGTH, unique=True)
-    description = models.TextField(max_length=DESC_MAX_LENGTH)
-    date_added = models.DateTimeField(null=True)
+    name = models.CharField(max_length=NAME_MAX_LENGTH, unique=False, null=False)
+    description = models.CharField(max_length=DESC_MAX_LENGTH)
+    date_added = models.DateTimeField(null=False, default=timezone.now())
     parent = models.CharField(max_length=NAME_MAX_LENGTH, choices=CHOICES, default=GENERAL)
 
     class Meta:
@@ -89,16 +109,47 @@ class Category(NameSlugMixin, models.Model):
 
     def __str__(self):
         return self.name
-
+    
+    def get_name(self):
+        return self.slug
+    
+    def clone(self):
+        reference = Category.objects.get(slug=self.slug)
+        name = reference.name
+        description = reference.description
+        year = reference.date_added.year - 1
+        date_added = reference.date_added.replace(year=year)
+        parent = reference.parent
+        clone = Category.objects.create(name=name, description=description, date_added=date_added, parent=parent)
+        clone.save()
+        print(f"CATEGORY clone successful - {clone.slug} copy FROM {self.slug}")
+        return clone
+       
 
 class Topic(NameSlugMixin, models.Model):
-    name = models.CharField(max_length=NAME_MAX_LENGTH, unique=True)
-    description = models.TextField(max_length=DESC_MAX_LENGTH)
-    date_added = models.DateTimeField(null=True)
+    name = models.CharField(max_length=NAME_MAX_LENGTH, unique=False, null=False)
+    description = models.CharField(max_length=DESC_MAX_LENGTH)
+    date_added = models.DateTimeField(null=True, default=timezone.now())
     category = models.ForeignKey(Category, related_name='topics', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
+    
+    def get_name(self):
+        return self.slug
+    
+    def clone(self):
+        reference = Topic.objects.get(slug=self.slug)
+        name = reference.name
+        description = reference.description
+        year = reference.date_added.year - 1
+        date_added = reference.date_added.replace(year=year)
+        cat_slug = slugify(reference.category.name + '-' + str(year))
+        category = Category.objects.get(slug=cat_slug)
+        clone = Topic.objects.create(name=name, description=description, date_added=date_added, category=category)
+        clone.save()
+        print(f"TOPIC clone successful - {clone.slug} copy FROM {self.slug}")
+        return clone
 
 
 
@@ -113,22 +164,44 @@ class Post(models.Model):
     file = models.FileField(upload_to='post_files/', blank=True)
     # comment end
     viewership = models.IntegerField(default=0)
-    date_added = models.DateTimeField()
+    date_added = models.DateTimeField(null=False, default=timezone.now())
     topic = models.ForeignKey(Topic, related_name='posts', on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='user', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title
+    
+    def get_name(self):
+        return f'{self.title}-{self.pk}'
+    
+    def clone(self):
+        reference = Post.objects.get(pk=self.pk)
+        title = reference.title
+        description = reference.description
+        content = reference.content
+        viewership = reference.viewership
+        user = reference.user
+        year = reference.date_added.year - 1
+        date_added = reference.date_added.replace(year=year)
+        top_slug = slugify(reference.topic.name + '-' + str(year))
+        topic = Topic.objects.get(slug=top_slug)
+        clone = Post.objects.create(title=title, date_added=date_added, topic=topic, user=user)
+        clone.description = description
+        clone.content = content
+        clone.viewership = viewership
+        clone.save()
+        print(f"POST clone successful - {clone.get_name()} copy FROM {self.get_name()}")
+        return clone
 
 
-class Team(NameSlugMixin, models.Model):
+class Team(models.Model):
     name = models.CharField(max_length=NAME_MAX_LENGTH)
     description = models.CharField(max_length=DESC_MAX_LENGTH)
 
     def __str__(self):
         return self.name
 
-    def get_team_name(self):
+    def get_name(self):
         return self.name
 
 
@@ -143,6 +216,9 @@ class TeamLead(models.Model):
 
     def __str__(self):
         return f'{self.user.get_username()} : {self.team.get_team_name()}'
+    
+    def get_name(self):
+        return self.user.get_name()
 
 
 class TeamMember(models.Model):
@@ -154,3 +230,6 @@ class TeamMember(models.Model):
 
     def __str__(self):
         return f'{self.user.get_username()} : {self.team.get_team_name()}'
+
+    def get_name(self):
+        return self.user.get_name()
