@@ -1,7 +1,7 @@
 {% load team_tags %}
 {% if header %}
 	{% load static %}
-	<link rel="stylesheet" type="text/css" href="{% static 'css/topic-list.css' %}?version=1" />
+	<link rel="stylesheet" type="text/css" href="{% static 'css/topic-list.css' %}?version=0" />
 {% else %}
 	<div class="category">
 		<div>
@@ -22,21 +22,19 @@
 					</div>
 				</a>
 				<hr>
-					<a class="author-link" href="{% url 'formula:profile' post.user.username%}  ">
+				<a class="post-link" href="{% url 'formula:profile' post.user.username%}  ">
+					<div class="author-details">
 						<img src="{{ post.user.picture.url }}" alt="pfp" class="pfp"/>
-                        <div id="author-name">{{ post.user.username}}.</div>
-                    </a>
-                    </div>
-                         <hr>
-                    <div>
-                    <a class="author-link" href="{% url 'formula:team' post.user|team|slugify%}">
-                        {% if post.user|is_team_member %}
-                        <img src="/static/images/member.png" class="pfp" alt="Shit">
+						<div id="author-name">{{ post.user.username }}</div>
+					</div>
+				</a>
+                <a class="post-link" href="{% url 'formula:team' post.user|team|slugify%}">
+                    {% if post.user|is_team_member %}
+                        <div class="author-details">
                         <div><{{ post.user|team }}.</div>
-                        {% endif %}
-                     </a>
-				</div>
-            </div>
+                        </div>
+                    {% endif %}
+                 </a>
 			</div>
 		{% empty %}
 			<div class="empty">
@@ -67,5 +65,49 @@
 	Empty - <div>
 				There are no posts under this topic :(
 			</div>
--->
+{% load team_tags %}
+{% if header %}
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/topic-list.css' %}?version=1" />
+{% else %}
+	<div class="category">
+		<div>
+			<span>{{ topic.name }}</span>
+		</div>
+		{% if view_topic_page %}
+			<a href="{% url 'formula:posts' topic.category.slug topic.slug %}" class="view-topic-page">
+				<span>View topic page</span>
+			</a>
+		{% endif %}
+		{% for post in posts %}
+			<div>
+				<a class="post-link" href="{% url 'formula:post' category.slug topic.slug post.id %}">
+					<span>{{ post.title }}</span>
+					<div class="space"></div>
+					<div class="post-details" style="width: 3cm;">
+						{{ post.date_added|date:"d M, Y" }}
+					</div>
+				</a>
+				<hr>
+					<a class="author-link" href="{% url 'formula:profile' post.user.username%}  ">
+						<img src="{{ post.user.picture.url }}" alt="pfp" class="pfp"/>
+                        <div id="author-name">{{ post.user.username}}.</div>
+                    </a>
+                    </div>
+                         <hr>
+                    <a class="author-link" href="{% url 'formula:team' post.user|team|slugify%}">
+                        {% if post.user|is_team_member %}
+                        <img src="/static/images/member.png" class="pfp" alt="Shit">
+                        <div><{{ post.user|team }}.</div>
+                        {% endif %}
+                     </a>
+            </div>
+			</div>
+		{% empty %}
+			<div class="empty">
+				<span>There are no posts under this topic :(</span>
+			</div>
+		{% endfor %}
+	</div>
+{% endif %}
 {% endcomment %}

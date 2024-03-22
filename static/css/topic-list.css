@@ -1,6 +1,11 @@
 #main-content {
 	--category-color: #2c5782;
 }
+.author-details a {
+    color: inherit;
+    text-decoration: none;
+    display: inline-block;
+}
 
 .category {
 	margin: 3mm;
@@ -55,14 +60,9 @@ div.category > div > a:hover {
 	margin: auto;
 }
 
-hr {
-	margin: 0;
-	border-color: rgba(0, 0, 0, 0.25);
-	border-style: solid;
-}
-
 img.pfp {
 	position: relative;
+	float: right;
 	border-radius: 50%;
 	height: 80%;
 	top: 10%;
@@ -74,12 +74,24 @@ img.pfp {
 }
 
 .author-details {
-	right: 0;
+	width: 100%;
+	display: flex; /* Use flex instead of inline-flex */
+	justify-content: space-between; /* This spreads the items to opposite sides */
+	align-items: center; /* This vertically centers the items (optional) */
 	padding-left: 0.5cm;
+	padding-right: 0.5cm; /* Add right padding to match the left padding */
+	box-sizing: border-box; /* This ensures padding does not add to the total width */
+}
+
+
+hr {
+    margin-left: auto; /* This pushes the hr to the right; use 'margin-right: auto;' to push it to the left */
+    border-color: rgba(0, 0, 0, 0.25);
+    border-style: solid;
 }
 
 .author-details > div {
-	display: inline-block;
+	display: inline-flex;
 	height: 100%;
 	vertical-align: top;
 	overflow: hidden;
@@ -88,8 +100,14 @@ img.pfp {
 }
 
 .post-link {
-	display: flex;
-	flex-grow: 1;
+	display: inline-flex;
+	width: 60%;
+	padding-left: 2mm;
+}
+
+.post-link {
+	display: inline-flex;
+	width: 20%;
 	padding-left: 2mm;
 }
 
@@ -101,6 +119,10 @@ img.pfp {
 	text-decoration: none;
 	color: var(--white-text-color);
 	background-color: var(--category-color);
+}
+
+.author-link{
+	width: 40%;
 }
 
 .empty {
