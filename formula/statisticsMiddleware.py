@@ -1,4 +1,3 @@
-
 from django.utils.deprecation import MiddlewareMixin
 from formula.models import Post, Topic, CustomUser
 
@@ -16,9 +15,3 @@ class StatisticsMiddleware(MiddlewareMixin):
         request.total_topics = total_topics
         request.total_members = total_members
         request.newest_member = newest_member
-
-        
-    
-
-
-    
