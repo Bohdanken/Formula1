@@ -8,12 +8,10 @@ from django.shortcuts import render, redirect
 from django.http import  HttpResponseForbidden
 from django.http import HttpResponse, FileResponse
 from formula.forms import *
-from django.urls import reverse
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils import timezone
 from django.db.models.functions import ExtractYear
 from django.urls import reverse, NoReverseMatch
-from django.utils.deprecation import MiddlewareMixin
 from django.shortcuts import get_object_or_404
 from .forms import CustomUserChangeForm
 
