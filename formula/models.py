@@ -110,7 +110,7 @@ class Category(NameSlugMixin, models.Model):
         verbose_name_plural = 'Categories'
 
     def __str__(self):
-        return self.name
+        return f'{self.name} {str(self.date_added.year)}'
 
     def get_name(self):
         return self.slug
@@ -135,7 +135,7 @@ class Topic(NameSlugMixin, models.Model):
     category = models.ForeignKey(Category, related_name='topics', on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.name
+        return f'{self.name} {str(self.date_added.year)}'
 
     def get_name(self):
         return self.slug
@@ -170,7 +170,7 @@ class Post(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='user', on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.title
+        return self.get_name()
 
     def get_name(self):
         return f'{self.title}-{self.pk}'
@@ -221,7 +221,7 @@ class TeamLead(models.Model):
         db_table = "Team Lead"
 
     def __str__(self):
-        return f'{self.user.get_username()} : {self.team.name}'
+        return f'{self.user.get_name()} : {self.team.get_name()}'
 
     def get_name(self):
         return self.user.get_name()
@@ -235,7 +235,7 @@ class TeamMember(models.Model):
         db_table = "Team Member"
 
     def __str__(self):
-        return f'{self.user.get_username()} : {self.team.name}'
+        return f'{self.user.get_name()} : {self.team.get_name()}'
 
     def get_name(self):
         return self.user.get_name()
