@@ -35,27 +35,3 @@
 		{% endfor %}
 	</div>
 {% endif %}
-
-{% comment %}
-<!--
-	List-name - topic.name
-	Under-list-name - <a href="{% url 'formula:posts' category.slug topic.slug %}" class="view-topic-page">
-				View topic page
-			</a>
-	List-items - <a  href="{% url 'formula:post' category.slug topic.slug post_data.post.id %}">
-				<span>{{ post_data.post.title }}</span>
-				<div class="space"></div>
-				<div class="post-details" style="width: 3cm;">
-					{{ post_data.post.date_added }}
-				</div>
-				<hr>
-				<div class="user-details" style="width: 4cm;">
-					<img src="{{ post_data.pfp.url }}" alt="pfp" class="pfp"/>
-					<div>{{ post_data.post.user.username }}</div>
-				</div>
-			</a>
-	Empty - <div>
-				There are no posts under this topic :(
-			</div>
--->
-{% endcomment %}
