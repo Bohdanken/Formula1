@@ -214,7 +214,7 @@ class TeamLead(models.Model):
         db_table = "Team Lead"
 
     def __str__(self):
-        return f'{self.user.get_username()} : {self.team.get_team_name()}'
+        return f'{self.user.get_name()} : {self.team.get_name()}'
     
     def get_name(self):
         return self.user.get_name()
@@ -228,7 +228,7 @@ class TeamMember(models.Model):
         db_table = "Team Member"
 
     def __str__(self):
-        return f'{self.user.get_username()} : {self.team.get_team_name()}'
+        return f'{self.user.get_name()} : {self.team.get_name()}'
 
     def get_name(self):
         return self.user.get_name()
