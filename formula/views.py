@@ -64,6 +64,11 @@ def list_topics(request, category_slug):
     context_dict = {}
 
     try:
+        if request.user:
+            try:
+                context_dict['user_is_team_lead'] = True if TeamLead.objects.get(user=request.user) else None
+            except TeamLead.DoesNotExist:
+                pass
         category = Category.objects.get(slug=category_slug)
         topics = Topic.objects.filter(category=category)
         context_dict['category'] = category
@@ -256,6 +261,7 @@ def register(request):
 
             user.save()
             registered = True
+            return redirect('login')
 
         else:
             print(user_form.errors, user_form.errors)

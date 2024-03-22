@@ -20,7 +20,7 @@ p {
 	justify-content: space-around;
 }
 
-.above-list > a {
+.above-list > a, .above-list > div {
 	margin-top: auto;
 	margin-bottom: auto;
 	height: 1em;

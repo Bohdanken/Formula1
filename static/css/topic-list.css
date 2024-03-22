@@ -42,7 +42,7 @@ div.category >:last-child > .post-link {
 	border-bottom-left-radius: 3mm;
 }
 
-div.category >:last-child > .author-link {
+div.category >:last-child > .team-link {
 	border-bottom-right-radius: 3mm;
 }
 
@@ -69,16 +69,16 @@ img.pfp {
 	aspect-ratio: 1 / 1;
 }
 
-.post-details, .author-details {
+.post-details, .author-details, .team-details {
 	height: 100%;
 }
 
-.author-details {
+.author-details, .team-details {
 	right: 0;
-	padding-left: 0.5cm;
+	padding-left: 0.25cm;
 }
 
-.author-details > div {
+.author-details > div, .team-details > div {
 	display: inline-block;
 	height: 100%;
 	vertical-align: top;
@@ -93,11 +93,16 @@ img.pfp {
 	padding-left: 2mm;
 }
 
+.post-link > span {
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
 .post-link > * {
 	display: inline-block;
 }
 
-.post-link, .author-link {
+.post-link, .author-link, .team-link {
 	text-decoration: none;
 	color: var(--white-text-color);
 	background-color: var(--category-color);
@@ -112,4 +117,9 @@ img.pfp {
 
 .empty > span {
 	margin-left: 2mm;
+}
+
+.author-link, .team-link {
+	min-width: 12em;
+	width: 12em;
 }
