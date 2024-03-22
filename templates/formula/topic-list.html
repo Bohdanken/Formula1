@@ -22,18 +22,22 @@
 					</div>
 				</a>
 				<hr>
-				<a class="post-link" href="{% url 'formula:profile' post.user.username%}  ">
+				<a class="author-link" href="{% url 'formula:profile' post.user.username%}">
 					<div class="author-details">
 						<img src="{{ post.user.picture.url }}" alt="pfp" class="pfp"/>
 						<div id="author-name">{{ post.user.username }}</div>
 					</div>
 				</a>
-                <a class="post-link" href="{% url 'formula:team' post.user|team|slugify%}">
-                    {% if post.user|is_team_member %}
-                        <div class="author-details">
-                        <div><{{ post.user|team }}.</div>
-                        </div>
-                    {% endif %}
+				<hr>
+                <a class="team-link" href="{% url 'formula:team' post.user|team|slugify%}">
+					<div class="team-details">
+						{% if post.user|is_team_member %}
+							<img src="/static/images/member.png" class="pfp" alt="Team img">
+							<div>{{ post.user|team }}.</div>
+						{% else %}
+							No team
+						{% endif %}
+					</div>
                  </a>
 			</div>
 		{% empty %}
