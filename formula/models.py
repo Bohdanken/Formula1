@@ -10,7 +10,7 @@ from Formula1 import settings
 
 # GENERAL FIELD LIMIT
 NAME_MAX_LENGTH = 64
-DESC_MAX_LENGTH = 512
+DESC_MAX_LENGTH = 4_096
 
 
 class CustomUserManager(BaseUserManager):
@@ -48,7 +48,7 @@ class CustomUser(AbstractUser):
     email = models.EmailField(_('email address'), unique=True, primary_key=True)
     username = models.CharField(_('username'), unique=True, max_length=30)
     student_id = models.IntegerField(unique=True, null=False, default=0)
-    picture = models.ImageField(upload_to='profile_images', blank=True)
+    picture = models.ImageField(upload_to='profile_images', default='Default_pfp.svg')
     bio = models.TextField(max_length=DESC_MAX_LENGTH, blank=True)
     is_admin = models.BooleanField(default=False)
     USERNAME_FIELD = 'email'
@@ -57,7 +57,7 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return self.email
-    
+
     def get_name(self):
         return self.username
 
@@ -66,9 +66,9 @@ class NameSlugMixin(models.Model):
     slug = models.SlugField(unique=True)
 
     def save(self, *args, **kwargs):
-        year:str = str(self.date_added.year)
-        name:str = self.name 
-        self.slug = slugify(name+'-'+year)
+        year: str = str(self.date_added.year)
+        name: str = self.name
+        self.slug = slugify(name + '-' + year)
         super().save(*args, **kwargs)
 
     class Meta:
@@ -77,6 +77,7 @@ class NameSlugMixin(models.Model):
     def lend_slug(self, increment):
         year = self.date_added.year + increment
         return slugify(self.name + '-' + str(year))
+
 
 class Clone:
     @staticmethod
@@ -88,6 +89,7 @@ class Clone:
             while (n - 1 > 0):
                 clone = clone.clone()
                 n -= 1
+
 
 class Category(NameSlugMixin, models.Model):
     GENERAL = "GE"
@@ -109,10 +111,10 @@ class Category(NameSlugMixin, models.Model):
 
     def __str__(self):
         return f'{self.name} {str(self.date_added.year)}'
-    
+
     def get_name(self):
         return self.slug
-    
+
     def clone(self):
         reference = Category.objects.get(slug=self.slug)
         name = reference.name
@@ -124,7 +126,7 @@ class Category(NameSlugMixin, models.Model):
         clone.save()
         print(f"CATEGORY clone successful - {clone.slug} copy FROM {self.slug}")
         return clone
-       
+
 
 class Topic(NameSlugMixin, models.Model):
     name = models.CharField(max_length=NAME_MAX_LENGTH, unique=False, null=False)
@@ -134,10 +136,10 @@ class Topic(NameSlugMixin, models.Model):
 
     def __str__(self):
         return f'{self.name} {str(self.date_added.year)}'
-    
+
     def get_name(self):
         return self.slug
-    
+
     def clone(self):
         reference = Topic.objects.get(slug=self.slug)
         name = reference.name
@@ -150,7 +152,6 @@ class Topic(NameSlugMixin, models.Model):
         clone.save()
         print(f"TOPIC clone successful - {clone.slug} copy FROM {self.slug}")
         return clone
-
 
 
 class Post(models.Model):
@@ -170,10 +171,10 @@ class Post(models.Model):
 
     def __str__(self):
         return self.get_name()
-    
+
     def get_name(self):
         return f'{self.title}-{self.pk}'
-    
+
     def clone(self):
         reference = Post.objects.get(pk=self.pk)
         title = reference.title
@@ -197,6 +198,12 @@ class Post(models.Model):
 class Team(models.Model):
     name = models.CharField(max_length=NAME_MAX_LENGTH)
     description = models.CharField(max_length=DESC_MAX_LENGTH)
+    slug = models.SlugField(unique=True)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super(Team, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.name
@@ -207,15 +214,15 @@ class Team(models.Model):
 
 class TeamLead(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    team = models.OneToOneField(Team, on_delete=models.CASCADE)
-    topic_access = models.ManyToManyField(Topic, related_name="access")
+    team = models.OneToOneField(Team, on_delete=models.CASCADE, blank=False)
+    topic_access = models.ManyToManyField(Topic, related_name="access", blank=True)
 
     class Meta:
         db_table = "Team Lead"
 
     def __str__(self):
         return f'{self.user.get_name()} : {self.team.get_name()}'
-    
+
     def get_name(self):
         return self.user.get_name()
 
