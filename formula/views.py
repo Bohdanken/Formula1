@@ -259,6 +259,7 @@ def register(request):
 
             user.save()
             registered = True
+            return redirect('login')
 
         else:
             print(user_form.errors, user_form.errors)
