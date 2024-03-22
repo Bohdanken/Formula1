@@ -1,5 +1,6 @@
 from datetime import datetime
 from zipfile import ZipFile
+from io import BytesIO
 import random
 
 from django.conf.global_settings import LOGIN_URL
@@ -15,9 +16,6 @@ from django.db.models.functions import ExtractYear
 from django.urls import reverse, NoReverseMatch
 from django.shortcuts import get_object_or_404
 from .forms import CustomUserChangeForm
-
-from zipfile import ZipFile
-from io import BytesIO
 
 
 from Formula1.settings import MEDIA_ROOT
