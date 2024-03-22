@@ -21,7 +21,7 @@
 					</div>
 				</a>
 				<hr>
-				<a class="author-link" href="">
+				<a class="author-link" href="{% url 'formula:profile' post.user.username%}">
 					<div class="author-details" style="width: 4cm;">
 						<img src="{{ post.user.picture.url }}" alt="pfp" class="pfp"/>
 						<div id="author-name">{{ post.user.username }}</div>
