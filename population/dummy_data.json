@@ -2,7 +2,7 @@
   "GenericField": {
     "desc": "This is a generic content. Please delete before deployment.",      
     "password": "abcdefg",
-    "picture": "static/images/Default_pfp.svg",
+    "picture": "media/Default_pfp.svg",
     "content": "This object is created as part of population_script.py testing. This content is generic and is the same for all object. Object should be deleted before deployment."    
   },
   "Category": [
