@@ -4,7 +4,6 @@ from formula.models import Post, Topic, CustomUser
 
 class StatisticsMiddleware(MiddlewareMixin):
     def process_request(self, request):
-        
         total_posts = Post.objects.all().count()
         total_topics = Topic.objects.all().count()
         total_members = CustomUser.objects.count()

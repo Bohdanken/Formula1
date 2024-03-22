@@ -4,29 +4,33 @@
 {% else %}
 	<div class="category">
 		<div>
-			{{ topic.name }}
+			<span>{{ topic.name }}</span>
 		</div>
 		{% if view_topic_page %}
 			<a href="{% url 'formula:posts' topic.category.slug topic.slug %}" class="view-topic-page">
-				View topic page
+				<span>View topic page</span>
 			</a>
 		{% endif %}
-		{% for post_data in posts %}
-			<a  href="{% url 'formula:post' category.slug topic.slug post_data.post.id %}">
-				<span>{{ post_data.post.title }}</span>
-				<div class="space"></div>
-				<div class="post-details" style="width: 3cm;">
-					{{ post_data.post.date_added }}
-				</div>
-				<hr>
-				<div class="user-details" style="width: 4cm;">
-					<img src="{{ post_data.pfp.url }}" alt="pfp" class="pfp"/>
-					<div>{{ post_data.post.user.username }}</div>
-				</div>
-			</a>
-		{% empty %}
+		{% for post in posts %}
 			<div>
-				There are no posts under this topic :(
+				<a class="post-link" href="{% url 'formula:post' category.slug topic.slug post.id %}">
+					<span>{{ post.title }}</span>
+					<div class="space"></div>
+					<div class="post-details" style="width: 3cm;">
+						{{ post.date_added|date:"d M, Y" }}
+					</div>
+				</a>
+				<hr>
+				<a class="author-link" href="">
+					<div class="author-details" style="width: 4cm;">
+						<img src="{{ post.user.picture.url }}" alt="pfp" class="pfp"/>
+						<div id="author-name">{{ post.user.username }}</div>
+					</div>
+				</a>
+			</div>
+		{% empty %}
+			<div class="empty">
+				<span>There are no posts under this topic :(</span>
 			</div>
 		{% endfor %}
 	</div>

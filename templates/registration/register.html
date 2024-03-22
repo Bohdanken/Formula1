@@ -7,7 +7,7 @@
     <div class="login-header">
         <h1><a href="{% url 'login' %}" class="create-account-link">Login</a> or Create an account</h1>
     </div>
-    <form method="post" action="{% url 'formula:register' %}" class="login-form">
+    <form method="post" action="{% url 'formula:register' %}" class="login-form" enctype="multipart/form-data">
         {% csrf_token %}
         {% for field in user_form %}
     <div class="form-group">
