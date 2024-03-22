@@ -57,6 +57,12 @@ def  test_assign_team_member(user:CustomUser, team:Team):
     print(f'TEST: TEAM MEMBER assign succesful - {test_team_member.user.username} to TEAM {test_team_member.team.name}')
     return test_team_member
 
+def test_assign_team_lead(user:CustomUser, team:Team, topic_list):
+    test_team_lead = assign_team_lead(username=user.username,
+                                      team_name=team.name,
+                                      topic_list=topic_list)
+    print(f'TEST: TEAM LEAD assign succesful - {test_team_lead.user.username} to TEAM {test_team_lead.team.name}')
+    return test_team_lead
 
 
 # ------ RUN TEST --------
@@ -70,6 +76,7 @@ def run_test(resetafter=True):
     t_post = test_add_post(topic=t_topic, user=t_custom_user)
     t_team = test_add_team()
     t_team_member = test_assign_team_member(t_custom_user, t_team)
+    t_team_lead = test_assign_team_lead(t_custom_user, t_team, [t_topic])
     
     print("----------------- TEST SUCCESS ------------------------------------------------------")
     print()
