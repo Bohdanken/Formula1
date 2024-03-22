@@ -6,6 +6,8 @@ data = json.load(f)
 
 CLONE = 10
 
+skip_test = False
+
 def no_of_entries():
     print('====================== DATA OVERVIEW ===========================')
     print(f'Number of entry(ies) for {len(data)-1} model(s):')
@@ -38,10 +40,25 @@ def is_proceed():
         else:
             print("Invalid response.")
 
+def is_skip_test():
+    global skip_test
+    while True:
+        response = input("  Skip test?\n   Type 'yes' to continue, or 'no' to cancel: ")
+        if (response == 'yes' or response == 'y'):
+            print("Test proceed >>")
+            skip_test = True
+            break
+        elif (response == 'no' or response == 'n'):
+            print("Test skipped !!.")
+            break
+        else:
+            print("Invalid response.")
+
 
 # Running point
 no_of_entries()
 is_proceed()
+is_skip_test()
 
 if __name__ == '__main__':
     print('--- FATAL ERROR ---')
