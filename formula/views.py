@@ -1,5 +1,6 @@
 from datetime import datetime
 from zipfile import ZipFile
+from io import BytesIO
 import random
 
 from django.conf.global_settings import LOGIN_URL
@@ -15,9 +16,6 @@ from django.db.models.functions import ExtractYear
 from django.urls import reverse, NoReverseMatch
 from django.shortcuts import get_object_or_404
 from .forms import CustomUserChangeForm
-
-from zipfile import ZipFile
-from io import BytesIO
 
 
 from Formula1.settings import MEDIA_ROOT
@@ -64,6 +62,11 @@ def list_topics(request, category_slug):
     context_dict = {}
 
     try:
+        if request.user:
+            try:
+                context_dict['user_is_team_lead'] = True if TeamLead.objects.get(user=request.user) else None
+            except TeamLead.DoesNotExist:
+                pass
         category = Category.objects.get(slug=category_slug)
         topics = Topic.objects.filter(category=category)
         context_dict['category'] = category

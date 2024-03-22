@@ -1,7 +1,7 @@
 {% load team_tags %}
 {% if header %}
 	{% load static %}
-	<link rel="stylesheet" type="text/css" href="{% static 'css/topic-list.css' %}?version=1" />
+	<link rel="stylesheet" type="text/css" href="{% static 'css/topic-list.css' %}?version=0" />
 {% else %}
 	<div class="category">
 		<div>
@@ -22,21 +22,23 @@
 					</div>
 				</a>
 				<hr>
-					<a class="author-link" href="{% url 'formula:profile' post.user.username%}  ">
+				<a class="author-link" href="{% url 'formula:profile' post.user.username%}">
+					<div class="author-details">
 						<img src="{{ post.user.picture.url }}" alt="pfp" class="pfp"/>
-                        <div id="author-name">{{ post.user.username}}.</div>
-                    </a>
-                    </div>
-                         <hr>
-                    <div>
-                    <a class="author-link" href="{% url 'formula:team' post.user|team|slugify%}">
-                        {% if post.user|is_team_member %}
-                        <img src="/static/images/member.png" class="pfp" alt="Shit">
-                        <div><{{ post.user|team }}.</div>
-                        {% endif %}
-                     </a>
-				</div>
-            </div>
+						<div id="author-name">{{ post.user.username }}</div>
+					</div>
+				</a>
+				<hr>
+                <a class="team-link" href="{% url 'formula:team' post.user|team|slugify%}">
+					<div class="team-details">
+						{% if post.user|is_team_member %}
+							<img src="/static/images/member.png" class="pfp" alt="Team img">
+							<div>{{ post.user|team }}.</div>
+						{% else %}
+							No team
+						{% endif %}
+					</div>
+                 </a>
 			</div>
 		{% empty %}
 			<div class="empty">
@@ -45,27 +47,3 @@
 		{% endfor %}
 	</div>
 {% endif %}
-
-{% comment %}
-<!--
-	List-name - topic.name
-	Under-list-name - <a href="{% url 'formula:posts' category.slug topic.slug %}" class="view-topic-page">
-				View topic page
-			</a>
-	List-items - <a  href="{% url 'formula:post' category.slug topic.slug post_data.post.id %}">
-				<span>{{ post_data.post.title }}</span>
-				<div class="space"></div>
-				<div class="post-details" style="width: 3cm;">
-					{{ post_data.post.date_added }}
-				</div>
-				<hr>
-				<div class="user-details" style="width: 4cm;">
-					<img src="{{ post_data.pfp.url }}" alt="pfp" class="pfp"/>
-					<div>{{ post_data.post.user.username }}</div>
-				</div>
-			</a>
-	Empty - <div>
-				There are no posts under this topic :(
-			</div>
--->
-{% endcomment %}
