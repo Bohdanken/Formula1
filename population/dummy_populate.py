@@ -2,6 +2,7 @@ from population.setup import *
 from population.add import *
 from population.create_dummy import *
 from population.save import *
+from formula.models import Clone, Category, Topic, Post
 
 def dummy_populate():
     custom_users_dict = create_dummy_custom_users()
@@ -22,3 +23,7 @@ def dummy_populate():
 
     posts_dict = create_dummy_post()
     save_posts(posts_dict)
+
+    Clone.clone_all(Category, CLONE)
+    Clone.clone_all(Topic, CLONE)
+    Clone.clone_all(Post, CLONE)
