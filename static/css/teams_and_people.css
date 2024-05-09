@@ -1,0 +1,49 @@
+
+.button{
+	color: #fff0f0;
+		padding: 10.5px;
+	border: 2px solid #0a0a0a;
+    border-radius: 35px;
+	margin: 4vw;
+	background-color: #0a4eb1;
+	font-style: oblique;
+	font-size: 3.2vw;
+}
+
+.heading{
+	color: #fff0f0;
+	text-align: center;
+	font-style: italic;
+}
+.heading h1{
+	font-size: 3vw;
+}
+
+.heading h5{
+	font-size: 1vw;
+	color: #ffdd00;
+}
+
+.button:hover {
+    background-color: #0a4eb1;
+    filter: brightness(140%);
+}
+.buttons{
+	padding: 3.5px;
+	height: 16vw;
+	border: 4px solid #ffdd00;
+    border-radius: 50px;
+	gap: 2px;
+	background-color: #1b1b1b;
+	margin: 2.5mm 4.5mm;
+    justify-content: space-between;
+	display: flex;
+	align-items: center;
+}
+.bolt-img1{
+	height: 80%; /* Adjust the percentage as needed, but make sure it's less than 100% */
+	display: inline-block;
+    width: auto; /* Will maintain the aspect ratio */
+    margin-right: 20px; /* Provide some space after the logo */
+	margin-left: 20px; /* Provide some space before the logo */
+}

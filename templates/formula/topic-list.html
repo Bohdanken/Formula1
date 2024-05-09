@@ -29,16 +29,20 @@
 					</div>
 				</a>
 				<hr>
+                {% if post.user|is_team_member %}
                 <a class="team-link" href="{% url 'formula:team' post.user|team|slugify%}">
 					<div class="team-details">
-						{% if post.user|is_team_member %}
 							<img src="/static/images/member.png" class="pfp" alt="Team img">
 							<div>{{ post.user|team }}.</div>
-						{% else %}
-							No team
-						{% endif %}
 					</div>
                  </a>
+                {% else %}
+                    <span class="team-link"  >
+                    <div class="team-details">
+							No team
+                        </div>
+                    </span>
+                {% endif %}
 			</div>
 		{% empty %}
 			<div class="empty">

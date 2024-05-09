@@ -6,7 +6,7 @@
     {% endblock %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Your Site{% endblock %}</title>
+    <title>{% block title %}FormulaU{% endblock %}</title>
     <link rel="stylesheet" href="/static/css/style.css?v=1.3">
 </head>
 <body>
@@ -29,7 +29,7 @@
             {% else %}
                 <a href="{% url 'login' %}" class="header-link">👤</a>
             {% endif %}
-            <a href="{%url 'formula:about' %}" class="header-link">➕</a>
+            <a href="{%url 'formula:teams_and_users' %}" class="header-link">➕</a>
             <a href="{% url 'logout' %}" class="header-link">🚪</a>
         </div>
     </div>

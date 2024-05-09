@@ -1,0 +1,31 @@
+{% extends 'formula/base.html' %}
+
+{% load static %}
+
+
+
+{% block extra_js %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/teams_and_people.css' %}?version=2" />
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+    <div class="heading">
+    <h1>
+    Here you can visit lists of all the teams and all the users.
+    </h1>
+    <h5>
+    Beware, you need to have an account to check personal information of teams and users.
+    </h5>
+    </div>
+    <div class="buttons">
+	<a class="button" href="{%url 'formula:all_teams' %}">Visit the Teams page</a>
+    <img src="/static/images/bolt.png" class="bolt-img1" alt="Shit">
+    <a class="button" href="{%url 'formula:all_users' %}">Visit the Users page</a>
+    </div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

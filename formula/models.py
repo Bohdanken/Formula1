@@ -12,7 +12,6 @@ from Formula1 import settings
 NAME_MAX_LENGTH = 64
 DESC_MAX_LENGTH = 4_096
 
-
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, username, password=None, **extra_fields):
         """
@@ -178,7 +177,7 @@ class Post(models.Model):
     def clone(self):
         reference = Post.objects.get(pk=self.pk)
         title = reference.title
-        description = reference.description
+        description = reference.descriptioCn
         content = reference.content
         viewership = reference.viewership
         user = reference.user
