@@ -11,6 +11,18 @@
     flex-wrap: wrap; /* Allows wrapping for smaller screens */
 }
 
+.left-container {
+     align-items: flex-start;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+
+.profile-name{
+    font-style: italic;
+    font-size: 2vw;
+}
+
 /* Name centered at the top */
 .profile-name h3 {
     width: 100%;
@@ -24,7 +36,13 @@
     background: #3287c3;
     padding: 20px;
     border-radius: 8px;
-    flex-grow: 1; /* Takes up remaining space */
+    max-height:20vw;
+    overflow-y: auto;
+}
+
+.profile-details p{
+  width: 30vw;
+  word-wrap: break-word;
 }
 
 /* Profile image on the right */

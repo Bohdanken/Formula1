@@ -38,6 +38,22 @@ img#pfp {
 	height: 75%;
 	aspect-ratio: 1 / 1;
 }
+.member_information{
+	overflow-y: auto;
+}
+
+.member_information h2{
+	font-size: 1.7vw;
+	font-style: italic;
+}
+.member_information span{
+	font-size: 1.6vw;
+}
+
+#team_description{
+	font-size: 1.6vw;
+	font-style: italic;
+}
 
 #tabs-display-content img#pfp + div > * {
 	text-align: left;

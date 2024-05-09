@@ -4,31 +4,22 @@
 {% block content %}
 <div class="edit-profile-container">
     <h1>Edit Profile</h1>
-    <form method="POST" action="{% url 'formula:edit_profile' username=user.username %}" enctype="multipart/form-data">
-        
 <div class="login-container">
     <h1 class="login-header">Edit Profile</h1>
-    <form method="POST" action="{% url 'formula:edit_profile' username=user.username %}" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div class="login-form">
-            <label for="id_username">Username:</label>
-            <input type="text" name="username" value="{{ user.username }}" id="id_username">
-        </div>
-        <div class="login-form">
-            <label for="id_password">New Password:</label>
-            <input type="password" name="new_password1" id="id_new_password">
-        </div>
-        <div class="login-form">
-            <label for="id_bio">Bio:</label>
-            <textarea name="bio" id="id_bio">{{ user.bio }}</textarea>
-        </div>
-        <div class="login-form">
-            <label for="id_picture">Profile Picture:</label>
-            <br>
-            <input type="file" name="picture" id="id_picture" class="login-button">
-        </div>
-        <button type="submit" class="login-button">Save Changes</button>
+    <form method="POST" action="{% url 'formula:edit_profile' username=user.username %}" class="login-form" enctype="multipart/form-data">
+                {% csrf_token %}
+        {% for field in user_form %}
+    <div class="form-group">
+        {{ field.label_tag }}
+        {{ field }}
+        {% if field.errors %}
+            <div class="errorlist">{{ field.errors }}</div>
+        {% endif %}
+    </div>
+{% endfor %}
+    <input type="submit" value="Done" class="login-button">
     </form>
+</div>
 </div>
 {% endblock %}
 

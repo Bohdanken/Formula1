@@ -5,6 +5,7 @@
 {% block title %}{{ team.name }}{% endblock %}
 
 {% block extra_js %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="{% static 'css/team.css' %}?version=0" />
 	{% include 'formula/topic-list.html' with header=True only %}
 	{% include 'formula/tab-display.html' with header=True only %}
@@ -17,7 +18,7 @@
 {% block content %}
 	<h1>{{ team.name }}</h1>
 	{% for paragraph in team.description.splitlines %}
-	<p>
+	<p id="team_description">
 		{{ paragraph }}
 	</p>
 	{% empty %}
@@ -27,14 +28,21 @@
 	{% endfor %}
 	<hr>
 	<h3>Meet the team!</h3>
-	{% if team_member_names %}
-		{% include 'formula/tab-display.html' with end=False tabs=team_members_names tab_selected_func="update_profile" active_tab=selected.username only %}
+	{% if team_members_names %}
+		{% include 'formula/tab-display.html' with team=team end=False tabs=team_members_names tab_selected_func="update_profile" active_tab=selected.username only %}
 			<img id="pfp" src="{{ selected.picture.url }}" alt="pfp"/>
-			<div>
-				<h3>{% if selected == team_lead.user %}Team lead{% else %}Team member{% endif %}&ensp;·&ensp;{{ selected.username }}</h3>
-				<span>Member since {{ selected.date_joined|date:"d M, Y" }}</span><br>
-				<br>
-				<span>{% if selected.bio %}{{ selected.bio }}{% else %}<i>User has no bio set</i>{% endif %}</span>
+			<div class="member_information">
+				<h2>{% if selected == team_lead.user %}Team lead{% else %}Team member{% endif %}&ensp;·&ensp;{{ selected.username }}</h2>
+                <h2>Full name: {{ selected.get_full_name|default:"N/A" }}</h2>
+				<span>Memer since: {{ selected.date_joined|date:"d M, Y" }}</span>
+                <br>
+                <span>Last login: {{ selected.last_login }}</span>
+                <br>
+                <span>Student Id: {% if selected.student_id %}{{ selected.student_id }}{% endif %}</span>
+                <br>
+                <span>Email: {{ selected.email }}</span>
+                <br>
+				<span>Bio: {% if selected.bio %}{{ selected.bio }}{% else %}<i>User has no bio set</i>{% endif %}</span>
 			</div>
 		{% include 'formula/tab-display.html' with end=True only%}
 	{% else %}
@@ -48,6 +56,5 @@
 		{% endfor %}
 	</div>
 {% endblock %}
-
 {% block footer %}
 {% endblock %}

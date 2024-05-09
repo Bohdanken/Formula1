@@ -1,0 +1,21 @@
+{% extends 'formula/base.html' %}
+
+{% load static %}
+
+{% block extra_js %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/teams_and_people.css' %}?version=2" />
+{% endblock %}
+
+{% block content %}
+<div class="heading">
+    <h1>Here are all the teams we have in FormulaU.</h1>
+</div>
+<div class="teams-container">
+    {% for team, member_count in teams_with_members %}
+    <div class="team">
+        <a href="{% url 'formula:team'  team.slug %}" class="team-name">{{ team.name }}</a>
+        <span class="member-count">{{ member_count }} Members</span>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

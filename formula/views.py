@@ -7,7 +7,7 @@ from django.conf.global_settings import LOGIN_URL
 from django.contrib.auth.views import LogoutView
 from django.conf.global_settings import LOGIN_URL
 from django.shortcuts import render, redirect
-from django.http import  HttpResponseForbidden
+from django.http import HttpResponseForbidden, JsonResponse
 from django.http import HttpResponse, FileResponse
 from formula.forms import *
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -17,17 +17,15 @@ from django.urls import reverse, NoReverseMatch
 from django.shortcuts import get_object_or_404
 from .forms import CustomUserChangeForm
 
-
 from Formula1.settings import MEDIA_ROOT
 
 APP_NAME = 'formula'
 REGISTER_NAME = 'registration'
 
 
-
 def index(request):
     years = list(set(Category.objects.annotate(year=ExtractYear('date_added')).values_list('year', flat=True)))
-    years.sort(reverse = True)
+    years.sort(reverse=True)
 
     if not request.GET.get("year", default=False):
         year = years[0] if years else datetime.now().year
@@ -40,7 +38,7 @@ def index(request):
     categories = set(Category.objects.annotate(year=ExtractYear('date_added')).filter(year=year))
 
     context_dict = {
-        'year' : year,
+        'year': year,
         'years': years,
         'current_year_categories': categories
     }
@@ -49,10 +47,9 @@ def index(request):
 
 
 def about(request):
-
     context_dict = {
-        'text_description' : "A forum dedicated to allowing users to communicate and learn about the development, upkeep and use of race cars. For Racers, by Racers.",
-        'contact_email' : "formulau1@outlook.com"
+        'text_description': "A forum dedicated to allowing users to communicate and learn about the development, upkeep and use of race cars. For Racers, by Racers.",
+        'contact_email': "formulau1@outlook.com"
     }
 
     return render(request, APP_NAME + '/about.html', context=context_dict)
@@ -70,11 +67,12 @@ def list_topics(request, category_slug):
         category = Category.objects.get(slug=category_slug)
         topics = Topic.objects.filter(category=category)
         context_dict['category'] = category
-        context_dict['topics'] = { topic : Post.objects.filter(topic = topic) for topic in topics } #[{'post' : post, 'pfp' : post.author.picture} for post in list(sorted(Post.objects.filter(topic=topic), key = lambda post : post.viewership))[:3]] for topic in topics }
-        return render(request, APP_NAME+'/category.html', context=context_dict)
+        context_dict['topics'] = {topic: Post.objects.filter(topic=topic) for topic in
+                                  topics}  # [{'post' : post, 'pfp' : post.author.picture} for post in list(sorted(Post.objects.filter(topic=topic), key = lambda post : post.viewership))[:3]] for topic in topics }
+        return render(request, APP_NAME + '/category.html', context=context_dict)
 
     except Category.DoesNotExist:
-        return render(request, APP_NAME+'/category.html', context={}, status=404)
+        return render(request, APP_NAME + '/category.html', context={}, status=404)
 
 
 def list_posts(request, category_slug, topic_slug):
@@ -87,13 +85,13 @@ def list_posts(request, category_slug, topic_slug):
         context_dict['topic'] = topic
         posts = Post.objects.filter(topic=topic)
         context_dict['topics'] = {
-            topic : posts
+            topic: posts
         }
 
-        return render(request, APP_NAME+'/topic.html', context=context_dict)
+        return render(request, APP_NAME + '/topic.html', context=context_dict)
 
     except Topic.DoesNotExist:
-        return render(request, APP_NAME+'/topic.html', context={}, status=404)
+        return render(request, APP_NAME + '/topic.html', context={}, status=404)
 
 
 def display_post(request, category_slug, topic_slug, post_id):
@@ -115,15 +113,16 @@ def display_post(request, category_slug, topic_slug, post_id):
         if post.file:
             zipfile = ZipFile(post.file.path, 'r')
             for filename in zipfile.namelist():
-                if filename.split('.')[-1].lower() in {'apng', 'cur', 'gif', 'ico', 'jfif', 'jpeg', 'jpg', 'pjp', 'pjpeg', 'png', 'svg'}:
+                if filename.split('.')[-1].lower() in {'apng', 'cur', 'gif', 'ico', 'jfif', 'jpeg', 'jpg', 'pjp',
+                                                       'pjpeg', 'png', 'svg'}:
                     context_dict['images'].append(filename)
                 else:
                     context_dict['files'].append(filename)
 
-        return render(request, APP_NAME+'/post.html', context=context_dict)
-    
+        return render(request, APP_NAME + '/post.html', context=context_dict)
+
     except Post.DoesNotExist:
-        return render(request, APP_NAME+'/404.html', context={}, status=404)
+        return render(request, APP_NAME + '/404.html', context={}, status=404)
 
 
 def query_result(request, title_query):
@@ -140,19 +139,18 @@ def create_post(request, category_slug, topic_slug):
         topic = Topic.objects.get(slug=topic_slug)
     except Topic.DoesNotExist:
         return redirect(APP_NAME + ':index')
-
     form = PostForm()
-
     if request.method == 'POST':
         form = PostForm(request.POST)
-
+        if not request.user.is_superuser:
+            form.fields.pop('user', None)
         if form.is_valid():
             if topic:
                 post = form.save(commit=False)
                 post.topic = topic
-                post.user = CustomUser.objects.get(username=request.user.get_name())
+                if not request.user.is_superuser:
+                    post.user = CustomUser.objects.get(username=request.user.get_name())
                 post.date_added = timezone.now()
-
                 if 'file' in request.FILES:
 
                     # Should allow for 99,636,535,482,328,266,092,631,578,144,895,845,295,049,065,188,420,485,120
@@ -164,11 +162,14 @@ def create_post(request, category_slug, topic_slug):
                     filename_chars = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM_-0123456789"
 
                     while True:
-                        filename = "".join(random.choice(filename_chars) for i in range(random.randint(16, 32))) + ".zip"
+                        filename = "".join(
+                            random.choice(filename_chars) for i in range(random.randint(16, 32))) + ".zip"
                         try:
-                            zipfile = ZipFile(MEDIA_ROOT+"\\post_files\\" + filename, mode='x')
-                        except FileExistsError: continue
-                        else: break
+                            zipfile = ZipFile(MEDIA_ROOT + "\\post_files\\" + filename, mode='x')
+                        except FileExistsError:
+                            continue
+                        else:
+                            break
 
                     for file in request.FILES.getlist('file'):
                         zipfile.writestr(file.name, file.read())
@@ -178,12 +179,14 @@ def create_post(request, category_slug, topic_slug):
                 post.save()
 
                 return redirect(reverse(APP_NAME + ':post',
-                                        kwargs={'category_slug': category_slug, 'topic_slug': topic_slug, 'post_id' : post.id}))
+                                        kwargs={'category_slug': category_slug, 'topic_slug': topic_slug,
+                                                'post_id': post.id}))
 
         else:
             print(form.errors)
-
-    context_dict = {'form': form, 'topic': topic, 'category': topic.category }
+    if not request.user.is_superuser:
+        form.fields.pop('user', None)
+    context_dict = {'form': form, 'topic': topic, 'category': topic.category}
     return render(request, APP_NAME + '/create-post.html', context=context_dict)
 
 
@@ -213,7 +216,7 @@ def create_topic(request, category_slug):
                 topic.save()
 
                 return redirect(reverse(APP_NAME + ':posts',
-                                        kwargs={'category_slug': category_slug, 'topic_slug' : topic.slug}))
+                                        kwargs={'category_slug': category_slug, 'topic_slug': topic.slug}))
         else:
             print(form.errors)
     context_dict = {'form': form, 'category': category}
@@ -223,7 +226,9 @@ def create_topic(request, category_slug):
 @login_required(login_url=LOGIN_URL)
 def show_profile(request, username):
     context_dict = {}
-
+    context_dict["show_edit"] = True
+    if request.user.username != username:
+        context_dict["show_edit"] = False
     try:
         user = CustomUser.objects.get(username=username)
         context_dict['user'] = user
@@ -232,18 +237,24 @@ def show_profile(request, username):
 
     return render(request, APP_NAME + '/profile.html', context=context_dict)
 
+
 @login_required
 def edit_profile(request, username):
     context_dict = {}
+    if request.user.username != username:
+        return redirect(request.META.get('HTTP_REFERER', '/'))
     user = get_object_or_404(CustomUser, username=username)
     context_dict['user'] = user
     if request.method == 'POST':
-        form = CustomUserChangeForm(request.POST, request.FILES, instance=request.user)
+        form = CustomUserChangeForm(request.POST, instance=request.user)
         if form.is_valid():
-            form.save()
+            user = form.save()
+            if 'picture' in request.FILES:
+                user.picture = request.FILES['picture']
+            user.save()
             return redirect('formula:profile', username=request.user.username)
     else:
-        form = CustomUserChangeForm(instance=request.user)
+        context_dict["user_form"] = CustomUserChangeForm(instance=request.user)
     return render(request, 'registration/edit_profile.html', context=context_dict)
 
 
@@ -258,7 +269,6 @@ def register(request):
                 user.picture = request.FILES['picture']
 
             user.save()
-            registered = True
             return redirect('login')
 
         else:
@@ -275,8 +285,10 @@ def register(request):
 def testLogoutView(request):
     return render(request, REGISTER_NAME + '/logout.html', context={})
 
+
 def redirectView(request):
     return redirect("formula/")
+
 
 class CustomLogoutView(LogoutView):
     template_name = 'registration/logout.html'
@@ -289,34 +301,78 @@ class CustomLogoutView(LogoutView):
         return super().dispatch(request, *args, **kwargs)
 
 
+def all_teams(request):
+    # Fetch all teams
+    teams = Team.objects.all()
+
+    # Prepare a list of tuples, each containing a team and its member count
+    teams_with_members = [
+        (team, TeamMember.objects.filter(team=team).count()) for team in teams
+    ]
+
+    # Pass the list to the template
+    context = {'teams_with_members': teams_with_members}
+    return render(request, APP_NAME + '/teams.html', context)
+
+
+
+def all_users(request):
+    users_with_teams = []
+    for user in CustomUser.objects.all():
+        try:
+            team_member = TeamMember.objects.filter(user=user).first()
+            team_name = team_member.team.name if team_member else None
+        except TeamMember.DoesNotExist:
+            team_name = None
+        users_with_teams.append((user, team_name))
+
+    context = {'users_with_teams': users_with_teams}
+    return render(request, APP_NAME+'/users.html', context)
+
+
+def teams_and_users(request):
+    return render(request, APP_NAME + '/teams_and_people.html', context={})
+
+@login_required(login_url=LOGIN_URL)
 def show_team(request, team_slug):
     context_dict = {}
     try:
         context_dict['team'] = Team.objects.get(slug=team_slug)
         context_dict['team_members'] = TeamMember.objects.filter(team=context_dict['team'])
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            profile_username = request.GET.get('profile')
+            if profile_username in [member.user.username for member in context_dict['team_members']]:
+                selected_user = CustomUser.objects.get(username=profile_username)
+                response_data = {
+                    'username': selected_user.username,
+                    'full_name': selected_user.get_full_name() or "N/A",
+                    'member_since': selected_user.date_joined.strftime("%d %b, %Y"),
+                    'last_login': selected_user.last_login.strftime(
+                        "%d %b, %Y %H:%M") if selected_user.last_login else "N/A",
+                    'student_id': selected_user.student_id or "N/A",
+                    'email': selected_user.email,
+                    'bio': selected_user.bio or "User has no bio set",
+                    'picture_url': selected_user.picture.url,
+                    'role': "Team lead" if TeamLead.objects.filter(user=selected_user).exists() else "Team member",
+                }
+                return JsonResponse(response_data)
         context_dict['team_lead'] = TeamLead.objects.get(team=context_dict['team'])
-        context_dict['team_members_names'] = [context_dict['team_lead'].user.username] + [memebr.user.username for memebr in context_dict['team_members']]
+        context_dict['team_members_names'] = [memebr.user.username for memebr in context_dict['team_members']]
         context_dict['view_topic_page'] = True
         context_dict['topics'] = {
-            topic : list(sorted(Post.objects.filter(topic=topic), key = lambda post : post.viewership))[:3] for topic in context_dict['team_lead'].topic_access.all() #[{'post' : post, 'pfp' : UserProfile.objects.get(user = post.author).picture} for post in list(sorted(Post.objects.filter(topic=topic), key = lambda post : post.viewership))[:3]] for topic in context_dict['team_lead'].topic_access.all()
+            topic: list(sorted(Post.objects.filter(topic=topic), key=lambda post: post.viewership))[:3] for topic in
+            context_dict['team_lead'].topic_access.all()
         }
         context_dict['selected'] = context_dict['team_lead'].user
-        if request.GET.get("profile", default=False) in context_dict['team_members_names']:
-            context_dict['selected'] = CustomUser.objects.get(username=request.GET.get('profile'))
-        return render(request, APP_NAME+'/team.html', context=context_dict)
+        return render(request, APP_NAME + '/team.html', context=context_dict)
     except Team.DoesNotExist:
-        return render(request, APP_NAME+'/404.html', context=context_dict, status=404)
+        return render(request, APP_NAME + '/404.html', context=context_dict, status=404)
     except TeamLead.DoesNotExist:
         context_dict['team_lead'] = None
         context_dict['team_members_names'] = [memebr.user.username for memebr in context_dict['team_members']]
         context_dict['view_topic_page'] = True
         context_dict['topics'] = {}
         context_dict['selected'] = context_dict['team_members'][0].user if context_dict['team_members'] else None
-
         if request.GET.get("profile", default=False) in context_dict['team_members_names']:
             context_dict['selected'] = CustomUser.objects.get(username=request.GET.get('profile'))
-
-        return render(request, APP_NAME+'/team.html', context=context_dict)
-        
-
-
+        return render(request, APP_NAME + '/team.html', context=context_dict)

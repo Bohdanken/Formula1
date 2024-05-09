@@ -12,7 +12,6 @@ from Formula1 import settings
 NAME_MAX_LENGTH = 64
 DESC_MAX_LENGTH = 4_096
 
-
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, username, password=None, **extra_fields):
         """
