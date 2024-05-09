@@ -177,7 +177,7 @@ class Post(models.Model):
     def clone(self):
         reference = Post.objects.get(pk=self.pk)
         title = reference.title
-        description = reference.description
+        description = reference.descriptioCn
         content = reference.content
         viewership = reference.viewership
         user = reference.user
